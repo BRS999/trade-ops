@@ -29,13 +29,21 @@ Trade-Ops is a retail trading operating system built around TradingView as the p
 
 > **This is not an auto-trader.** Trade-Ops is a discipline layer — it helps you think more clearly, track honestly, and review systematically. The AI never places a live order. You always have the final call.
 
+## TradingView Requirement
+
+Trade Ops is built around the TradingView desktop app for chart state and paper-trading control.
+
+- The current TradingView adapter and CLI are designed for the desktop app, not the browser-only web app.
+- If you want to use `npm run tv -- ...` commands for chart inspection or paper execution, you should have the TradingView desktop app installed and running.
+- Paper-trading workflows are the supported execution mode in V1.
+
 ---
 
 ## Data Stack
 
 | Adapter | Source | What It Provides | Key |
 |---|---|---|---|
-| **TradingView** | TradingView | Chart state, indicators, paper positions | — |
+| **TradingView** | TradingView desktop app | Chart state, indicators, paper positions | — |
 | **Yahoo Finance** | Yahoo | Live quotes, bars, multi-asset (equities, crypto, futures) | — |
 | **Massive** | massive.com | Tick data, earnings, fundamentals | `MASSIVE_API_KEY` |
 | **SEC EDGAR** | sec.gov | Filings, ownership, insider activity | — |
@@ -190,6 +198,7 @@ cp .env.example .env
 # Edit .env: MASSIVE_API_KEY, FRED_API_KEY, FMP_API_KEY
 
 # 3. Test the stack
+npm run tv      -- account         # Requires the TradingView desktop app
 npm run fng    -- current          # Fear & Greed — no key needed
 npm run gecko  -- solana           # SOL snapshot — no key needed
 npm run yahoo  -- quote AAPL       # Live quote — no key needed

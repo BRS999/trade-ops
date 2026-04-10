@@ -4,6 +4,8 @@ This module owns the Trade Ops interface to TradingView.
 
 Trade Ops should code against this adapter, not directly against third-party TradingView tooling.
 
+Important: the current implementation targets the TradingView desktop app. It should not be treated as a generic TradingView web adapter.
+
 Initial responsibilities:
 
 - get chart state
