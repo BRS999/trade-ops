@@ -1,0 +1,71 @@
+{
+  "id": "2026-04-09-TARIFF-prediction-ex003",
+  "created_at": "2026-04-09T13:00:00Z",
+  "state": "open",
+  "state_history": [
+    { "state": "idea",      "at": "2026-04-09T13:00:00Z", "note": "Market pricing 55c on tariff pause — seems high given Congressional pressure." },
+    { "state": "planned",   "at": "2026-04-09T13:15:00Z", "note": "Edge thesis written. Risk box set." },
+    { "state": "ordered",   "at": "2026-04-09T13:20:00Z", "note": "Bought YES contracts at 55c." },
+    { "state": "open",      "at": "2026-04-09T13:20:18Z", "note": "Filled 100 contracts at 55c." }
+  ],
+
+  "symbol": "TARIFF-PAUSE-Q2",
+  "asset_class": "prediction",
+  "side": "yes",
+  "thesis": "Market is pricing a tariff pause at 55c implied probability. Congressional pressure and equity market volatility make a 90-day pause more likely than not. The policy team has historically pivoted on market signals faster than futures markets price. The 55c price offers positive expected value given my estimated 70%+ probability.",
+  "setup_type": "event-driven",
+
+  "plan": {
+    "entry": 0.55,
+    "stop": null,
+    "target": 1.00,
+    "reward_risk": null,
+    "size_usd": 55,
+    "size_units": 100,
+    "risk_usd": 55,
+    "timeframe": null,
+    "invalidation": "Administration signals no intention to pause in any official statement."
+  },
+
+  "execution": {
+    "mode": "paper",
+    "broker": "kalshi",
+    "entry_price": 0.55,
+    "entry_at": "2026-04-09T13:20:18Z",
+    "exit_price": null,
+    "exit_at": null,
+    "exit_reason": null,
+    "fills": [
+      { "price": 0.55, "units": 100, "at": "2026-04-09T13:20:18Z", "side": "buy" }
+    ]
+  },
+
+  "result": {
+    "pnl_usd": null,
+    "pnl_pct": null,
+    "r_multiple": null
+  },
+
+  "review": {
+    "reviewed_at": null,
+    "grade": null,
+    "mistakes": [],
+    "lessons": ""
+  },
+
+  "chart_refs": [],
+  "tags": ["macro", "trade-policy"],
+  "notes": "Resolution is binary — full loss if no pause announced before expiry.",
+
+  "asset_details": {
+    "platform": "kalshi",
+    "market_id": "TARIFF-PAUSE-Q2-2026",
+    "market_question": "Will the US announce a tariff pause of at least 90 days before June 30, 2026?",
+    "resolution_date": "2026-06-30",
+    "contract_price_cents": 55,
+    "contracts": 100,
+    "resolution_outcome": "pending",
+    "implied_probability_entry": 0.55,
+    "edge_thesis": "Congressional and market pressure historically accelerates executive pivots. My estimate is 70%+ probability vs 55c market price — meaningful positive EV."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "2026-04-09-NVDA-equity-ex001",
+  "created_at": "2026-04-07T14:30:00Z",
+  "state": "reviewed",
+  "state_history": [
+    { "state": "idea",      "at": "2026-04-07T14:30:00Z", "note": "Flagged during daily scan — tight range on daily." },
+    { "state": "watchlist", "at": "2026-04-07T14:35:00Z", "note": "Added to Tier 1 watchlist." },
+    { "state": "planned",   "at": "2026-04-07T16:00:00Z", "note": "Risk box defined after close." },
+    { "state": "ready",     "at": "2026-04-08T10:24:00Z", "note": "Reviewed after breakout alert — setup still valid, market healthy." },
+    { "state": "ordered",   "at": "2026-04-08T10:25:00Z", "note": "Paper order submitted via Alpaca." },
+    { "state": "open",      "at": "2026-04-08T10:25:30Z", "note": "Filled at 880.50." },
+    { "state": "closed",    "at": "2026-04-09T11:14:00Z", "note": "Target hit." },
+    { "state": "reviewed",  "at": "2026-04-09T18:00:00Z", "note": "" }
+  ],
+
+  "symbol": "NVDA",
+  "asset_class": "equity",
+  "side": "long",
+  "thesis": "NVDA consolidated in a tight 5-day range just above the 21EMA on the daily after a strong earnings gap. Volume dried up on the consolidation. Looking for a breakout above 882 to initiate continuation toward the prior all-time high at 920.",
+  "setup_type": "breakout",
+
+  "plan": {
+    "entry": 882.00,
+    "stop": 865.00,
+    "target": 920.00,
+    "reward_risk": 2.24,
+    "size_usd": 2000,
+    "size_units": 2.27,
+    "risk_usd": 38.59,
+    "timeframe": "1D",
+    "invalidation": "Daily close below 865 or broad market reversal on QQQ."
+  },
+
+  "execution": {
+    "mode": "paper",
+    "broker": "alpaca",
+    "entry_price": 880.50,
+    "entry_at": "2026-04-08T10:25:30Z",
+    "exit_price": 918.20,
+    "exit_at": "2026-04-09T11:14:00Z",
+    "exit_reason": "target-hit",
+    "fills": [
+      { "price": 880.50, "units": 2.27, "at": "2026-04-08T10:25:30Z", "side": "buy" },
+      { "price": 918.20, "units": 2.27, "at": "2026-04-09T11:14:00Z", "side": "sell" }
+    ]
+  },
+
+  "result": {
+    "pnl_usd": 85.59,
+    "pnl_pct": 4.28,
+    "r_multiple": 2.22
+  },
+
+  "review": {
+    "reviewed_at": "2026-04-09T18:00:00Z",
+    "grade": "A",
+    "mistakes": [],
+    "lessons": "Tight consolidation above the 21EMA after earnings is a reliable setup. Entry was slightly below plan due to a dip at open — acceptable given thesis was intact."
+  },
+
+  "chart_refs": [
+    "https://www.tradingview.com/chart/?symbol=NASDAQ:NVDA",
+    "screenshots/2026-04-07-NVDA-daily-setup.png"
+  ],
+  "tags": ["ai-sector", "post-earnings"],
+  "notes": "",
+
+  "asset_details": {
+    "exchange": "NASDAQ",
+    "sector": "Technology",
+    "earnings_date": null,
+    "float_tier": "mega",
+    "is_etf": false,
+    "index_member": "NDX"
+  }
+}

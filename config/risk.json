@@ -1,0 +1,39 @@
+{
+  "_comment": "Default risk configuration for Trade Ops. Override per-asset-class or per-strategy as needed.",
+
+  "defaults": {
+    "max_simultaneous_positions": 5,
+    "max_risk_per_trade_usd": 200,
+    "max_risk_per_trade_pct": 0.01,
+    "max_portfolio_heat_pct": 0.05,
+    "daily_loss_limit_usd": 500,
+    "daily_loss_limit_pct": 0.02,
+    "paper_mode": true
+  },
+
+  "by_asset_class": {
+    "equity": {
+      "max_simultaneous_positions": 4,
+      "max_risk_per_trade_usd": 200,
+      "max_position_size_usd": 5000,
+      "preferred_execution_mode": "paper"
+    },
+    "crypto": {
+      "max_simultaneous_positions": 3,
+      "max_risk_per_trade_usd": 150,
+      "max_position_size_usd": 500,
+      "preferred_execution_mode": "paper"
+    },
+    "prediction": {
+      "max_simultaneous_positions": 5,
+      "max_risk_per_trade_usd": 100,
+      "max_position_size_usd": 200,
+      "preferred_execution_mode": "paper"
+    }
+  },
+
+  "sizing_model": {
+    "method": "fixed-dollar-risk",
+    "description": "Size = risk_usd / abs(entry - stop). Default V1 model. Volatility-adjusted sizing is out of scope for V1."
+  }
+}

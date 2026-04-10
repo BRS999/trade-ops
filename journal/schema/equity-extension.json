@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EquityAssetDetails",
+  "description": "asset_details shape for asset_class: equity",
+  "type": "object",
+  "properties": {
+    "exchange": {
+      "type": "string",
+      "description": "Primary listing exchange. Examples: NASDAQ, NYSE, AMEX."
+    },
+    "sector": {
+      "type": "string",
+      "description": "GICS sector or informal equivalent. Examples: Technology, Energy, Financials."
+    },
+    "earnings_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Next earnings date if known. Used to flag event risk near trade window."
+    },
+    "float_tier": {
+      "type": "string",
+      "enum": ["micro", "small", "mid", "large", "mega"],
+      "description": "Approximate float tier for context."
+    },
+    "is_etf": {
+      "type": "boolean",
+      "default": false
+    },
+    "index_member": {
+      "type": "string",
+      "description": "Index membership if relevant. Examples: SPX, NDX, Russell2000."
+    }
+  }
+}

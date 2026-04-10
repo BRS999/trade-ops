@@ -1,0 +1,217 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Trade",
+  "description": "A single trade record in the Trade Ops journal. Covers the full lifecycle from idea through review.",
+  "type": "object",
+  "required": ["id", "created_at", "state", "symbol", "asset_class", "side", "thesis", "setup_type"],
+  "properties": {
+
+    "id": {
+      "type": "string",
+      "description": "Unique trade ID. Format: YYYY-MM-DD-{SYMBOL}-{6-char-hex}. Example: 2026-04-09-NVDA-a3f1c2"
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp of when this record was first created."
+    },
+
+    "state": {
+      "type": "string",
+      "enum": ["idea", "watchlist", "planned", "ready", "ordered", "open", "closed", "reviewed", "cancelled", "rejected"],
+      "description": "Current lifecycle state for the trade record."
+    },
+
+    "state_history": {
+      "type": "array",
+      "description": "Ordered log of every state transition.",
+      "items": {
+        "type": "object",
+        "required": ["state", "at"],
+        "properties": {
+          "state": { "type": "string" },
+          "at": { "type": "string", "format": "date-time" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+
+    "symbol": {
+      "type": "string",
+      "description": "Ticker, token symbol, or market identifier. Examples: NVDA, SOL, TRUMP-WIN-2028."
+    },
+
+    "asset_class": {
+      "type": "string",
+      "enum": ["equity", "crypto", "prediction", "futures"],
+      "description": "Asset class. Drives which asset_details fields are expected."
+    },
+
+    "side": {
+      "type": "string",
+      "enum": ["long", "short", "yes", "no"],
+      "description": "Trade direction. yes/no reserved for prediction markets."
+    },
+
+    "thesis": {
+      "type": "string",
+      "description": "Plain-language explanation of why this trade makes sense. Required before moving to planned."
+    },
+
+    "setup_type": {
+      "type": "string",
+      "enum": [
+        "pullback",
+        "breakout",
+        "mean-reversion",
+        "trend-follow",
+        "range-reversion",
+        "event-driven",
+        "momentum",
+        "fade",
+        "hedge",
+        "paper-test"
+      ]
+    },
+
+    "plan": {
+      "type": "object",
+      "description": "Risk box and sizing plan. All levels are in the native price unit of the instrument.",
+      "properties": {
+        "entry": {
+          "type": "number",
+          "description": "Planned entry price."
+        },
+        "stop": {
+          "type": "number",
+          "description": "Hard stop level. Position is invalidated if price reaches this."
+        },
+        "target": {
+          "type": "number",
+          "description": "Primary profit target."
+        },
+        "reward_risk": {
+          "type": "number",
+          "description": "Ratio of (target - entry) / (entry - stop). Calculated field."
+        },
+        "size_usd": {
+          "type": "number",
+          "description": "Intended position size in USD."
+        },
+        "size_units": {
+          "type": "number",
+          "description": "Intended position size in shares, tokens, or contracts."
+        },
+        "risk_usd": {
+          "type": "number",
+          "description": "Maximum dollar loss if stop is hit: abs(entry - stop) * size_units."
+        },
+        "timeframe": {
+          "type": "string",
+          "description": "Primary trading timeframe. Examples: 1D, 4H, 15m."
+        },
+        "invalidation": {
+          "type": "string",
+          "description": "Condition that would cancel this setup before entry. Example: daily close below 200MA."
+        }
+      }
+    },
+
+    "execution": {
+      "type": "object",
+      "description": "Actual fill data, populated when state moves to open.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["paper", "live"],
+          "description": "Whether this was a paper or live execution."
+        },
+        "broker": {
+          "type": "string",
+          "description": "Execution venue. Examples: alpaca, jupiter, kalshi, manual."
+        },
+        "entry_price": { "type": "number" },
+        "entry_at": { "type": "string", "format": "date-time" },
+        "exit_price": { "type": "number" },
+        "exit_at": { "type": "string", "format": "date-time" },
+        "exit_reason": {
+          "type": "string",
+          "description": "How the position was closed. Examples: target-hit, stop-hit, manual, expiry, timeout."
+        },
+        "fills": {
+          "type": "array",
+          "description": "Individual fill records for partial entries or exits.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "price": { "type": "number" },
+              "units": { "type": "number" },
+              "at": { "type": "string", "format": "date-time" },
+              "side": { "type": "string", "enum": ["buy", "sell"] },
+              "order_id": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+
+    "result": {
+      "type": "object",
+      "description": "Outcome metrics. Populated at close.",
+      "properties": {
+        "pnl_usd": { "type": "number" },
+        "pnl_pct": { "type": "number" },
+        "r_multiple": {
+          "type": "number",
+          "description": "Actual PnL divided by planned risk. 1R = broke even on risk. 2R = doubled planned risk."
+        }
+      }
+    },
+
+    "review": {
+      "type": "object",
+      "description": "Post-trade review. Required before state moves to reviewed.",
+      "properties": {
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "grade": {
+          "type": "string",
+          "enum": ["A", "B", "C", "D", "F"],
+          "description": "Process quality grade — independent of PnL outcome. A = executed the plan well."
+        },
+        "mistakes": {
+          "type": "array",
+          "description": "Controlled mistake tags. See config/taxonomy.json for valid values.",
+          "items": { "type": "string" }
+        },
+        "lessons": {
+          "type": "string",
+          "description": "Free-form takeaway for future reference."
+        }
+      }
+    },
+
+    "chart_refs": {
+      "type": "array",
+      "description": "TradingView chart links, local screenshot paths, or chart snapshot filenames.",
+      "items": { "type": "string" }
+    },
+
+    "tags": {
+      "type": "array",
+      "description": "Freeform tags for ad hoc filtering. Use sparingly; prefer controlled fields.",
+      "items": { "type": "string" }
+    },
+
+    "notes": {
+      "type": "string",
+      "description": "Unstructured scratchpad. Not used in review aggregations."
+    },
+
+    "asset_details": {
+      "type": "object",
+      "description": "Asset-class specific fields. Shape depends on asset_class. See schema/equity-extension.json, crypto-extension.json, prediction-extension.json."
+    }
+
+  }
+}

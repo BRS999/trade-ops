@@ -1,0 +1,25 @@
+{
+  "name": "trade-ops",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "TradingView-centered retail trading operations stack.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck",
+    "tv": "node tools/tradingview.mjs",
+    "sec": "node tools/sec-edgar.mjs",
+    "yahoo": "node tools/yahoo.mjs",
+    "massive": "node tools/massive.mjs",
+    "fred": "node tools/fred.mjs",
+    "fmp": "node tools/fmp.mjs",
+    "gecko": "node tools/gecko-terminal.mjs",
+    "fng": "node tools/fear-and-greed.mjs",
+    "dex": "node tools/dexscreener.mjs",
+    "cftc": "node tools/cftc.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

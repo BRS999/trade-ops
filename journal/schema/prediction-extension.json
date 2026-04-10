@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PredictionAssetDetails",
+  "description": "asset_details shape for asset_class: prediction",
+  "type": "object",
+  "required": ["market_question", "resolution_date", "market_id"],
+  "properties": {
+    "platform": {
+      "type": "string",
+      "description": "Prediction market platform. Examples: kalshi, polymarket.",
+      "default": "kalshi"
+    },
+    "market_id": {
+      "type": "string",
+      "description": "Platform-specific market identifier."
+    },
+    "market_question": {
+      "type": "string",
+      "description": "The exact market question as stated on the platform."
+    },
+    "resolution_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date on which the market resolves."
+    },
+    "contract_price_cents": {
+      "type": "number",
+      "description": "Price per contract in cents at time of entry. Range 1-99."
+    },
+    "contracts": {
+      "type": "number",
+      "description": "Number of contracts held."
+    },
+    "resolution_outcome": {
+      "type": "string",
+      "enum": ["yes", "no", "void", "pending"],
+      "description": "Final resolution result. Populated at close."
+    },
+    "implied_probability_entry": {
+      "type": "number",
+      "description": "Implied probability at entry (contract_price_cents / 100)."
+    },
+    "edge_thesis": {
+      "type": "string",
+      "description": "Why the market price is wrong. What is the edge?"
+    }
+  }
+}

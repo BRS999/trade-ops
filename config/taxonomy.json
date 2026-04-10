@@ -1,0 +1,43 @@
+{
+  "setup_types": [
+    { "id": "pullback",       "description": "Entry on a retracement within an established trend." },
+    { "id": "breakout",       "description": "Entry on a move through a defined resistance or consolidation level." },
+    { "id": "mean-reversion", "description": "Fade an extended move back toward a statistical mean or VWAP." },
+    { "id": "trend-follow",   "description": "Entry in direction of a confirmed longer-term trend, not a specific pattern." },
+    { "id": "range-reversion","description": "Buy low / sell high within a clearly defined price range." },
+    { "id": "event-driven",   "description": "Setup predicated on a known catalyst: earnings, FDA, macro print, etc." },
+    { "id": "momentum",       "description": "Entry into an accelerating move with short hold time." },
+    { "id": "fade",           "description": "Counter-trend entry against an overextended spike or squeeze." },
+    { "id": "hedge",          "description": "Offsetting position to reduce exposure on an existing trade or portfolio." },
+    { "id": "paper-test",     "description": "Paper-only trade to test a hypothesis or system without capital at risk." }
+  ],
+
+  "mistake_tags": [
+    { "id": "chased",             "description": "Entered after the move had already extended past the planned entry." },
+    { "id": "oversized",          "description": "Position was too large relative to the plan or risk limits." },
+    { "id": "undersized",         "description": "Position was too small — missed meaningful participation in a valid trade." },
+    { "id": "early-exit",         "description": "Exited before the target or plan was fulfilled without a valid reason." },
+    { "id": "held-too-long",      "description": "Stayed in a trade after thesis was invalidated or stop was obvious." },
+    { "id": "no-plan",            "description": "Entered without a defined stop, target, or thesis." },
+    { "id": "moved-stop",         "description": "Stop was moved against the position to avoid a loss." },
+    { "id": "ignored-stop",       "description": "Stop was hit or clearly triggered but position was not exited." },
+    { "id": "revenge-trade",      "description": "Trade taken to recover from a prior loss rather than on merit." },
+    { "id": "fomo",               "description": "Entered purely on fear of missing a move, without a valid setup." },
+    { "id": "wrong-timeframe",    "description": "Setup was valid on one timeframe but entry was misaligned with another." },
+    { "id": "ignored-macro",      "description": "Entered into a strong counter-trend macro or sector environment." },
+    { "id": "earnings-risk",      "description": "Held through earnings without accounting for binary event risk." },
+    { "id": "execution-error",    "description": "Mechanical error: wrong symbol, wrong side, wrong size." },
+    { "id": "did-not-review",     "description": "Trade was closed but postmortem was not completed in a timely manner." }
+  ],
+
+  "exit_reasons": [
+    "target-hit",
+    "stop-hit",
+    "manual",
+    "timeout",
+    "expiry",
+    "invalidation",
+    "unsellable",
+    "system"
+  ]
+}

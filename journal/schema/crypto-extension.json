@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CryptoAssetDetails",
+  "description": "asset_details shape for asset_class: crypto",
+  "type": "object",
+  "properties": {
+    "chain": {
+      "type": "string",
+      "description": "Blockchain. Examples: solana, ethereum, base."
+    },
+    "contract_address": {
+      "type": "string",
+      "description": "On-chain token address. Required for DEX trades."
+    },
+    "venue": {
+      "type": "string",
+      "description": "Execution venue. Examples: jupiter, coinbase, kraken, binance."
+    },
+    "pair": {
+      "type": "string",
+      "description": "Trading pair. Examples: SOL/USDC, BTC/USD."
+    },
+    "dex_pool": {
+      "type": "string",
+      "description": "DEX pool or pair address if relevant."
+    },
+    "entry_liquidity_usd": {
+      "type": "number",
+      "description": "Pool or market liquidity in USD at time of entry. Relevant for thin-market sizing."
+    }
+  }
+}

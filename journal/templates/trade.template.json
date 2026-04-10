@@ -1,0 +1,56 @@
+{
+  "id": "YYYY-MM-DD-SYMBOL-000000",
+  "created_at": "",
+  "state": "idea",
+  "state_history": [
+    { "state": "idea", "at": "", "note": "" }
+  ],
+
+  "symbol": "",
+  "asset_class": "",
+  "side": "",
+  "thesis": "",
+  "setup_type": "",
+
+  "plan": {
+    "entry": null,
+    "stop": null,
+    "target": null,
+    "reward_risk": null,
+    "size_usd": null,
+    "size_units": null,
+    "risk_usd": null,
+    "timeframe": "",
+    "invalidation": ""
+  },
+
+  "execution": {
+    "mode": "paper",
+    "broker": "",
+    "entry_price": null,
+    "entry_at": null,
+    "exit_price": null,
+    "exit_at": null,
+    "exit_reason": null,
+    "fills": []
+  },
+
+  "result": {
+    "pnl_usd": null,
+    "pnl_pct": null,
+    "r_multiple": null
+  },
+
+  "review": {
+    "reviewed_at": null,
+    "grade": null,
+    "mistakes": [],
+    "lessons": ""
+  },
+
+  "chart_refs": [],
+  "tags": [],
+  "notes": "",
+
+  "asset_details": {}
+}

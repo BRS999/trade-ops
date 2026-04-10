@@ -1,0 +1,73 @@
+{
+  "id": "2026-04-09-SOL-crypto-ex002",
+  "created_at": "2026-04-08T22:00:00Z",
+  "state": "open",
+  "state_history": [
+    { "state": "idea",      "at": "2026-04-08T22:00:00Z", "note": "SOL retesting the weekly breakout level from below." },
+    { "state": "watchlist", "at": "2026-04-08T22:05:00Z", "note": "Added to Tier 1 crypto watchlist." },
+    { "state": "planned",   "at": "2026-04-08T23:30:00Z", "note": "Risk box set." },
+    { "state": "ready",     "at": "2026-04-09T02:16:00Z", "note": "Checked after TradingView alert — structure intact, BTC stable." },
+    { "state": "ordered",   "at": "2026-04-09T02:17:00Z", "note": "Paper order via Jupiter." },
+    { "state": "open",      "at": "2026-04-09T02:17:42Z", "note": "Filled at 148.40." }
+  ],
+
+  "symbol": "SOL",
+  "asset_class": "crypto",
+  "side": "long",
+  "thesis": "SOL broke out of a 3-week range on the weekly and is now retesting the breakout level around 145-148. BTC dominance is stable and overall market structure is constructive. Looking to capture a move toward the 170 measured target from the range.",
+  "setup_type": "pullback",
+
+  "plan": {
+    "entry": 148.00,
+    "stop": 139.00,
+    "target": 170.00,
+    "reward_risk": 2.44,
+    "size_usd": 500,
+    "size_units": 3.38,
+    "risk_usd": 30.42,
+    "timeframe": "1W",
+    "invalidation": "Daily close below 139 or BTC losing the 80k level."
+  },
+
+  "execution": {
+    "mode": "paper",
+    "broker": "jupiter",
+    "entry_price": 148.40,
+    "entry_at": "2026-04-09T02:17:42Z",
+    "exit_price": null,
+    "exit_at": null,
+    "exit_reason": null,
+    "fills": [
+      { "price": 148.40, "units": 3.38, "at": "2026-04-09T02:17:42Z", "side": "buy" }
+    ]
+  },
+
+  "result": {
+    "pnl_usd": null,
+    "pnl_pct": null,
+    "r_multiple": null
+  },
+
+  "review": {
+    "reviewed_at": null,
+    "grade": null,
+    "mistakes": [],
+    "lessons": ""
+  },
+
+  "chart_refs": [
+    "https://www.tradingview.com/chart/?symbol=COINBASE:SOLUSD",
+    "screenshots/2026-04-08-SOL-weekly-breakout.png"
+  ],
+  "tags": ["layer1", "weekly-breakout"],
+  "notes": "Watch BTC correlation — if BTC dumps, this invalidates regardless of SOL structure.",
+
+  "asset_details": {
+    "chain": "solana",
+    "contract_address": "So11111111111111111111111111111111111111112",
+    "venue": "jupiter",
+    "pair": "SOL/USDC",
+    "dex_pool": null,
+    "entry_liquidity_usd": null
+  }
+}
