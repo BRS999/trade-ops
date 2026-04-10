@@ -182,7 +182,7 @@ The current board lives in `watchlists/active.json` and should be treated as the
 
 ```bash
 # 1. Clone
-git clone https://github.com/<you>/trade-ops.git
+git clone https://github.com/brs999/trade-ops.git
 cd trade-ops
 
 # 2. Add API keys
