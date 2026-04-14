@@ -17,7 +17,8 @@
     "gecko": "node tools/gecko-terminal.mjs",
     "fng": "node tools/fear-and-greed.mjs",
     "dex": "node tools/dexscreener.mjs",
-    "cftc": "node tools/cftc.mjs"
+    "cftc": "node tools/cftc.mjs",
+    "kronos": "node tools/kronos.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

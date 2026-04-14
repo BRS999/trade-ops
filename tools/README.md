@@ -16,6 +16,7 @@ Examples:
 - [sec-edgar.mjs](/Users/benjaminspencer/git/trade-ops/tools/sec-edgar.mjs)
 - [yahoo.mjs](/Users/benjaminspencer/git/trade-ops/tools/yahoo.mjs)
 - [massive.mjs](/Users/benjaminspencer/git/trade-ops/tools/massive.mjs)
+- [kronos.mjs](/Users/benjaminspencer/git/trade-ops/tools/kronos.mjs)
 
 The TradingView tool is a thin operator-friendly wrapper over the internal TradingView adapter.
 
@@ -64,3 +65,17 @@ Current commands:
 - `ticker-details <ticker>`
 - `financials <ticker> [--timeframe quarterly] [--limit 4]`
 - `bars <ticker> --from YYYY-MM-DD --to YYYY-MM-DD [--timespan day] [--multiplier 1] [--limit 120]`
+
+The Kronos tool supports both a Docker experiment path and a native macOS path for Apple Silicon.
+
+Current commands:
+
+- `native-setup`
+- `native-check`
+- `native-example`
+- `up`
+- `down`
+- `ps`
+- `shell`
+- `check`
+- `example`

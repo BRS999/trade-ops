@@ -69,6 +69,39 @@ Trade Ops is built around the TradingView desktop app for chart state and paper-
 - If you want to use `npm run tv -- ...` commands for chart inspection or paper execution, you should have the TradingView desktop app installed and running.
 - Paper-trading workflows are the supported execution mode in V1.
 
+## System Requirements
+
+Core Trade-Ops usage is intentionally lightweight.
+
+### Required
+
+- `Node.js` 20+ with `npm`
+- macOS, Linux, or another environment that can run Node.js ESM scripts
+
+### Required for TradingView workflows
+
+- TradingView desktop app installed and running
+
+### Optional API keys
+
+- `MASSIVE_API_KEY`
+- `FRED_API_KEY`
+- `FMP_API_KEY`
+
+You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, GeckoTerminal, DexScreener, and Fear & Greed.
+
+### Optional: Kronos
+
+Kronos is an experiment, not a core dependency of Trade-Ops.
+
+If you want to run Kronos locally with Apple Silicon acceleration:
+
+- `Python` 3.11
+- `uv`
+- Apple Silicon Mac with PyTorch `mps` support recommended
+
+If you do not care about Kronos, you do not need Python, Docker, or any of the Kronos setup commands.
+
 ---
 
 ## Data Stack
@@ -291,8 +324,7 @@ trade-ops/
 │   ├── mistakes.md      # tracked: recurring mistakes
 │   └── market/          # local: live market context and regime notes
 ├── tmp/                 # local: scratch files and experiments
-├── compose.yaml         # tracked: optional local services like Kronos
-├── experiments/         # tracked: isolated research integrations
+├── compose.yaml         # tracked: optional local services
 └── .env.example         # tracked: environment variable template
 ```
 
