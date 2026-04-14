@@ -36,7 +36,7 @@ Use these files first:
 - `watchlists/active.json`
 - `watchlists/universe.json`
 - `wiki/INDEX.md`
-- `wiki/market/context.md`
+- `wiki/market/context.md` if present locally
 - `wiki/symbols/<SYMBOL>.md`
 - `config/risk.json`
 - `config/taxonomy.json`

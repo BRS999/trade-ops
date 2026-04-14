@@ -29,6 +29,38 @@ Trade-Ops is a retail trading operating system built around TradingView as the p
 
 > **This is not an auto-trader.** Trade-Ops is a discipline layer — it helps you think more clearly, track honestly, and review systematically. The AI never places a live order. You always have the final call.
 
+## Repo Layout Philosophy
+
+Trade-Ops uses a split model:
+
+- **shareable project assets** live in Git
+- **local working state** lives on your machine
+
+The repository should teach the structure without bundling personal trade history or live operating state.
+
+### What Gets Tracked
+
+- adapter code
+- CLI tools
+- schemas and templates
+- example journal entries
+- symbol and setup wiki examples
+- architecture and usage docs
+
+### What Stays Local
+
+- active trades
+- closed personal journal records
+- live market context snapshots
+- regime notes tied to your current research process
+- scratch runtime files under `tmp/`
+
+### Rule of Thumb
+
+If a file is reusable as an example, interface, template, or adapter, it belongs in Git.
+
+If a file reflects your current account state, active research, or personal trading history, it should stay local.
+
 ## TradingView Requirement
 
 Trade Ops is built around the TradingView desktop app for chart state and paper-trading control.
@@ -107,14 +139,12 @@ wiki/
 ├── setups/           # Setup type definitions, conditions, stats, examples
 │   ├── breakout.md
 │   └── pullback.md
-├── market/
-│   ├── context.md    # Live macro snapshot + watchlist state
-│   └── regimes.md    # Regime notes and pre-trade checklist
+├── market/           # Local-only live market context and regime notes
 ├── mistakes.md       # Recurring mistake patterns with tally
 └── edges.md          # Validated setups with sample stats
 ```
 
-The agent reads the wiki before working on any trade. After every trade review it updates the relevant symbol, setup, mistakes, and edges files. After running adapter snapshots it updates `market/context.md`. Queries always add up — explorations get filed back in.
+The agent reads the wiki before working on any trade. After every trade review it updates the relevant symbol, setup, mistakes, and edges files. After running adapter snapshots it updates the local `wiki/market/` files. Queries always add up — explorations get filed back in.
 
 ### The Two-Layer Model
 
@@ -124,6 +154,16 @@ The agent reads the wiki before working on any trade. After every trade review i
 | `wiki/` | What you know — synthesized understanding | Agent only |
 
 The journal answers *"what happened?"* The wiki answers *"what do I know?"*
+
+### Public vs Local Wiki
+
+| Path | Purpose | Git Behavior |
+|---|---|---|
+| `wiki/symbols/` | Reusable symbol notes and examples | tracked |
+| `wiki/setups/` | Reusable setup definitions and examples | tracked |
+| `wiki/edges.md` | Cross-trade edge notes | tracked |
+| `wiki/mistakes.md` | Recurring mistake patterns | tracked |
+| `wiki/market/` | Live macro snapshot, regime notes, current board context | local |
 
 ---
 
@@ -151,6 +191,16 @@ Every trade must define:
 - thesis and invalidation
 - outcome, mistakes, lessons
 
+### Public vs Local Journal
+
+| Path | Purpose | Git Behavior |
+|---|---|---|
+| `journal/schema/` | Record schema and asset extensions | tracked |
+| `journal/templates/` | Blank trade templates | tracked |
+| `journal/examples/` | Public example trades | tracked |
+| `journal/open/` | Your active trades | local |
+| `journal/closed/` | Your closed personal trades | local |
+
 ### Trade Lifecycle
 
 ```
@@ -172,6 +222,12 @@ watchlists/
 Active watchlist entries include tier (1–3), status, setup type, entry/stop/target plan, invalidation level, and earnings date. Symbol mappings (`yahoo_symbol`, `coingecko_id`) let a single entry resolve across adapters.
 
 The current board lives in `watchlists/active.json` and should be treated as the source of truth instead of hardcoded README examples.
+
+### Watchlist Note
+
+`watchlists/` is currently committed because it defines the system's working universe and examples of board structure.
+
+If you want a fully personal operating board, clone the structure and keep your day-to-day watchlist in a separate local file or future overlay layer rather than committing every board change.
 
 ---
 
@@ -209,44 +265,43 @@ npm run fmp    -- summary AAPL     # Analyst consensus — needs FMP key
 # codex / claude — AGENTS.md and the adapters are the context layer
 ```
 
----
-
 ## Project Structure
 
 ```
 trade-ops/
-├── AGENTS.md            # Codex-first repo instructions and operating rules
-├── CLAUDE.md            # Claude-oriented session guide kept for compatibility
-├── wiki/                # LLM-compiled knowledge base (agent writes, you read)
-│   ├── INDEX.md
-│   ├── symbols/
-│   ├── setups/
-│   ├── market/
-│   ├── mistakes.md
-│   └── edges.md
-├── journal/             # Raw trade records — immutable source of truth
-│   ├── open/
-│   ├── closed/
-│   ├── schema/
-│   └── templates/
-├── adapters/
-│   ├── dexscreener/     # Cross-chain pair and boost data
-│   ├── fear-and-greed/  # Crypto sentiment index
-│   ├── fmp/             # Analyst consensus, earnings calendar
-│   ├── fred/            # Macro — yields, CPI, VIX, Fed Funds
-│   ├── gecko-terminal/  # On-chain pools, DEX OHLCV, Solana
-│   ├── massive/         # Tick data, bars, fundamentals
-│   ├── sec-edgar/       # Filings, facts, insider activity
-│   ├── tradingview/     # Chart state, indicators, paper positions
-│   └── yahoo/           # Live quotes, bars, multi-asset
-├── watchlists/          # Universe and active watchlist
-├── config/              # Risk parameters, setup taxonomy
-├── tools/               # CLI entry points (npm run *)
-├── types/               # TypeScript domain types and tool manifest
-├── data/                # Runtime data (gitignored)
-├── docs/                # Architecture and setup docs
-└── .env.example         # Key template
+├── AGENTS.md            # tracked: Codex-first repo instructions and operating rules
+├── CLAUDE.md            # tracked: Claude-oriented session guide kept for compatibility
+├── adapters/            # tracked: source adapters by provider
+├── config/              # tracked: risk rules and taxonomy
+├── docs/                # tracked: architecture and supporting docs
+├── journal/
+│   ├── schema/          # tracked: canonical trade schemas
+│   ├── templates/       # tracked: blank trade templates
+│   ├── examples/        # tracked: sample trades
+│   ├── open/            # local: active personal trades
+│   └── closed/          # local: completed personal trades
+├── tools/               # tracked: CLI entry points (`npm run *`)
+├── types/               # tracked: TypeScript domain types and tool manifest
+├── watchlists/          # tracked: universe and current board structure
+├── wiki/
+│   ├── INDEX.md         # tracked: map of the knowledge base
+│   ├── symbols/         # tracked: reusable symbol notes
+│   ├── setups/          # tracked: reusable setup notes
+│   ├── edges.md         # tracked: edge summaries
+│   ├── mistakes.md      # tracked: recurring mistakes
+│   └── market/          # local: live market context and regime notes
+├── tmp/                 # local: scratch files and experiments
+├── compose.yaml         # tracked: optional local services like Kronos
+├── experiments/         # tracked: isolated research integrations
+└── .env.example         # tracked: environment variable template
 ```
+
+### Folder Rules
+
+- Prefer adding reusable structure under `schema/`, `templates/`, `examples/`, `docs/`, `adapters/`, or `tools/`
+- Prefer keeping time-sensitive operating state under `journal/open/`, `journal/closed/`, `wiki/market/`, or `tmp/`
+- Do not commit personal trade history or live market notes
+
 
 ---
 

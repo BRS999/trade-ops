@@ -111,14 +111,14 @@
       "symbol": "MRVL",
       "asset_class": "equity",
       "tier": 1,
-      "status": "watching",
+      "status": "open",
       "added_at": "2026-04-10",
       "add_reason": "AI networking chips. +4.8% today. Essentially at 52W high. Best RS in the semi space.",
-      "setup_type": null,
-      "plan": null,
-      "invalidation": null,
+      "setup_type": "breakout",
+      "plan": { "entry": 131.00, "stop": 124.00, "target": 146.50, "journal_id": "2026-04-13-MRVL-c7f3b2" },
+      "invalidation": "Daily close below $124.",
       "earnings_date": null,
-      "notes": "Pull up the chart. This is the strongest semi name in the universe right now."
+      "notes": "OPEN (paper). ATH breakout continuation. New ATH two consecutive sessions (Apr 10 + Apr 13) while peers -8% to -33% off highs."
     },
     {
       "symbol": "NVDA",

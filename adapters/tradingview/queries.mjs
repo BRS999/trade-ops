@@ -44,6 +44,13 @@ export const ORDER_HISTORY_QUERY = `(() => {
   const page = [...document.querySelectorAll(".page-vCXUCd2i")]
     .find((el) => el.className.includes("active-vCXUCd2i"));
   const table = page ? page.querySelector("table.orders, .ka-table.orders") : null;
+  // Scroll virtual list to top so newest rows are rendered
+  const scrollEl = page && (
+    page.querySelector(".ka-virtual-scroll-container") ||
+    page.querySelector("[class*='virtualScrollContainer']") ||
+    page.querySelector("[class*='scrollable']")
+  );
+  if (scrollEl) scrollEl.scrollTop = 0;
   const scope = table || page;
   const headers = scope
     ? [...scope.querySelectorAll("thead th")]

@@ -68,16 +68,11 @@ async function placeOrder(side, args) {
   }
 
   const type = (args[2] || "market").toLowerCase();
-  if (!["market", "limit"].includes(type)) {
-    throw new Error("type must be market or limit");
+  if (!["market", "limit", "stop"].includes(type)) {
+    throw new Error("type must be market, limit, or stop");
   }
 
-  const order = {
-    symbol,
-    side,
-    type,
-    quantity,
-  };
+  const order = { symbol, side, type, quantity };
 
   if (type === "limit") {
     const limitPrice = Number(requireArg(args[3], "limitPrice"));
@@ -85,6 +80,14 @@ async function placeOrder(side, args) {
       throw new Error("limitPrice must be a positive number");
     }
     order.limitPrice = limitPrice;
+  }
+
+  if (type === "stop") {
+    const stopPrice = Number(requireArg(args[3], "stopPrice"));
+    if (!Number.isFinite(stopPrice) || stopPrice <= 0) {
+      throw new Error("stopPrice must be a positive number");
+    }
+    order.stopPrice = stopPrice;
   }
 
   return tv.placePaperOrder(order);
@@ -113,8 +116,8 @@ Usage:
   node tools/tradingview.mjs indicators
   node tools/tradingview.mjs symbol <symbol>
   node tools/tradingview.mjs timeframe <timeframe>
-  node tools/tradingview.mjs buy <symbol> <quantity> [market|limit] [limitPrice]
-  node tools/tradingview.mjs sell <symbol> <quantity> [market|limit] [limitPrice]
+  node tools/tradingview.mjs buy <symbol> <quantity> [market|limit|stop] [price]
+  node tools/tradingview.mjs sell <symbol> <quantity> [market|limit|stop] [price]
   node tools/tradingview.mjs close <symbol>
   node tools/tradingview.mjs cancel <orderId|symbol>
 `);

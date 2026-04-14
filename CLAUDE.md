@@ -10,7 +10,7 @@ TradingView is the primary charting surface. This repo is everything behind it.
 Start every session by reading:
 1. **Open positions** (below) — know what's live before anything else
 2. **`wiki/INDEX.md`** — map of all compiled knowledge
-3. **`wiki/market/context.md`** — current macro and watchlist state
+3. **`wiki/market/context.md`** — current macro and watchlist state, if present locally
 
 For any symbol you're about to work with, read its wiki file first:
 - `wiki/symbols/<SYMBOL>.md` — trade history, what works, what to watch out for
@@ -82,4 +82,4 @@ After reviewing a closed trade:
 6. Update **Open Positions** table above
 
 After running adapter snapshots:
-1. Update `wiki/market/context.md` with fresh macro and sentiment data
+1. Update local `wiki/market/context.md` with fresh macro and sentiment data

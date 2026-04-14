@@ -143,6 +143,7 @@ export class TradingViewAdapter {
       type = "market",
       quantity,
       limitPrice,
+      stopPrice,
     } = order;
 
     if (!symbol) throw new Error("symbol is required");
@@ -150,31 +151,54 @@ export class TradingViewAdapter {
       throw new Error("side must be buy or sell");
     }
     if (!quantity) throw new Error("quantity is required");
-    if (!["market", "limit"].includes(type.toLowerCase())) {
-      throw new Error("Only market and limit orders are supported in V1");
+    if (!["market", "limit", "stop"].includes(type.toLowerCase())) {
+      throw new Error("type must be market, limit, or stop");
     }
     if (type.toLowerCase() === "limit" && (limitPrice === undefined || limitPrice === null)) {
       throw new Error("limitPrice is required for limit orders");
+    }
+    if (type.toLowerCase() === "stop" && (stopPrice === undefined || stopPrice === null)) {
+      throw new Error("stopPrice is required for stop orders");
     }
 
     const normalizedSymbol = normalizeSymbol(symbol);
     const historyBefore = await this.getOrderHistory();
     const workingBefore = await this.getWorkingOrders();
 
-    await this.setSymbol(symbol);
-    await this.delay(1000);
+    // Only navigate to the symbol if not already on it — navigation resets the order panel
+    const chartState = await this.getChartState().catch(() => null);
+    const currentSymbol = normalizeSymbolMatcher(chartState?.symbol || "");
+    if (currentSymbol !== normalizedSymbol) {
+      await this.setSymbol(symbol);
+      await this.delay(1000);
+    }
 
-    const expression = buildPlaceOrderQuery({
+    // Step 1: select order type + direction (triggers React re-render)
+    const step1 = await this.evaluate(buildSelectSideQuery({
       side: side.toLowerCase(),
       type: type.toLowerCase(),
-      quantity,
-      limitPrice,
-    });
+    }));
+    if (!step1?.ok) return step1;
 
-    const result = await this.evaluate(expression);
-    if (!result?.ok) {
-      return result;
+    // Wait for React to re-render the panel with the selected direction
+    await this.delay(800);
+
+    // Step 2: set quantity, limit price, or stop price as applicable
+    const step2 = await this.evaluate(buildSetFieldsQuery({ quantity, limitPrice, stopPrice }));
+    if (!step2?.ok) return step2;
+
+    await this.delay(300);
+
+    // Step 3: get submit button coordinates
+    const coords = await this.evaluate(buildSubmitCoordsQuery());
+    if (!coords?.ok) return coords;
+
+    // Step 4: click via CDP Input.dispatchMouseEvent (isTrusted: true — bypasses React's synthetic event check)
+    const result = await this.run(["ui", "mouse", String(Math.round(coords.x)), String(Math.round(coords.y))]);
+    if (!result?.success) {
+      return { ok: false, stage: "cdp_click_failed", ...result };
     }
+    const submitResult = { ok: true, stage: "submitted", type: type.toLowerCase(), side: side.toLowerCase(), submitText: coords.submitText };
 
     const materialized = await this.waitForOrderMaterialization({
       symbol: normalizedSymbol,
@@ -184,7 +208,7 @@ export class TradingViewAdapter {
     });
 
     return {
-      ...result,
+      ...submitResult,
       ...materialized,
     };
   }
@@ -317,21 +341,26 @@ function symbolsMatch(observed, expected) {
 }
 
 function countOrdersForSymbol(rows, symbol) {
-  return rows.filter((row) => normalizeSymbol(row.Symbol) === symbol).length;
+  return rows.filter((row) => normalizeSymbolMatcher(row.Symbol) === symbol).length;
 }
 
 function findLatestOrderForSymbol(rows, symbol) {
-  return rows.find((row) => normalizeSymbol(row.Symbol) === symbol) || null;
+  return rows.find((row) => normalizeSymbolMatcher(row.Symbol) === symbol) || null;
 }
 
-function buildPlaceOrderQuery({ side, type, quantity, limitPrice }) {
+/**
+ * Step 1: select order type (Market/Limit) and direction (Buy/Sell).
+ * Must be a separate evaluate call so React can re-render before we
+ * query for the submit button (which changes text based on direction).
+ */
+function buildSelectSideQuery({ side, type }) {
   return `(() => {
     const root = document.querySelector(".orderPanel-qRKEn0AX")
       || document.querySelector(".orderWidget-vZBitAcm")
       || document.querySelector(".orderTicket-vZBitAcm");
     if (!root) return { ok: false, stage: "order_ticket_not_found" };
 
-    const clickByText = (text, scope = root) => {
+    const clickByText = (text, scope) => {
       const node = [...scope.querySelectorAll("button,div,span")]
         .find((el) => (el.innerText || el.textContent || "").trim() === text && el.offsetParent);
       if (!node) return false;
@@ -339,58 +368,87 @@ function buildPlaceOrderQuery({ side, type, quantity, limitPrice }) {
       return true;
     };
 
-    const setInputValue = (id, value) => {
-      const input = document.getElementById(id);
-      if (!input) return false;
-      input.focus();
-      input.value = "";
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-      input.value = String(value);
-      input.dispatchEvent(new Event("input", { bubbles: true }));
-      input.dispatchEvent(new Event("change", { bubbles: true }));
-      return true;
-    };
-
-    clickByText("Order", document);
-    clickByText(${JSON.stringify(type === "market" ? "Market" : "Limit")}, root);
+    clickByText(${JSON.stringify(type === "market" ? "Market" : type === "limit" ? "Limit" : "Stop")}, root);
 
     const sideButton = [...root.querySelectorAll("div,button,span")]
       .find((el) => (el.innerText || el.textContent || "").trim() === ${JSON.stringify(side === "buy" ? "Buy" : "Sell")} && el.offsetParent);
     if (!sideButton) return { ok: false, stage: "side_not_found" };
     sideButton.click();
 
-    if (!setInputValue("quantity-field", ${JSON.stringify(String(quantity))})) {
-      return { ok: false, stage: "quantity_not_found" };
+    return { ok: true, stage: "side_selected", type: ${JSON.stringify(type)}, side: ${JSON.stringify(side)} };
+  })()`;
+}
+
+/**
+ * Step 2: set quantity and limit price fields.
+ * Called after React has re-rendered with the selected direction.
+ */
+function buildSetFieldsQuery({ quantity, limitPrice, stopPrice }) {
+  return `(() => {
+    const setById = (id, value) => {
+      const input = document.getElementById(id);
+      if (!input) return false;
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+      setter.call(input, String(value));
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      return true;
+    };
+
+    if (!setById("quantity-field", ${JSON.stringify(String(quantity))})) {
+      return { ok: false, stage: "quantity_field_not_found" };
     }
 
-    ${type === "limit"
-      ? `if (!setInputValue("absolute-limit-price-field", ${JSON.stringify(String(limitPrice))})) {
-           return { ok: false, stage: "limit_price_not_found" };
-         }`
-      : ""}
+    ${stopPrice != null ? `
+    if (!setById("absolute-stop-price-field", ${JSON.stringify(String(stopPrice))})) {
+      return { ok: false, stage: "stop_price_field_not_found" };
+    }` : ""}
+
+    ${limitPrice != null ? `
+    const limitInput = document.getElementById("absolute-limit-price-field")
+      || [...document.querySelectorAll("input")].find(i => {
+           const v = parseFloat(i.value);
+           return i.id === "" && v > 50 && v < 10000;
+         });
+    if (limitInput) {
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
+      setter.call(limitInput, ${JSON.stringify(String(limitPrice))});
+      limitInput.dispatchEvent(new Event("input", { bubbles: true }));
+      limitInput.dispatchEvent(new Event("change", { bubbles: true }));
+    }` : ""}
+
+    return { ok: true, stage: "fields_set", quantity: ${JSON.stringify(String(quantity))}, limitPrice: ${JSON.stringify(limitPrice ?? null)}, stopPrice: ${JSON.stringify(stopPrice ?? null)} };
+  })()`;
+}
+
+/**
+ * Step 3: get the submit button's center screen coordinates.
+ * We use CDP Input.dispatchMouseEvent (isTrusted: true) to click it,
+ * because TradingView's order submission checks event.isTrusted.
+ */
+function buildSubmitCoordsQuery() {
+  return `(() => {
+    const root = document.querySelector(".orderPanel-qRKEn0AX")
+      || document.querySelector(".orderWidget-vZBitAcm")
+      || document.querySelector(".orderTicket-vZBitAcm");
+    if (!root) return { ok: false, stage: "order_ticket_not_found" };
 
     const submit = [...root.querySelectorAll("button")]
       .find((el) => {
-        const text = (el.innerText || el.textContent || "").trim();
         const cls = el.className || "";
-        return (
-          !!el.offsetParent &&
-          (
-            text === "Start creating order" ||
-            (text.toLowerCase().includes(${JSON.stringify(side)}) && text.toLowerCase().includes(${JSON.stringify(type)})) ||
-            cls.includes("button-_ba4ELUa")
-          )
-        );
+        return !!el.offsetParent && cls.includes("button-_ba4ELUa");
       });
     if (!submit) return { ok: false, stage: "submit_not_found" };
-    submit.click();
+
+    const rect = submit.getBoundingClientRect();
+    const submitText = (submit.innerText || submit.textContent || "").trim();
+
     return {
       ok: true,
-      stage: "submitted",
-      type: ${JSON.stringify(type)},
-      side: ${JSON.stringify(side)},
-      quantity: ${JSON.stringify(String(quantity))},
-      limitPrice: ${JSON.stringify(limitPrice ?? null)},
+      stage: "coords_ready",
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+      submitText,
     };
   })()`;
 }

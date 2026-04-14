@@ -19,6 +19,17 @@ journal/
   examples/                    Reference examples for each asset class
 ```
 
+## Public Repo Behavior
+
+The repo keeps reusable journal structure in Git while leaving real trading history on your machine.
+
+- `journal/examples/` stays committed as reference data
+- `journal/open/` is for local active trades and is gitignored by default
+- `journal/closed/` is for local completed trades and is gitignored by default
+- create `journal/open/` and `journal/closed/` locally if they do not exist in your clone
+
+Keep reusable examples, templates, and schema in Git. Keep your personal journal entries local.
+
 ## File Naming
 
 ```
