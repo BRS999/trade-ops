@@ -1,11 +1,12 @@
 {
   "_comment": "The full tracked universe. Everything worth watching lives here. Active watchlist is a subset in active.json.",
-  "updated_at": "2026-04-10",
+  "updated_at": "2026-04-16",
 
   "equities": [
     { "symbol": "GOOGL", "name": "Alphabet Inc.",                "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
     { "symbol": "AMZN",  "name": "Amazon.com Inc.",              "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
     { "symbol": "AVGO",  "name": "Broadcom Inc.",                "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
+    { "symbol": "LLY",   "name": "Eli Lilly and Company",        "sector": "Healthcare",   "float_tier": "mega",  "index_member": "SPX", "notes": "GLP-1 / obesity leader, large-cap healthcare growth anchor." },
     { "symbol": "TSM",   "name": "Taiwan Semiconductor",         "sector": "Technology",   "float_tier": "mega",  "index_member": null,  "notes": "ADR" },
     { "symbol": "META",  "name": "Meta Platforms",               "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
     { "symbol": "NVDA",  "name": "NVIDIA Corporation",           "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
@@ -15,6 +16,8 @@
     { "symbol": "ARM",   "name": "Arm Holdings",                 "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "Chip architecture, AI edge" },
     { "symbol": "ASML",  "name": "ASML Holding",                 "sector": "Technology",   "float_tier": "mega",  "index_member": null,  "notes": "ADR. EUV monopoly, semi upstream chokepoint" },
     { "symbol": "MRVL",  "name": "Marvell Technology",           "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "AI networking chips, data center" },
+    { "symbol": "CRWD",  "name": "CrowdStrike Holdings",         "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "Cybersecurity leader, AI-native security platform." },
+    { "symbol": "PANW",  "name": "Palo Alto Networks",           "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "Cybersecurity platform, enterprise security and network exposure." },
     { "symbol": "COIN",  "name": "Coinbase Global",              "sector": "Financials",   "float_tier": "large", "index_member": null,  "notes": "Crypto proxy, trades with BTC sentiment" },
     { "symbol": "MSTR",  "name": "MicroStrategy",                "sector": "Technology",   "float_tier": "mid",   "index_member": null,  "notes": "Bitcoin proxy, high beta BTC play" },
     { "symbol": "PLTR",  "name": "Palantir Technologies",        "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "Pure-play AI/data, high momentum" },
@@ -24,8 +27,11 @@
     { "symbol": "GS",    "name": "Goldman Sachs",                "sector": "Financials",   "float_tier": "large", "index_member": "SPX", "notes": "Risk appetite read, reports Apr 13" },
     { "symbol": "HOOD",  "name": "Robinhood Markets",            "sector": "Financials",   "float_tier": "mid",   "index_member": null,  "notes": "Retail brokerage + crypto volume proxy" },
     { "symbol": "TSLA",  "name": "Tesla",                        "sector": "Consumer",     "float_tier": "mega",  "index_member": "NDX", "notes": "" },
+    { "symbol": "RTX",   "name": "RTX Corporation",              "sector": "Industrials",  "float_tier": "mega",  "index_member": "SPX", "notes": "Aerospace and defense backlog, commercial + defense exposure." },
     { "symbol": "FCX",   "name": "Freeport-McMoRan",             "sector": "Materials",    "float_tier": "large", "index_member": "SPX", "notes": "Largest US copper miner. Equity proxy for copper price." },
-    { "symbol": "XOM",   "name": "ExxonMobil",                   "sector": "Energy",       "float_tier": "mega",  "index_member": "SPX", "notes": "Largest US oil major. Earnings May 1." }
+    { "symbol": "XOM",   "name": "ExxonMobil",                   "sector": "Energy",       "float_tier": "mega",  "index_member": "SPX", "notes": "Largest US oil major. Earnings May 1." },
+    { "symbol": "CEG",   "name": "Constellation Energy",         "sector": "Utilities",    "float_tier": "large", "index_member": "SPX", "notes": "Nuclear + power demand winner tied to data centers and AI load growth." },
+    { "symbol": "VST",   "name": "Vistra Corp.",                 "sector": "Utilities",    "float_tier": "large", "index_member": "SPX", "notes": "Merchant power / generation exposure, benefits from tight power markets and AI demand." }
   ],
 
   "etfs": [
