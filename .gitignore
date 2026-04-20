@@ -11,3 +11,4 @@ journal/open/*
 journal/closed/*
 wiki/market/*
 !wiki/market/README.md
+watchlists/active.json
