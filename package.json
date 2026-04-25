@@ -18,7 +18,8 @@
     "fng": "node tools/fear-and-greed.mjs",
     "dex": "node tools/dexscreener.mjs",
     "cftc": "node tools/cftc.mjs",
-    "kronos": "node tools/kronos.mjs"
+    "kronos": "node tools/kronos.mjs",
+    "kalshi": "node tools/kalshi.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
