@@ -88,7 +88,7 @@ Core Trade-Ops usage is intentionally lightweight.
 - `FRED_API_KEY`
 - `FMP_API_KEY`
 
-You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, GeckoTerminal, DexScreener, and Fear & Greed.
+You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, GeckoTerminal, DexScreener, Kalshi public market data, and Fear & Greed.
 
 ### Optional: Kronos
 
@@ -117,6 +117,7 @@ If you do not care about Kronos, you do not need Python, Docker, or any of the K
 | **CFTC** | publicreporting.cftc.gov | Commitment of Traders positioning context | — |
 | **GeckoTerminal** | geckoterminal.com | On-chain pools, DEX OHLCV, Solana trending | — |
 | **DexScreener** | dexscreener.com | Cross-chain pair search, liquidity, boosted tokens | — |
+| **Kalshi** | kalshi.com | Prediction-market discovery, market details, orderbooks, trades, events, series | — |
 | **Fear & Greed** | alternative.me | Crypto sentiment index (0–100) | — |
 
 ---
@@ -147,6 +148,14 @@ npm run gecko  -- token-price solana <tokenAddress>
 npm run dex    -- search "ETH/USDC" 10
 npm run dex    -- pair solana <pairAddress>
 npm run dex    -- top-boosted 10
+
+npm run kalshi -- status
+npm run kalshi -- markets --series KXBTC --status open --limit 10
+npm run kalshi -- market --ticker <marketTicker>
+npm run kalshi -- orderbook --ticker <marketTicker> --depth 50
+npm run kalshi -- trades --ticker <marketTicker> --limit 100
+npm run kalshi -- events --limit 20
+npm run kalshi -- series --category Economics --limit 20
 
 npm run fng    -- current
 npm run fng    -- history 30

@@ -17,6 +17,7 @@ Examples:
 - [yahoo.mjs](/Users/benjaminspencer/git/trade-ops/tools/yahoo.mjs)
 - [massive.mjs](/Users/benjaminspencer/git/trade-ops/tools/massive.mjs)
 - [kronos.mjs](/Users/benjaminspencer/git/trade-ops/tools/kronos.mjs)
+- [kalshi.mjs](/Users/benjaminspencer/git/trade-ops/tools/kalshi.mjs)
 
 The TradingView tool is a thin operator-friendly wrapper over the internal TradingView adapter.
 
@@ -79,3 +80,16 @@ Current commands:
 - `shell`
 - `check`
 - `example`
+
+The Kalshi tool is a read-only wrapper over public prediction-market endpoints.
+
+Current commands:
+
+- `status`
+- `markets [--limit 100] [--status open] [--series KXBTC] [--event <event_ticker>] [--cursor <cursor>]`
+- `market --ticker <market_ticker>`
+- `orderbook --ticker <market_ticker> [--depth 50]`
+- `trades [--ticker <market_ticker>] [--limit 100] [--cursor <cursor>] [--min-ts <unix>] [--max-ts <unix>]`
+- `events [--limit 100] [--status open] [--series <series_ticker>] [--cursor <cursor>]`
+- `event --event <event_ticker>`
+- `series [--limit 400] [--category Economics] [--cursor <cursor>]`
