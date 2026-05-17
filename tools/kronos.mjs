@@ -15,35 +15,17 @@ const [, , command = "help"] = process.argv;
 
 try {
   switch (command) {
-    case "native-setup":
+    case "setup":
       runNativeSetup();
       break;
-    case "native-check":
+    case "check":
       runNativeCheck();
       break;
-    case "native-example":
+    case "example":
       runNativeExample();
       break;
-    case "native-forecast":
+    case "forecast":
       runNativeForecast(process.argv.slice(3));
-      break;
-    case "up":
-      runCompose(["up", "-d", "kronos"]);
-      break;
-    case "down":
-      runCompose(["down"]);
-      break;
-    case "ps":
-      runCompose(["ps"]);
-      break;
-    case "shell":
-      runCompose(["exec", "kronos", "bash"]);
-      break;
-    case "check":
-      runCheck();
-      break;
-    case "example":
-      runExample();
       break;
     case "help":
       printHelp();
@@ -209,90 +191,6 @@ function runNativeForecast(args) {
   ]);
 }
 
-function runCheck() {
-  runCompose([
-    "run",
-    "--rm",
-    "kronos",
-    "python",
-    "-c",
-    [
-      "import json",
-      "import os",
-      "import sys",
-      "sys.path.insert(0, '/opt/Kronos')",
-      "import torch",
-      "from model import Kronos, KronosPredictor, KronosTokenizer",
-      "payload = {",
-      "  'python': sys.version.split()[0],",
-      "  'torch': torch.__version__,",
-      "  'cuda': torch.cuda.is_available(),",
-      "  'kronos_repo': os.path.exists('/opt/Kronos/README.md'),",
-      "  'imports': ['Kronos', 'KronosPredictor', 'KronosTokenizer']",
-      "}",
-      "print(json.dumps(payload, indent=2))"
-    ].join("\n")
-  ]);
-}
-
-function runExample() {
-  runCompose([
-    "run",
-    "--rm",
-    "kronos",
-    "python",
-    "-c",
-    [
-      "import sys",
-      "sys.path.insert(0, '/opt/Kronos')",
-      "import numpy as np",
-      "import pandas as pd",
-      "from model import Kronos, KronosTokenizer, KronosPredictor",
-      "tokenizer = KronosTokenizer.from_pretrained('NeoQuasar/Kronos-Tokenizer-base')",
-      "model = Kronos.from_pretrained('NeoQuasar/Kronos-small')",
-      "predictor = KronosPredictor(model, tokenizer, device='cpu', max_context=512)",
-      "timestamps = pd.date_range('2026-01-01', periods=520, freq='5min')",
-      "base = np.linspace(100.0, 110.0, 520)",
-      "wave = np.sin(np.arange(520) / 12.0) * 0.8",
-      "close = base + wave",
-      "open_ = close + np.sin(np.arange(520) / 7.0) * 0.15",
-      "high = np.maximum(open_, close) + 0.25",
-      "low = np.minimum(open_, close) - 0.25",
-      "df = pd.DataFrame({",
-      "  'timestamps': timestamps,",
-      "  'open': open_,",
-      "  'high': high,",
-      "  'low': low,",
-      "  'close': close",
-      "})",
-      "lookback = 400",
-      "pred_len = 120",
-      "x_df = df.loc[:lookback-1, ['open', 'high', 'low', 'close']]",
-      "x_timestamp = df.loc[:lookback-1, 'timestamps']",
-      "y_timestamp = df.loc[lookback:lookback+pred_len-1, 'timestamps']",
-      "pred_df = predictor.predict(df=x_df, x_timestamp=x_timestamp, y_timestamp=y_timestamp, pred_len=pred_len, T=1.0, top_p=0.9, sample_count=1, verbose=True)",
-      "print('Forecasted Data Head:')",
-      "print(pred_df.head().to_string())"
-    ].join("\n")
-  ]);
-}
-
-function runCompose(args) {
-  ensureComposeFile();
-  const result = spawnSync("docker", ["compose", ...args], {
-    cwd: repoRoot,
-    stdio: "inherit"
-  });
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (typeof result.status === "number" && result.status !== 0) {
-    process.exit(result.status);
-  }
-}
-
 function runHost(cmd, args) {
   const result = spawnSync(cmd, args, {
     cwd: repoRoot,
@@ -311,20 +209,13 @@ function runHost(cmd, args) {
 function ensureUv() {
   const result = spawnSync("uv", ["--version"], { cwd: repoRoot, stdio: "ignore" });
   if (result.error || result.status !== 0) {
-    throw new Error("uv is required for native Kronos setup");
+    throw new Error("uv is required for Kronos setup");
   }
 }
 
 function ensureNativeSetup() {
   if (!existsSync(nativePython) || !existsSync(nativeRepo)) {
-    throw new Error("Native Kronos environment is not set up. Run `npm run kronos -- native-setup` first.");
-  }
-}
-
-function ensureComposeFile() {
-  const composePath = path.join(repoRoot, "compose.yaml");
-  if (!existsSync(composePath)) {
-    throw new Error(`Missing compose file at ${composePath}`);
+    throw new Error("Kronos environment is not set up. Run `npm run kronos -- setup` first.");
   }
 }
 
@@ -358,7 +249,7 @@ function parseForecastOptions(args) {
       index += 1;
       continue;
     }
-    throw new Error(`Unknown native-forecast option: ${arg}`);
+    throw new Error(`Unknown forecast option: ${arg}`);
   }
 
   if (!options.lookback) {
@@ -416,36 +307,22 @@ function printHelp() {
   console.log(`Trade Ops Kronos Tool
 
 Usage:
-  node tools/kronos.mjs native-setup
-  node tools/kronos.mjs native-check
-  node tools/kronos.mjs native-example
-  node tools/kronos.mjs native-forecast <symbol> [--range 6mo] [--interval 1d] [--lookback 100] [--pred-len 5]
-  node tools/kronos.mjs shell
+  node tools/kronos.mjs setup
   node tools/kronos.mjs check
   node tools/kronos.mjs example
+  node tools/kronos.mjs forecast <symbol> [--range 6mo] [--interval 1d] [--lookback 100] [--pred-len 5]
 
 Commands:
-  native-setup  Create a local Python env for Kronos under tmp/ and install deps
-  native-check  Verify native PyTorch and Kronos imports, including MPS availability
-  native-example Run a native synthetic forecast using MPS when available
-  native-forecast Run a native forecast on Yahoo bars using MPS when available
-  up       Start the Kronos container in the background
-  down     Stop the Kronos container and related compose resources
-  ps       Show the Kronos compose status
-  shell    Open an interactive shell in the Kronos container
-  check    Verify the container can import Kronos and PyTorch
-  example  Run the upstream no-volume example script
+  setup     Create a local Python env for Kronos under tmp/ and install deps
+  check     Verify PyTorch and Kronos imports, including MPS availability
+  example   Run a synthetic forecast using MPS when available
+  forecast  Run a forecast on Yahoo bars using MPS when available
 
 Examples:
-  npm run kronos -- native-setup
-  npm run kronos -- native-check
-  npm run kronos -- native-example
-  npm run kronos -- native-forecast BTC-USD --range 5d --interval 1h
-  npm run kronos -- native-forecast TSM --range 6mo --interval 1d
-  npm run kronos -- up
-  npm run kronos -- ps
+  npm run kronos -- setup
   npm run kronos -- check
-  npm run kronos -- shell
   npm run kronos -- example
+  npm run kronos -- forecast BTC-USD --range 5d --interval 1h
+  npm run kronos -- forecast TSM --range 6mo --interval 1d
 `);
 }

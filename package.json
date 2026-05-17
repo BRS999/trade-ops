@@ -18,6 +18,10 @@
     "fng": "node tools/fear-and-greed.mjs",
     "dex": "node tools/dexscreener.mjs",
     "cftc": "node tools/cftc.mjs",
+    "regime": "node tools/regime.mjs",
+    "new-token": "node tools/new-token.mjs",
+    "chronos": "node tools/chronos.mjs",
+    "timesfm": "node tools/timesfm.mjs",
     "kronos": "node tools/kronos.mjs",
     "kalshi": "node tools/kalshi.mjs"
   },
