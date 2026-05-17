@@ -1,0 +1,19 @@
+{
+  "_comment": "Default gates for ultra-new token triage. Conservative by design; this is discovery tooling, not an execution system.",
+  "max_position_size_usd": 150,
+  "max_risk_per_trade_usd": 50,
+  "max_open_new_token_positions": 3,
+  "min_liquidity_usd": 50000,
+  "min_watch_liquidity_usd": 15000,
+  "min_24h_volume_usd": 100000,
+  "min_1h_volume_usd": 10000,
+  "max_slippage_pct": 2,
+  "min_volume_to_liquidity_ratio_1h": 0.1,
+  "max_volume_to_liquidity_ratio_1h": 3,
+  "min_fdv_usd": 25000,
+  "max_fdv_usd": 10000000,
+  "ultra_new_hours": 2,
+  "early_lifecycle_hours": 336,
+  "no_averaging_down": true,
+  "require_safety_gate": true
+}

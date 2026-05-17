@@ -90,17 +90,43 @@ Core Trade-Ops usage is intentionally lightweight.
 
 You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, GeckoTerminal, DexScreener, Kalshi public market data, and Fear & Greed.
 
-### Optional: Kronos
+### Optional: Forecasting Models
 
-Kronos is an experiment, not a core dependency of Trade-Ops.
+Local forecasting models are experiments, not core dependencies of Trade-Ops.
 
-If you want to run Kronos locally with Apple Silicon acceleration:
+If you want to run Amazon Chronos, TimesFM, or Kronos locally with Apple Silicon acceleration:
 
-- `Python` 3.11
+- `Python` 3.11 is required for local forecasting
 - `uv`
 - Apple Silicon Mac with PyTorch `mps` support recommended
 
-If you do not care about Kronos, you do not need Python, Docker, or any of the Kronos setup commands.
+Amazon Chronos is exposed through `npm run chronos -- ...`. TimesFM is exposed through `npm run timesfm -- ...`. NeoQuasar Kronos is exposed through `npm run kronos -- ...`.
+
+Chronos, TimesFM, and Kronos each manage their own local Python environment under `tmp/`, which is intentionally ignored by Git. First setup and first model use require network access for Python packages, source/model downloads, and Hugging Face caches.
+
+```bash
+# Amazon Chronos
+npm run chronos -- setup
+npm run chronos -- check
+npm run chronos -- example
+npm run chronos -- forecast BTC-USD --range 5d --interval 1h --prediction-length 12
+
+# TimesFM
+npm run timesfm -- setup
+npm run timesfm -- check
+npm run timesfm -- example
+npm run timesfm -- forecast BTC-USD --range 5d --interval 1h --prediction-length 12
+
+# NeoQuasar Kronos
+npm run kronos -- setup
+npm run kronos -- check
+npm run kronos -- example
+npm run kronos -- forecast BTC-USD --range 5d --interval 1h
+```
+
+Use `--local-files-only` only after the selected Chronos or TimesFM model has already been downloaded locally.
+
+If you do not care about local forecasting models, you do not need Python or any of the forecasting setup commands.
 
 ---
 
@@ -307,6 +333,8 @@ npm run fmp    -- summary AAPL     # Analyst consensus — needs FMP key
 # codex / claude — AGENTS.md and the adapters are the context layer
 ```
 
+Most runtime CLIs use only Node.js built-ins. Run `npm install` only if you want local dev dependencies such as TypeScript for `npm run check`.
+
 ## Project Structure
 
 ```
@@ -333,7 +361,6 @@ trade-ops/
 │   ├── mistakes.md      # tracked: recurring mistakes
 │   └── market/          # local: live market context and regime notes
 ├── tmp/                 # local: scratch files and experiments
-├── compose.yaml         # tracked: optional local services
 └── .env.example         # tracked: environment variable template
 ```
 

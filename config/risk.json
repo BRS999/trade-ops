@@ -19,7 +19,7 @@
       "preferred_execution_mode": "paper"
     },
     "crypto": {
-      "max_simultaneous_positions": 3,
+      "max_simultaneous_positions": 5,
       "max_risk_per_trade_usd": 150,
       "max_position_size_usd": 500,
       "preferred_execution_mode": "paper"
