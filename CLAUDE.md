@@ -9,11 +9,11 @@ TradingView is the primary charting surface. This repo is everything behind it.
 
 Start every session by reading:
 1. **Open positions** (below) — know what's live before anything else
-2. **`wiki/INDEX.md`** — map of all compiled knowledge
+2. **`wiki/README.md`** — rules for local compiled memory
 3. **`wiki/market/context.md`** — current macro and watchlist state, if present locally
 
 For any symbol you're about to work with, read its wiki file first:
-- `wiki/symbols/<SYMBOL>.md` — trade history, what works, what to watch out for
+- `wiki/symbols/<SYMBOL>.md` — local trade history, what works, what to watch out for, if present
 
 ---
 
@@ -33,7 +33,7 @@ For any symbol you're about to work with, read its wiki file first:
 - Every trade needs: thesis, entry, stop, target before opening
 - Stop = plan stop. Do not widen after entry.
 - Max risk per trade: see `config/risk.json`
-- Check `wiki/mistakes.md` before sizing — know the recurring patterns
+- Check local `wiki/mistakes.md` before sizing when it exists — know the recurring patterns
 
 ---
 
@@ -43,15 +43,12 @@ For any symbol you're about to work with, read its wiki file first:
 journal/open/        ← active trade records (JSON + MD) — raw source of truth
 journal/closed/      ← closed and reviewed trades — raw source of truth
 wiki/                ← LLM-compiled knowledge base (do not edit manually)
-  INDEX.md           ← start here
-  symbols/           ← per-symbol history and edge notes
-  setups/            ← setup type definitions and stats
-  market/            ← macro context and regime notes
-  mistakes.md        ← recurring mistake patterns
-  edges.md           ← validated edges with stats
+  README.md          ← public rules for local memory
+  examples/          ← scrubbed public examples
+  market/            ← README tracked; local macro context ignored
 adapters/            ← data source clients
 tools/               ← CLI entry points (npm run *)
-watchlists/          ← universe.json, active.json
+watchlists/          ← universe.json scan universe
 config/              ← risk.json, taxonomy.json
 ```
 
@@ -74,11 +71,10 @@ npm run sec    -- filings <symbol>      # SEC filings
 ## Wiki Maintenance
 
 After reviewing a closed trade:
-1. Update `wiki/symbols/<SYMBOL>.md` — add trade to history, update what works / watch out for
-2. Update `wiki/setups/<SETUP>.md` — update stats
-3. Update `wiki/mistakes.md` — increment any triggered mistakes
-4. Update `wiki/edges.md` — update sample counts and stats
-5. Update `wiki/INDEX.md` — reflect any changes
+1. Update local `wiki/symbols/<SYMBOL>.md` — add trade to history, update what works / watch out for
+2. Update local `wiki/setups/<SETUP>.md` — update stats
+3. Update local `wiki/mistakes.md` — increment any triggered mistakes
+4. Update local `wiki/edges.md` — update sample counts and stats
 6. Update **Open Positions** table above
 
 After running adapter snapshots:

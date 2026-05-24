@@ -18,6 +18,16 @@ Examples:
 - [massive.mjs](/Users/benjaminspencer/git/trade-ops/tools/massive.mjs)
 - [regime.mjs](/Users/benjaminspencer/git/trade-ops/tools/regime.mjs)
 - [new-token.mjs](/Users/benjaminspencer/git/trade-ops/tools/new-token.mjs)
+- [rugcheck.mjs](/Users/benjaminspencer/git/trade-ops/tools/rugcheck.mjs)
+- [binance-futures.mjs](/Users/benjaminspencer/git/trade-ops/tools/binance-futures.mjs)
+- [hyperliquid.mjs](/Users/benjaminspencer/git/trade-ops/tools/hyperliquid.mjs)
+- [deribit.mjs](/Users/benjaminspencer/git/trade-ops/tools/deribit.mjs)
+- [coinbase.mjs](/Users/benjaminspencer/git/trade-ops/tools/coinbase.mjs)
+- [kraken.mjs](/Users/benjaminspencer/git/trade-ops/tools/kraken.mjs)
+- [polymarket.mjs](/Users/benjaminspencer/git/trade-ops/tools/polymarket.mjs)
+- [defillama.mjs](/Users/benjaminspencer/git/trade-ops/tools/defillama.mjs)
+- [bls.mjs](/Users/benjaminspencer/git/trade-ops/tools/bls.mjs)
+- [fiscaldata.mjs](/Users/benjaminspencer/git/trade-ops/tools/fiscaldata.mjs)
 - [chronos.mjs](/Users/benjaminspencer/git/trade-ops/tools/chronos.mjs)
 - [timesfm.mjs](/Users/benjaminspencer/git/trade-ops/tools/timesfm.mjs)
 - [kronos.mjs](/Users/benjaminspencer/git/trade-ops/tools/kronos.mjs)
@@ -96,7 +106,7 @@ Current commands:
 - `crypto [--range 1mo] [--interval 1h] [--include-memes] [--save]`
 - `symbol <symbol> [--range 1mo] [--interval 1h] [--save]`
 
-The New Token tool triages ultra-new tokens from DexScreener discovery feeds.
+The New Token tool triages ultra-new tokens from DexScreener discovery feeds and enriches Solana safety data with RugCheck when available.
 
 Current commands:
 
@@ -104,6 +114,116 @@ Current commands:
 - `token <chain> <tokenAddress> [--save]`
 
 Labels include `untradeable`, `too_early`, `watch_launch`, `scalp_only`, `candidate_after_retest`, and `paper_trade_candidate`.
+
+The RugCheck tool is a thin wrapper over RugCheck token safety endpoints.
+
+Current commands:
+
+- `summary <mint>`
+- `report <mint>`
+- `safety <mint>`
+- `lockers <mint>`
+- `votes <mint>`
+- `bulk-summary <mint1,mint2>`
+- `bulk-reports <mint1,mint2>`
+- `new`
+- `recent`
+- `trending`
+- `verified`
+- `ping`
+
+The Binance Futures tool is a read-only wrapper over public USD-M futures market data.
+
+Binance may return HTTP 451 from restricted regions. Use Hyperliquid as the practical fallback for crypto-derivatives context when that happens.
+
+Current commands:
+
+- `premium <symbol>`
+- `open-interest <symbol>`
+- `funding <symbol> [--limit 24]`
+- `oi-history <symbol> [--period 15m]`
+- `long-short <symbol> [--period 15m]`
+- `taker-flow <symbol> [--period 15m]`
+- `snapshot [BTCUSDT,ETHUSDT,SOLUSDT]`
+
+The Hyperliquid tool is a read-only wrapper over public perpetual market data.
+
+Current commands:
+
+- `mids`
+- `meta`
+- `snapshot [BTC,ETH,SOL]`
+
+The Deribit tool is a read-only wrapper over public BTC/ETH options and futures data.
+
+Current commands:
+
+- `instruments [--currency BTC] [--kind option|future]`
+- `summary [--currency BTC] [--kind option|future]`
+- `orderbook <instrumentName> [--depth 10]`
+- `vol-index [BTC|ETH]`
+- `options-snapshot [BTC,ETH]`
+
+The Coinbase and Kraken tools provide US-accessible public spot venue confirmation.
+
+Current Coinbase commands:
+
+- `products [--limit 100]`
+- `product <productId>`
+- `book <productId> [--limit 50]`
+- `candles <productId> [--granularity ONE_HOUR] [--start ISO] [--end ISO]`
+- `snapshot [BTC-USD,ETH-USD,SOL-USD]`
+
+Current Kraken commands:
+
+- `pairs [pair]`
+- `ticker <pair>`
+- `book <pair> [--count 50]`
+- `ohlc <pair> [--interval 60] [--since unix]`
+- `snapshot [XBTUSD,ETHUSD,SOLUSD]`
+
+The Polymarket tool is a read-only wrapper over public market/event discovery and CLOB order-book data.
+
+Current commands:
+
+- `markets [--limit 100] [--active true] [--order volume24hr]`
+- `events [--limit 100] [--active true]`
+- `market <id>`
+- `event <id>`
+- `book <clobTokenId>`
+- `scan [--limit 100]`
+
+The DeFiLlama tool is a read-only wrapper over public crypto ecosystem data.
+
+Current commands:
+
+- `chains`
+- `protocols`
+- `stablecoins`
+- `stablecoin-chains`
+- `dexs [chain]`
+- `fees [chain]`
+- `yields`
+- `snapshot [--limit 12]`
+
+The BLS tool is a read-only wrapper over official U.S. labor and CPI time series.
+
+Current commands:
+
+- `known-series`
+- `series <id1,id2> [--start-year YYYY] [--end-year YYYY]`
+- `macro [--start-year YYYY] [--end-year YYYY]`
+
+The FiscalData tool is a read-only wrapper over official U.S. Treasury fiscal data.
+
+Current commands:
+
+- `debt [--limit 10]`
+- `securities-sales [--limit 10]`
+- `dts [--limit 10]`
+- `snapshot [--limit 5]`
+
+The DTS host can be intermittently unavailable by DNS from some environments; `snapshot` uses the FiscalData endpoints that resolve here.
 
 The TimesFM tool runs local TimesFM 2.5 forecasts from candle closes.
 

@@ -1,0 +1,219 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Signal Candidate",
+  "description": "A possible opportunity worthy of ranking, research, rejection, or monitoring. This is the bridge between signals and trade planning.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "created_at",
+    "updated_at",
+    "as_of",
+    "market",
+    "symbol",
+    "asset_class",
+    "edge_family",
+    "status",
+    "time_horizon",
+    "score",
+    "confidence",
+    "hypothesis",
+    "evidence_signal_ids",
+    "evidence",
+    "counter_evidence",
+    "confirmation_needed",
+    "invalidation",
+    "suggested_action",
+    "data_sources",
+    "freshness_status",
+    "expires_at",
+    "promotion_gate"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique candidate ID. Suggested format: cand-YYYY-MM-DD-{symbol-or-market}-{edge-family}-{sequence}."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "market": {
+      "type": "string",
+      "enum": ["crypto", "equity", "futures", "prediction", "macro", "dex", "cross_market"]
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "asset_class": {
+      "type": "string",
+      "enum": ["equity", "crypto", "prediction", "futures", "macro", "dex"]
+    },
+    "edge_family": {
+      "type": "string",
+      "enum": [
+        "relative_strength",
+        "event_repricing",
+        "volatility_compression_expansion",
+        "narrative_momentum",
+        "mean_reversion",
+        "liquidity_migration",
+        "catalyst_drift",
+        "risk_regime",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["detected", "candidate", "researched", "watch", "stalk", "planned", "rejected", "expired", "trade_created", "reviewed"]
+    },
+    "state_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "at"],
+        "properties": {
+          "status": { "type": "string" },
+          "at": { "type": "string", "format": "date-time" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "time_horizon": {
+      "type": "string",
+      "description": "Expected research/trade horizon. Examples: intraday, 1d-5d, 2w-6w, event_date."
+    },
+    "score": {
+      "$ref": "opportunity-score.schema.json"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in candidate quality, not prediction certainty."
+    },
+    "hypothesis": {
+      "type": "string"
+    },
+    "evidence_signal_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_observation_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "counter_evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "confirmation_needed": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "invalidation": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "suggested_action": {
+      "type": "string",
+      "enum": ["no_trade", "watch", "stalk", "research", "paper_trade_candidate", "live_trade_candidate", "reject"]
+    },
+    "decision_reason": {
+      "type": "string"
+    },
+    "data_sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "model_vs_market": {
+      "type": "object",
+      "description": "Optional summary of what the market appears to believe and why the candidate disagrees.",
+      "properties": {
+        "market_belief": { "type": "string" },
+        "internal_view": { "type": "string" },
+        "edge_gap": { "type": ["number", "string", "null"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "move_extended",
+          "low_liquidity",
+          "safety_unknown",
+          "major_event_risk",
+          "conflicting_regime",
+          "no_clear_invalidation",
+          "stale_data",
+          "high_correlation_exposure",
+          "wide_spread",
+          "duplicate_candidate",
+          "none",
+          "other"
+        ]
+      }
+    },
+    "freshness_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "expired", "unknown"]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "promotion_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fresh_data",
+        "clear_thesis",
+        "clear_counter_evidence",
+        "clear_invalidation",
+        "risk_reward_defined",
+        "portfolio_risk_checked",
+        "skeptic_review_done",
+        "can_promote_to_trade_plan"
+      ],
+      "properties": {
+        "fresh_data": { "type": "boolean" },
+        "clear_thesis": { "type": "boolean" },
+        "clear_counter_evidence": { "type": "boolean" },
+        "clear_invalidation": { "type": "boolean" },
+        "risk_reward_defined": { "type": "boolean" },
+        "portfolio_risk_checked": { "type": "boolean" },
+        "skeptic_review_done": { "type": "boolean" },
+        "can_promote_to_trade_plan": { "type": "boolean" },
+        "blocking_reasons": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "related_candidate_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

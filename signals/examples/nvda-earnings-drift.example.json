@@ -1,0 +1,112 @@
+{
+  "id": "cand-2026-05-18-nvda-catalyst-drift-001",
+  "created_at": "2026-05-18T16:00:00Z",
+  "updated_at": "2026-05-18T16:00:00Z",
+  "as_of": "2026-05-18T15:50:00Z",
+  "market": "equity",
+  "symbol": "NVDA",
+  "asset_class": "equity",
+  "edge_family": "catalyst_drift",
+  "status": "candidate",
+  "state_history": [
+    {
+      "status": "detected",
+      "at": "2026-05-18T15:55:00Z",
+      "note": "Post-catalyst relative strength and volume flagged by equity scan."
+    },
+    {
+      "status": "candidate",
+      "at": "2026-05-18T16:00:00Z",
+      "note": "Promoted for watchlist research."
+    }
+  ],
+  "time_horizon": "2w-6w",
+  "score": {
+    "total": 67,
+    "components": {
+      "signal_strength": 14,
+      "data_quality": 12,
+      "cross_source_agreement": 10,
+      "risk_reward_clarity": 8,
+      "liquidity_execution": 10,
+      "regime_alignment": 6,
+      "catalyst_quality": 9,
+      "novelty_asymmetry": 3
+    },
+    "penalties": [
+      {
+        "reason": "move_extended",
+        "points": -5,
+        "note": "Large-cap momentum may need a pullback before risk can be defined."
+      }
+    ],
+    "scoring_notes": "High-quality liquid candidate, but entry definition is not yet clear."
+  },
+  "confidence": 0.62,
+  "hypothesis": "NVDA may see post-catalyst drift if the market continues rewarding AI infrastructure leaders and sector breadth remains supportive.",
+  "evidence_signal_ids": [
+    "sig-2026-05-18-nvda-catalyst-drift-001",
+    "sig-2026-05-18-semiconductor-rs-001"
+  ],
+  "evidence_observation_ids": [
+    "obs-2026-05-18-nvda-volume-001",
+    "obs-2026-05-18-nvda-relative-strength-001",
+    "obs-2026-05-18-sector-semiconductor-001"
+  ],
+  "evidence": [
+    "NVDA is showing relative strength versus the broad market.",
+    "Volume is above baseline after a catalyst window.",
+    "Semiconductor sector context is supportive."
+  ],
+  "counter_evidence": [
+    "The setup may be crowded.",
+    "Upside may already reflect the catalyst.",
+    "A risk-off move in rates or mega-cap tech could invalidate the drift."
+  ],
+  "confirmation_needed": [
+    "Pullback or consolidation creates a defined entry and stop.",
+    "Sector relative strength persists.",
+    "No major filing or earnings detail contradicts the thesis."
+  ],
+  "invalidation": [
+    "NVDA loses relative strength versus semiconductor peers.",
+    "Price closes below the defined post-catalyst support area.",
+    "Market regime turns against high-duration growth equities."
+  ],
+  "suggested_action": "watch",
+  "decision_reason": "Worth attention, but not yet a trade candidate without a clean risk box.",
+  "data_sources": [
+    "yahoo",
+    "fmp",
+    "sec",
+    "watchlist"
+  ],
+  "model_vs_market": {
+    "market_belief": "Market is already pricing strong AI leadership and continued earnings strength.",
+    "internal_view": "The edge is not valuation surprise; it is potential post-catalyst drift if breadth and sector strength persist.",
+    "edge_gap": null,
+    "notes": "Requires fundamental/catalyst memo before any promotion."
+  },
+  "risk_flags": [
+    "move_extended"
+  ],
+  "freshness_status": "fresh",
+  "expires_at": "2026-05-21T16:00:00Z",
+  "promotion_gate": {
+    "fresh_data": true,
+    "clear_thesis": true,
+    "clear_counter_evidence": true,
+    "clear_invalidation": true,
+    "risk_reward_defined": false,
+    "portfolio_risk_checked": false,
+    "skeptic_review_done": false,
+    "can_promote_to_trade_plan": false,
+    "blocking_reasons": [
+      "Needs defined entry, stop, and target.",
+      "Needs sector and portfolio exposure check.",
+      "Needs skeptic review."
+    ]
+  },
+  "related_candidate_ids": [],
+  "notes": "Example candidate for equity catalyst-drift workflow."
+}

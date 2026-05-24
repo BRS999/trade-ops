@@ -11,6 +11,24 @@ tmp/
 
 journal/open/*
 journal/closed/*
+
+# Personal compiled trading memory is local-only. Keep public examples/docs tracked.
+wiki/*
+!wiki/README.md
+!wiki/examples/
+!wiki/examples/**
+!wiki/market/
 wiki/market/*
 !wiki/market/README.md
 watchlists/active.json
+
+signals/candidates/*
+!signals/candidates/.gitkeep
+research/memos/*
+!research/memos/.gitkeep
+reports/daily-board/*
+!reports/daily-board/.gitkeep
+reports/weekly-review/*
+!reports/weekly-review/.gitkeep
+reports/attribution/*
+!reports/attribution/.gitkeep

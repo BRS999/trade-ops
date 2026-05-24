@@ -14,12 +14,14 @@
 
 const BASE_URL = "https://query2.finance.yahoo.com";
 const DEFAULT_REQUESTS_PER_MINUTE = 10;
+const DEFAULT_TIMEOUT_MS = 15_000;
 const USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36";
 
 export class YahooClient {
   constructor(options = {}) {
     this.requestsPerMinute =
       options.requestsPerMinute ?? DEFAULT_REQUESTS_PER_MINUTE;
+    this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this._queue = [];
   }
 
@@ -58,6 +60,7 @@ export class YahooClient {
 
     const response = await fetch(url.toString(), {
       headers: { "User-Agent": USER_AGENT },
+      signal: AbortSignal.timeout(this.timeoutMs),
     });
 
     if (!response.ok) {

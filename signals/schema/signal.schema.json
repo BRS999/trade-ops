@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Signal",
+  "description": "An interpretation of one or more observations. Signals classify market behavior but should not make trade decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "created_at",
+    "as_of",
+    "market",
+    "signal_type",
+    "direction",
+    "strength",
+    "evidence_observation_ids",
+    "interpretation",
+    "freshness_status",
+    "generated_by"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique signal ID. Suggested format: sig-YYYY-MM-DD-{symbol-or-market}-{signal-type}-{sequence}."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "market": {
+      "type": "string",
+      "enum": ["crypto", "equity", "futures", "prediction", "macro", "dex", "cross_market"]
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "signal_type": {
+      "type": "string",
+      "description": "Examples: relative_strength, volatility_expansion, event_repricing, sentiment_divergence, liquidity_deterioration, catalyst_drift."
+    },
+    "edge_family": {
+      "type": "string",
+      "enum": [
+        "relative_strength",
+        "event_repricing",
+        "volatility_compression_expansion",
+        "narrative_momentum",
+        "mean_reversion",
+        "liquidity_migration",
+        "catalyst_drift",
+        "risk_regime",
+        "other"
+      ]
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["bullish", "bearish", "neutral", "risk_on", "risk_off", "mixed", "unknown"]
+    },
+    "strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Normalized signal strength from 0 to 1."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in the interpretation, not confidence that price will move."
+    },
+    "evidence_observation_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "related_signal_ids": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "interpretation": {
+      "type": "string",
+      "description": "Plain-language interpretation of the evidence."
+    },
+    "counter_interpretation": {
+      "type": "string",
+      "description": "Best alternate explanation for the same observations."
+    },
+    "freshness_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "expired", "unknown"]
+    },
+    "generated_by": {
+      "type": "string",
+      "enum": ["tool", "agent", "human"]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

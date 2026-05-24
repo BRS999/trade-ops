@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Observation",
+  "description": "A raw or lightly processed factual market event. Observations should avoid interpretation and preserve source provenance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "created_at",
+    "as_of",
+    "market",
+    "source",
+    "observation_type",
+    "value",
+    "unit",
+    "freshness_status",
+    "generated_by"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique observation ID. Suggested format: obs-YYYY-MM-DD-{symbol-or-market}-{slug}-{sequence}."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp when this record was created."
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp the underlying source data represents."
+    },
+    "market": {
+      "type": "string",
+      "enum": ["crypto", "equity", "futures", "prediction", "macro", "dex", "cross_market"]
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Ticker, token, market ticker, or instrument identifier when applicable."
+    },
+    "source": {
+      "type": "string",
+      "description": "Adapter or data source that produced the observation. Examples: yahoo, kalshi, gecko, dex, sec, fred, fng, tradingview."
+    },
+    "source_command": {
+      "type": "string",
+      "description": "Command or tool invocation used to produce the data, when available."
+    },
+    "observation_type": {
+      "type": "string",
+      "description": "Controlled-ish factual event type. Examples: return, relative_return, volume_ratio, filing_released, orderbook_move, liquidity_level."
+    },
+    "lookback": {
+      "type": "string",
+      "description": "Window used for the observation. Examples: 15m, 24h, 20d."
+    },
+    "value": {
+      "description": "Observed value. Use a number where possible; strings and booleans are allowed for event facts.",
+      "type": ["number", "string", "boolean", "null"]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit for value. Examples: percent, price, probability, usd, ratio, count, boolean."
+    },
+    "comparison_symbol": {
+      "type": "string",
+      "description": "Peer or benchmark symbol for relative observations."
+    },
+    "threshold": {
+      "type": "number",
+      "description": "Threshold used to flag the observation, if any."
+    },
+    "raw": {
+      "type": "object",
+      "description": "Small source payload excerpt needed for auditability. Do not dump huge responses here."
+    },
+    "freshness_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "expired", "unknown"]
+    },
+    "generated_by": {
+      "type": "string",
+      "enum": ["tool", "agent", "human"]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

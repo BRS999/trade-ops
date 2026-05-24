@@ -1,0 +1,115 @@
+{
+  "id": "cand-2026-05-18-kalshi-weather-gap-001",
+  "created_at": "2026-05-18T15:00:00Z",
+  "updated_at": "2026-05-18T15:00:00Z",
+  "as_of": "2026-05-18T14:55:00Z",
+  "market": "prediction",
+  "symbol": "KXWEATHER-EXAMPLE",
+  "asset_class": "prediction",
+  "edge_family": "event_repricing",
+  "status": "candidate",
+  "state_history": [
+    {
+      "status": "detected",
+      "at": "2026-05-18T14:58:00Z",
+      "note": "Market probability moved after updated weather data."
+    },
+    {
+      "status": "candidate",
+      "at": "2026-05-18T15:00:00Z",
+      "note": "Promoted for model-vs-market review."
+    }
+  ],
+  "time_horizon": "event_date",
+  "score": {
+    "total": 61,
+    "components": {
+      "signal_strength": 13,
+      "data_quality": 9,
+      "cross_source_agreement": 8,
+      "risk_reward_clarity": 10,
+      "liquidity_execution": 5,
+      "regime_alignment": 3,
+      "catalyst_quality": 9,
+      "novelty_asymmetry": 4
+    },
+    "penalties": [
+      {
+        "reason": "wide_spread",
+        "points": -6,
+        "note": "Spread may erase expected value unless entered patiently."
+      },
+      {
+        "reason": "major_event_risk",
+        "points": -4,
+        "note": "Resolution rule and data-source timing require manual review."
+      }
+    ],
+    "scoring_notes": "Interesting model-vs-market gap, but liquidity and rules are gating issues."
+  },
+  "confidence": 0.55,
+  "hypothesis": "The event market may be slow to incorporate updated weather-model data, creating a temporary probability gap.",
+  "evidence_signal_ids": [
+    "sig-2026-05-18-kalshi-weather-repricing-001"
+  ],
+  "evidence_observation_ids": [
+    "obs-2026-05-18-kalshi-price-move-001",
+    "obs-2026-05-18-weather-model-update-001",
+    "obs-2026-05-18-kalshi-spread-001"
+  ],
+  "evidence": [
+    "Kalshi YES probability moved materially during the last scan window.",
+    "External weather-model update appears directionally supportive.",
+    "The market has not fully repriced to the internal probability estimate."
+  ],
+  "counter_evidence": [
+    "Orderbook depth is thin.",
+    "Bid/ask spread is wide enough to damage expected value.",
+    "Resolution rule risk may be larger than the simple model gap suggests."
+  ],
+  "confirmation_needed": [
+    "Verify resolution source and exact settlement language.",
+    "Check orderbook depth and spread immediately before any paper entry.",
+    "Confirm the external weather update is still current."
+  ],
+  "invalidation": [
+    "Market reprices to internal probability before entry.",
+    "Updated weather run reverses the signal.",
+    "Resolution rules make the edge ambiguous."
+  ],
+  "suggested_action": "research",
+  "decision_reason": "Needs memo-level rule review before it can become a paper candidate.",
+  "data_sources": [
+    "kalshi",
+    "external_weather_model"
+  ],
+  "model_vs_market": {
+    "market_belief": "Market price implies the event is close to a coin flip.",
+    "internal_view": "Weather-model data suggests probability may be higher than market price.",
+    "edge_gap": "Illustrative gap: internal 62% versus market 50%",
+    "notes": "Example only; no live market claim."
+  },
+  "risk_flags": [
+    "wide_spread",
+    "major_event_risk"
+  ],
+  "freshness_status": "fresh",
+  "expires_at": "2026-05-19T15:00:00Z",
+  "promotion_gate": {
+    "fresh_data": true,
+    "clear_thesis": true,
+    "clear_counter_evidence": true,
+    "clear_invalidation": true,
+    "risk_reward_defined": false,
+    "portfolio_risk_checked": false,
+    "skeptic_review_done": false,
+    "can_promote_to_trade_plan": false,
+    "blocking_reasons": [
+      "Needs resolution-rule review.",
+      "Needs spread and liquidity check.",
+      "Needs skeptic review."
+    ]
+  },
+  "related_candidate_ids": [],
+  "notes": "Example candidate for prediction-market model-vs-market workflow."
+}

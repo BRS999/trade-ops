@@ -41,6 +41,9 @@ try {
     case "series":
       print(await listSeries(client, parseOptions(rest)));
       break;
+    case "scan":
+      print(summarizeScan(await listMarkets(client, parseOptionsWithDefaults(rest, { status: "open", limit: 1000 }))));
+      break;
     case "help":
     case undefined:
       printHelp();
@@ -77,6 +80,10 @@ function parseOptions(args) {
   return options;
 }
 
+function parseOptionsWithDefaults(args, defaults) {
+  return { ...defaults, ...parseOptions(args) };
+}
+
 function requireOption(args, flag, name) {
   const index = args.indexOf(flag);
   if (index === -1 || !args[index + 1] || args[index + 1].startsWith("--")) {
@@ -94,6 +101,66 @@ function print(value) {
   console.log(JSON.stringify(value, null, 2));
 }
 
+function summarizeScan(data) {
+  const markets = data.markets ?? [];
+  const rows = markets.map(normalizeMarket);
+  const activeSpreadMarkets = rows.filter((market) =>
+    market.yes_bid != null &&
+    market.yes_ask != null &&
+    market.yes_bid > 0 &&
+    market.yes_ask > 0 &&
+    market.yes_ask >= market.yes_bid
+  );
+
+  return {
+    cursor: data.cursor ?? null,
+    scanned: rows.length,
+    markets_with_volume: rows.filter((market) => market.volume > 0).length,
+    active_spread_markets: activeSpreadMarkets.length,
+    total_volume: rows.reduce((sum, market) => sum + market.volume, 0),
+    total_volume_24h: rows.reduce((sum, market) => sum + market.volume_24h, 0),
+    total_liquidity: rows.reduce((sum, market) => sum + market.liquidity, 0),
+    top_by_volume: [...rows].sort((a, b) => b.volume - a.volume).slice(0, 20),
+    top_by_liquidity: [...rows].filter((market) => market.liquidity > 0).sort((a, b) => b.liquidity - a.liquidity).slice(0, 20),
+    tightest_spreads: activeSpreadMarkets
+      .map((market) => ({ ...market, spread: market.yes_ask - market.yes_bid }))
+      .filter((market) => market.volume > 0 || market.open_interest > 0)
+      .sort((a, b) => a.spread - b.spread)
+      .slice(0, 20),
+  };
+}
+
+function normalizeMarket(market) {
+  return {
+    ticker: market.ticker,
+    event_ticker: market.event_ticker ?? null,
+    title: market.title,
+    yes_bid: marketPrice(market.yes_bid ?? market.yes_bid_dollars),
+    yes_ask: marketPrice(market.yes_ask ?? market.yes_ask_dollars),
+    no_bid: marketPrice(market.no_bid ?? market.no_bid_dollars),
+    no_ask: marketPrice(market.no_ask ?? market.no_ask_dollars),
+    last_price: marketPrice(market.last_price ?? market.last_price_dollars),
+    volume: numberFromMarketField(market.volume ?? market.volume_fp),
+    volume_24h: numberFromMarketField(market.volume_24h ?? market.volume_24h_fp),
+    liquidity: numberFromMarketField(market.liquidity ?? market.liquidity_dollars),
+    open_interest: numberFromMarketField(market.open_interest ?? market.open_interest_fp),
+    close_time: market.close_time ?? null,
+  };
+}
+
+function numberFromMarketField(value) {
+  if (value == null || value === "") return 0;
+  const number = Number(String(value).replace(/,/g, ""));
+  return Number.isFinite(number) ? number : 0;
+}
+
+function marketPrice(value) {
+  if (value == null || value === "") return null;
+  const number = Number(String(value).replace(/,/g, ""));
+  if (!Number.isFinite(number)) return null;
+  return number > 1 ? number / 100 : number;
+}
+
 function printHelp() {
   console.log(`Trade Ops Kalshi Tool
 
@@ -106,11 +173,13 @@ Usage:
   node tools/kalshi.mjs events [--limit 100] [--status open] [--series <series_ticker>] [--cursor <cursor>]
   node tools/kalshi.mjs event --event <event_ticker>
   node tools/kalshi.mjs series [--limit 400] [--category Economics] [--cursor <cursor>]
+  node tools/kalshi.mjs scan [--status open] [--limit 1000] [--series <series_ticker>]
 
 Examples:
   node tools/kalshi.mjs status
   node tools/kalshi.mjs markets --status open --limit 100
   node tools/kalshi.mjs markets --series KXBTC --status open
+  node tools/kalshi.mjs scan --status open --limit 1000
   node tools/kalshi.mjs orderbook --ticker <market_ticker> --depth 50
 `);
 }

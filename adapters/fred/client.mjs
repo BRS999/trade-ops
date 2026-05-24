@@ -11,6 +11,7 @@ try { process.loadEnvFile(); } catch {}
 
 const BASE_URL = "https://api.stlouisfed.org/fred";
 const DEFAULT_REQUESTS_PER_MINUTE = 30;
+const DEFAULT_TIMEOUT_MS = 15_000;
 
 export class FredClient {
   constructor(options = {}) {
@@ -24,6 +25,7 @@ export class FredClient {
 
     this.requestsPerMinute =
       options.requestsPerMinute ?? DEFAULT_REQUESTS_PER_MINUTE;
+    this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this._queue = [];
   }
 
@@ -55,7 +57,9 @@ export class FredClient {
       }
     }
 
-    const response = await fetch(url.toString());
+    const response = await fetch(url.toString(), {
+      signal: AbortSignal.timeout(this.timeoutMs),
+    });
 
     if (!response.ok) {
       const body = await response.text().catch(() => "");

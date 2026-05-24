@@ -11,7 +11,7 @@ Trade Ops is intentionally structured like a future monorepo without paying mono
 - `journal/`
   File-backed trade records, postmortems, and supporting scripts.
 - `watchlists/`
-  Universe definitions, active watchlists, and ranking artifacts.
+  Universe definitions and scan inputs. Active account state lives in TradingView and active trade records live in `journal/open/`.
 - `tools/`
   LLM-facing or operator-facing entry points. These should call the domain layer instead of reaching into adapters directly.
 - `config/`

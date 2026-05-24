@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Investment Memo",
+  "description": "Auditable research packet generated from a signal candidate before any trade plan is created.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "candidate_id",
+    "created_at",
+    "as_of",
+    "symbol",
+    "asset_class",
+    "decision",
+    "candidate_summary",
+    "market_context",
+    "thesis",
+    "evidence",
+    "counter_evidence",
+    "model_vs_market",
+    "regime_alignment",
+    "risk_reward",
+    "expression",
+    "invalidation",
+    "skeptic_review_id",
+    "review_plan",
+    "freshness_status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique memo ID. Suggested format: memo-{candidate-id}."
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "asset_class": {
+      "type": "string",
+      "enum": ["equity", "crypto", "prediction", "futures", "macro", "dex"]
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["no_trade", "watch", "stalk", "paper_trade", "live_trade_candidate", "reject"]
+    },
+    "candidate_summary": {
+      "type": "string"
+    },
+    "market_context": {
+      "type": "string"
+    },
+    "thesis": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "counter_evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "model_vs_market": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["market_belief", "internal_view", "disagreement"],
+      "properties": {
+        "market_belief": { "type": "string" },
+        "internal_view": { "type": "string" },
+        "disagreement": { "type": "string" },
+        "edge_gap": { "type": ["number", "string", "null"] }
+      }
+    },
+    "regime_alignment": {
+      "type": "string"
+    },
+    "risk_reward": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "entry_zone", "invalidation", "target_zone", "reward_risk_estimate"],
+      "properties": {
+        "summary": { "type": "string" },
+        "entry_zone": { "type": ["string", "number", "null"] },
+        "invalidation": { "type": "string" },
+        "target_zone": { "type": ["string", "number", "null"] },
+        "reward_risk_estimate": { "type": ["number", "string", "null"] }
+      }
+    },
+    "expression": {
+      "type": "string",
+      "description": "How the view would be expressed if promoted. Examples: spot SOL, Kalshi YES, equity shares, options watch only."
+    },
+    "invalidation": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "skeptic_review_id": {
+      "type": ["string", "null"]
+    },
+    "review_plan": {
+      "type": "string"
+    },
+    "freshness_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "expired", "unknown"]
+    },
+    "source_candidate_path": {
+      "type": "string"
+    },
+    "source_commands": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

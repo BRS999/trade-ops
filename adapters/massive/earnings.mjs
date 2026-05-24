@@ -9,7 +9,7 @@
  * For forward earnings dates, the practical options are:
  *   - earningswhispers.com (scrape or paid API)
  *   - Alpha Vantage EARNINGS_CALENDAR endpoint (free key, CSV)
- *   - store earnings_date manually in watchlists/active.json (current approach)
+ *   - store earnings_date manually in a local research note or future planning overlay
  *
  * This module provides what Massive *does* offer:
  *   getFinancials(client, ticker, options) — past quarterly EPS/revenue from filings

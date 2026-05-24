@@ -23,7 +23,8 @@ Trade-Ops is a retail trading operating system built around TradingView as the p
 - **LLM knowledge base** — a wiki compiled and maintained by the agent from raw journal data. Symbols, setups, edges, mistakes, and market context — all synthesized and queryable
 - **Multi-source market data** — equities, crypto, macro, on-chain, DEX, sentiment, filings
 - **Structured journal** — every trade has a thesis, risk box, and review trail in JSON + Markdown
-- **Tiered watchlist** — universe + active watchlist with setup plans and invalidation levels
+- **Signal candidate layer** — observations, signals, and ranked candidates bridge raw data to research memos
+- **Trading universe** — broad cross-asset menu for scans, candidates, and research
 - **Human-in-the-loop** — AI evaluates and enriches, you decide and execute
 - **Paper before live** — all execution workflows start paper-first with explicit confirmation
 
@@ -43,6 +44,7 @@ The repository should teach the structure without bundling personal trade histor
 - adapter code
 - CLI tools
 - schemas and templates
+- signal and research examples
 - example journal entries
 - symbol and setup wiki examples
 - architecture and usage docs
@@ -51,6 +53,8 @@ The repository should teach the structure without bundling personal trade histor
 
 - active trades
 - closed personal journal records
+- generated signal candidates
+- generated research memos and reports
 - live market context snapshots
 - regime notes tied to your current research process
 - scratch runtime files under `tmp/`
@@ -67,6 +71,7 @@ Trade Ops is built around the TradingView desktop app for chart state and paper-
 
 - The current TradingView adapter and CLI are designed for the desktop app, not the browser-only web app.
 - If you want to use `npm run tv -- ...` commands for chart inspection or paper execution, you should have the TradingView desktop app installed and running.
+- If the TradingView CDP bridge drops, the adapter attempts one automatic recovery by relaunching the desktop app with the debug port enabled. You can also run `npm run tv -- recover` manually, then verify with `npm run tv -- status`.
 - Paper-trading workflows are the supported execution mode in V1.
 
 ## System Requirements
@@ -88,7 +93,7 @@ Core Trade-Ops usage is intentionally lightweight.
 - `FRED_API_KEY`
 - `FMP_API_KEY`
 
-You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, GeckoTerminal, DexScreener, Kalshi public market data, and Fear & Greed.
+You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, Binance Futures public data, Hyperliquid, Deribit, Coinbase/Kraken public market data, GeckoTerminal, DexScreener, DeFiLlama, Kalshi/Polymarket public market data, BLS, Treasury FiscalData, and Fear & Greed.
 
 ### Optional: Forecasting Models
 
@@ -141,9 +146,19 @@ If you do not care about local forecasting models, you do not need Python or any
 | **FRED** | stlouisfed.org | Macro snapshot (yields, CPI, VIX, Fed Funds) | `FRED_API_KEY` |
 | **FMP** | financialmodelingprep.com | Analyst consensus, price targets, earnings calendar | `FMP_API_KEY` |
 | **CFTC** | publicreporting.cftc.gov | Commitment of Traders positioning context | — |
+| **Binance Futures** | binance.com | USD-M funding, open interest, long/short ratio, taker flow | — |
+| **Hyperliquid** | hyperliquid.xyz | Perpetual mark price, funding, open interest, 24h volume | — |
+| **Deribit** | deribit.com | BTC/ETH options/futures books, IV, open interest, volume | — |
+| **Coinbase** | coinbase.com | US-accessible public spot products, order books, candles | — |
+| **Kraken** | kraken.com | Public spot ticker, order books, OHLC | — |
 | **GeckoTerminal** | geckoterminal.com | On-chain pools, DEX OHLCV, Solana trending | — |
 | **DexScreener** | dexscreener.com | Cross-chain pair search, liquidity, boosted tokens | — |
+| **DeFiLlama** | defillama.com | Chain/protocol TVL, stablecoin supply, DEX volume, fees, yields | — |
+| **RugCheck** | rugcheck.xyz | Solana token risk reports, authority checks, LP locks, holder concentration | optional `RUGCHECK_API_KEY` / `RUGCHECK_JWT` |
 | **Kalshi** | kalshi.com | Prediction-market discovery, market details, orderbooks, trades, events, series | — |
+| **Polymarket** | polymarket.com | Prediction-market discovery, active market flow, CLOB books | — |
+| **BLS** | bls.gov | Official labor, CPI, payroll, wages time series | optional `BLS_API_KEY` |
+| **Treasury FiscalData** | fiscaldata.treasury.gov | Debt, Treasury statement, securities sales/issuance data | — |
 | **Fear & Greed** | alternative.me | Crypto sentiment index (0–100) | — |
 
 ---
@@ -153,6 +168,12 @@ If you do not care about local forecasting models, you do not need Python or any
 ```bash
 npm run yahoo  -- quote AAPL
 npm run yahoo  -- bars SOL-USD --interval 1d --range 1mo
+
+npm run deribit -- options-snapshot BTC,ETH
+npm run coinbase -- snapshot BTC-USD,ETH-USD,SOL-USD
+npm run kraken -- snapshot XBTUSD,ETHUSD,SOLUSD
+npm run bls -- macro
+npm run fiscaldata -- snapshot
 
 npm run fred   -- macro
 npm run fred   -- latest DGS10
@@ -175,6 +196,10 @@ npm run dex    -- search "ETH/USDC" 10
 npm run dex    -- pair solana <pairAddress>
 npm run dex    -- top-boosted 10
 
+npm run rugcheck -- safety <mint>
+npm run rugcheck -- summary <mint>
+npm run rugcheck -- report <mint>
+
 npm run kalshi -- status
 npm run kalshi -- markets --series KXBTC --status open --limit 10
 npm run kalshi -- market --ticker <marketTicker>
@@ -188,6 +213,8 @@ npm run fng    -- history 30
 
 npm run massive -- quote AAPL
 npm run massive -- financials AAPL --timeframe quarterly --limit 4
+npm run tv      -- status
+npm run tv      -- recover
 npm run tv      -- chart
 npm run tv      -- account
 ```
@@ -200,19 +227,13 @@ The wiki is an LLM-maintained knowledge base compiled from raw journal records a
 
 ```
 wiki/
-├── INDEX.md          # Map of everything — first thing the agent reads each session
-├── symbols/          # Per-symbol history, edge notes, key levels
-│   ├── NVDA.md
-│   └── SOL.md
-├── setups/           # Setup type definitions, conditions, stats, examples
-│   ├── breakout.md
-│   └── pullback.md
-├── market/           # Local-only live market context and regime notes
-├── mistakes.md       # Recurring mistake patterns with tally
-└── edges.md          # Validated setups with sample stats
+├── README.md         # Public rules for local compiled memory
+├── examples/         # Scrubbed examples only
+└── market/
+    └── README.md     # Public rules for local market context
 ```
 
-The agent reads the wiki before working on any trade. After every trade review it updates the relevant symbol, setup, mistakes, and edges files. After running adapter snapshots it updates the local `wiki/market/` files. Queries always add up — explorations get filed back in.
+The working wiki is local compiled trading memory. The agent may read and update local symbol, setup, mistake, edge, and market-context notes during trading work, but personal memory files should not be committed. Scrubbed examples belong under `wiki/examples/`.
 
 ### The Two-Layer Model
 
@@ -227,11 +248,78 @@ The journal answers *"what happened?"* The wiki answers *"what do I know?"*
 
 | Path | Purpose | Git Behavior |
 |---|---|---|
-| `wiki/symbols/` | Reusable symbol notes and examples | tracked |
-| `wiki/setups/` | Reusable setup definitions and examples | tracked |
-| `wiki/edges.md` | Cross-trade edge notes | tracked |
-| `wiki/mistakes.md` | Recurring mistake patterns | tracked |
-| `wiki/market/` | Live macro snapshot, regime notes, current board context | local |
+| `wiki/README.md` | Public wiki discipline | tracked |
+| `wiki/examples/` | Scrubbed example memory files | tracked |
+| `wiki/market/README.md` | Public market-context discipline | tracked |
+| `wiki/symbols/` | Personal symbol memory | local |
+| `wiki/setups/` | Personal setup memory and stats | local |
+| `wiki/edges.md` | Personal cross-trade edge notes | local |
+| `wiki/mistakes.md` | Personal recurring mistake notes | local |
+| `wiki/market/context.md` | Live macro snapshot and regime notes | local |
+
+---
+
+## Signal Engine
+
+The signal engine is the research layer between raw adapters and trade planning:
+
+```text
+raw tools -> exploration -> candidates -> memo -> trade plan -> journal/review
+```
+
+It is designed to answer: *"Where should I focus my attention today, and why?"*
+
+The first committed layer is schema-first:
+
+```
+signals/
+├── schema/          # Observation, signal, score, and candidate schemas
+├── examples/        # Scrubbed example candidates
+└── candidates/      # Local generated candidate records
+
+research/
+├── schema/          # Investment memo and skeptic review schemas
+├── examples/        # Scrubbed memo examples
+└── memos/           # Local generated research packets
+
+reports/
+├── daily-board/     # Local generated daily opportunity boards
+├── weekly-review/   # Local generated weekly reviews
+└── attribution/     # Local generated attribution reports
+```
+
+Signal candidates are not trades. They are ranked research objects that require fresh data, evidence, counter-evidence, invalidation, risk checks, and skeptic review before promotion to a trade plan.
+
+There is intentionally no bundled all-in-one market survey. Broad scanners can become hidden decision engines and bias the agent toward a canned conclusion. Use the raw tools directly, combine sources deliberately, and let the research question determine which APIs to call.
+
+Examples of exploratory tool calls:
+
+```bash
+npm run yahoo -- quotes SPY,QQQ,HYG,TLT,VXX,NVDA,AMD,HOOD
+npm run fred -- macro
+npm run cftc -- snapshot bitcoin,gold,ndx
+npm run hyperliquid -- snapshot BTC,ETH,SOL
+npm run deribit -- options-snapshot BTC,ETH
+npm run polymarket -- scan --limit 100
+npm run defillama -- snapshot --limit 10
+npm run new-token -- scan --source latest-boosted --chain solana --limit 10
+```
+
+The agent should explore across possible expressions: longs, shorts, hedges, event markets, futures/options context, high-beta paper tests, and concrete rejections. A `no trade` conclusion should be a research conclusion, not the output of a generic scanner.
+
+See `docs/SIGNAL_ENGINE.md` for the object model and workflow.
+
+### Public vs Local Signal State
+
+| Path | Purpose | Git Behavior |
+|---|---|---|
+| `signals/schema/` | Signal object contracts | tracked |
+| `signals/examples/` | Public example candidates | tracked |
+| `signals/candidates/` | Generated candidate records | local |
+| `research/schema/` | Memo and skeptic review contracts | tracked |
+| `research/examples/` | Public memo examples | tracked |
+| `research/memos/` | Generated research packets | local |
+| `reports/` | Generated boards, reviews, and attribution reports | local |
 
 ---
 
@@ -283,19 +371,16 @@ idea → watchlist → planned → ready → ordered → open → closed → rev
 
 ```
 watchlists/
-├── universe.json   # Full tracked universe (equities, crypto, futures, predictions)
-└── active.json     # Current focus — tiered by conviction and setup quality
+└── universe.json   # Full tracked universe (equities, crypto, futures, predictions)
 ```
 
-Active watchlist entries include tier (1–3), status, setup type, entry/stop/target plan, invalidation level, and earnings date. Symbol mappings (`yahoo_symbol`, `coingecko_id`) let a single entry resolve across adapters.
+The universe is the scan menu, not the active state. It defines symbols, asset classes, and adapter mappings (`yahoo_symbol`, `coingecko_id`, GeckoTerminal addresses, etc.) so tools can resolve instruments across data sources.
 
-The current board lives in `watchlists/active.json` and should be treated as the source of truth instead of hardcoded README examples.
+Current active state comes from TradingView positions/orders and repo journal records under `journal/open/`.
 
 ### Watchlist Note
 
-`watchlists/` is currently committed because it defines the system's working universe and examples of board structure.
-
-If you want a fully personal operating board, clone the structure and keep your day-to-day watchlist in a separate local file or future overlay layer rather than committing every board change.
+`watchlists/` is committed because it defines the system's working universe. It should not be used as a shadow account state file.
 
 ---
 
@@ -350,16 +435,22 @@ trade-ops/
 │   ├── examples/        # tracked: sample trades
 │   ├── open/            # local: active personal trades
 │   └── closed/          # local: completed personal trades
+├── signals/
+│   ├── schema/          # tracked: observation, signal, score, candidate schemas
+│   ├── examples/        # tracked: scrubbed signal candidate examples
+│   └── candidates/      # local: generated candidate records
+├── research/
+│   ├── schema/          # tracked: memo and skeptic review schemas
+│   ├── examples/        # tracked: scrubbed memo examples
+│   └── memos/           # local: generated research packets
+├── reports/             # local: generated boards, reviews, attribution reports
 ├── tools/               # tracked: CLI entry points (`npm run *`)
 ├── types/               # tracked: TypeScript domain types and tool manifest
-├── watchlists/          # tracked: universe and current board structure
+├── watchlists/          # tracked: universe definitions and scan inputs
 ├── wiki/
-│   ├── INDEX.md         # tracked: map of the knowledge base
-│   ├── symbols/         # tracked: reusable symbol notes
-│   ├── setups/          # tracked: reusable setup notes
-│   ├── edges.md         # tracked: edge summaries
-│   ├── mistakes.md      # tracked: recurring mistakes
-│   └── market/          # local: live market context and regime notes
+│   ├── README.md        # tracked: local memory rules
+│   ├── examples/        # tracked: scrubbed examples
+│   └── market/          # README tracked; context files local
 ├── tmp/                 # local: scratch files and experiments
 └── .env.example         # tracked: environment variable template
 ```
@@ -367,7 +458,7 @@ trade-ops/
 ### Folder Rules
 
 - Prefer adding reusable structure under `schema/`, `templates/`, `examples/`, `docs/`, `adapters/`, or `tools/`
-- Prefer keeping time-sensitive operating state under `journal/open/`, `journal/closed/`, `wiki/market/`, or `tmp/`
+- Prefer keeping time-sensitive operating state under `journal/open/`, `journal/closed/`, `signals/candidates/`, `research/memos/`, `reports/`, `wiki/market/`, or `tmp/`
 - Do not commit personal trade history or live market notes
 
 

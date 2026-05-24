@@ -8,9 +8,9 @@
  *   const client = new YahooClient();   // no API key needed
  *   const enriched = await enrichWatchlist(client, watchlist);
  *
- * enrichWatchlist() accepts the shape from watchlists/active.json and decorates
- * each equity and crypto entry with a live market quote. Prediction market
- * entries are returned unchanged (Yahoo doesn't cover them).
+ * enrichWatchlist() accepts a generic { entries: [...] } watchlist-like object
+ * and decorates each equity and crypto entry with a live market quote.
+ * Prediction market entries are returned unchanged (Yahoo doesn't cover them).
  *
  * Symbol mapping for watchlist entries:
  *   equity      → symbol as-is (NVDA, META)
@@ -43,10 +43,10 @@ function toYahooSymbol(entry) {
 }
 
 /**
- * Enrich an active watchlist with live quotes from Yahoo Finance.
+ * Enrich a watchlist-like object with live quotes from Yahoo Finance.
  *
  * @param {import('./client.mjs').YahooClient} client
- * @param {Object} watchlist   Parsed contents of watchlists/active.json
+ * @param {Object} watchlist   Object with an entries array
  * @returns {Promise<Object[]>}
  */
 export async function enrichWatchlist(client, watchlist) {
