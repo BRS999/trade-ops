@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Opportunity Score",
+  "description": "Transparent scoring rubric for ranking signal candidates. The final score should be the component sum plus penalties, bounded to 0-100.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["total", "components", "penalties"],
+  "properties": {
+    "total": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_strength",
+        "data_quality",
+        "cross_source_agreement",
+        "risk_reward_clarity",
+        "liquidity_execution",
+        "regime_alignment",
+        "catalyst_quality",
+        "novelty_asymmetry"
+      ],
+      "properties": {
+        "signal_strength": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "data_quality": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "cross_source_agreement": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "risk_reward_clarity": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "liquidity_execution": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "regime_alignment": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "catalyst_quality": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "novelty_asymmetry": { "type": "integer", "minimum": 0, "maximum": 5 }
+      }
+    },
+    "penalties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reason", "points"],
+        "properties": {
+          "reason": {
+            "type": "string",
+            "enum": [
+              "move_extended",
+              "low_liquidity",
+              "safety_unknown",
+              "major_event_risk",
+              "conflicting_regime",
+              "no_clear_invalidation",
+              "stale_data",
+              "high_correlation_exposure",
+              "wide_spread",
+              "duplicate_candidate",
+              "other"
+            ]
+          },
+          "points": {
+            "type": "integer",
+            "maximum": 0,
+            "description": "Penalty points should be zero or negative."
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scoring_notes": {
+      "type": "string"
+    }
+  }
+}

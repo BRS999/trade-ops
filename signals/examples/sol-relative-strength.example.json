@@ -1,0 +1,112 @@
+{
+  "id": "cand-2026-05-18-sol-relative-strength-001",
+  "created_at": "2026-05-18T14:10:00Z",
+  "updated_at": "2026-05-18T14:10:00Z",
+  "as_of": "2026-05-18T14:00:00Z",
+  "market": "crypto",
+  "symbol": "SOL-USD",
+  "asset_class": "crypto",
+  "edge_family": "relative_strength",
+  "status": "candidate",
+  "state_history": [
+    {
+      "status": "detected",
+      "at": "2026-05-18T14:05:00Z",
+      "note": "Relative strength signal created from SOL/BTC and SOL/ETH observations."
+    },
+    {
+      "status": "candidate",
+      "at": "2026-05-18T14:10:00Z",
+      "note": "Promoted for ranking because regime and volume context agree."
+    }
+  ],
+  "time_horizon": "1d-5d",
+  "score": {
+    "total": 74,
+    "components": {
+      "signal_strength": 16,
+      "data_quality": 12,
+      "cross_source_agreement": 11,
+      "risk_reward_clarity": 9,
+      "liquidity_execution": 9,
+      "regime_alignment": 8,
+      "catalyst_quality": 4,
+      "novelty_asymmetry": 5
+    },
+    "penalties": [
+      {
+        "reason": "move_extended",
+        "points": -5,
+        "note": "Initial move may already be extended; wait for pullback or consolidation."
+      }
+    ],
+    "scoring_notes": "Strong ranked-attention candidate, not an immediate trade."
+  },
+  "confidence": 0.68,
+  "hypothesis": "SOL may continue outperforming during a crypto risk-on rotation if BTC remains stable.",
+  "evidence_signal_ids": [
+    "sig-2026-05-18-sol-relative-strength-001",
+    "sig-2026-05-18-crypto-risk-on-001"
+  ],
+  "evidence_observation_ids": [
+    "obs-2026-05-18-sol-vs-eth-001",
+    "obs-2026-05-18-sol-volume-001",
+    "obs-2026-05-18-btc-trend-001"
+  ],
+  "evidence": [
+    "SOL is outperforming BTC and ETH over the 24h lookback.",
+    "Crypto regime is classified as risk-on.",
+    "SOL volume is above its recent baseline."
+  ],
+  "counter_evidence": [
+    "The move may already be extended versus the clean entry zone.",
+    "BTC is near a resistance area, which could pressure high-beta crypto.",
+    "Existing crypto exposure may make this less additive than it appears."
+  ],
+  "confirmation_needed": [
+    "Pullback holds the prior breakout level.",
+    "BTC does not roll over during the next risk check.",
+    "SOL retains relative strength versus ETH."
+  ],
+  "invalidation": [
+    "SOL loses relative strength versus ETH.",
+    "BTC breaks below the relevant support level.",
+    "Crypto regime flips risk-off."
+  ],
+  "suggested_action": "stalk",
+  "decision_reason": "Strong attention candidate, but entry quality needs confirmation.",
+  "data_sources": [
+    "yahoo",
+    "regime",
+    "fear_greed"
+  ],
+  "model_vs_market": {
+    "market_belief": "The market is rotating into higher-beta crypto assets during a risk-on window.",
+    "internal_view": "SOL relative strength may have follow-through, but only if BTC remains stable.",
+    "edge_gap": null,
+    "notes": "This is a ranking candidate, not a probability-model edge."
+  },
+  "risk_flags": [
+    "move_extended",
+    "high_correlation_exposure"
+  ],
+  "freshness_status": "fresh",
+  "expires_at": "2026-05-20T14:10:00Z",
+  "promotion_gate": {
+    "fresh_data": true,
+    "clear_thesis": true,
+    "clear_counter_evidence": true,
+    "clear_invalidation": true,
+    "risk_reward_defined": false,
+    "portfolio_risk_checked": false,
+    "skeptic_review_done": false,
+    "can_promote_to_trade_plan": false,
+    "blocking_reasons": [
+      "Needs defined entry, stop, and target.",
+      "Needs portfolio crypto exposure check.",
+      "Needs skeptic review."
+    ]
+  },
+  "related_candidate_ids": [],
+  "notes": "Example candidate for the signal layer; values are illustrative."
+}

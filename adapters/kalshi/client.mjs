@@ -13,6 +13,7 @@ try { process.loadEnvFile(); } catch {}
 
 const DEFAULT_BASE_URL = "https://api.elections.kalshi.com/trade-api/v2";
 const DEFAULT_REQUESTS_PER_MINUTE = 30;
+const DEFAULT_TIMEOUT_MS = 15_000;
 const USER_AGENT = "trade-ops-kalshi-reader/1.0";
 
 export class KalshiClient {
@@ -20,6 +21,7 @@ export class KalshiClient {
     this.baseUrl = options.baseUrl ?? process.env.KALSHI_BASE_URL ?? DEFAULT_BASE_URL;
     this.requestsPerMinute =
       options.requestsPerMinute ?? DEFAULT_REQUESTS_PER_MINUTE;
+    this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this._queue = [];
   }
 
@@ -50,6 +52,7 @@ export class KalshiClient {
 
     const response = await fetch(url.toString(), {
       method: "GET",
+      signal: AbortSignal.timeout(this.timeoutMs),
       headers: {
         accept: "application/json",
         "user-agent": USER_AGENT,

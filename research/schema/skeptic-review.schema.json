@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Skeptic Review",
+  "description": "Adversarial review of an investment memo or signal candidate. The goal is to identify why the candidate may be noise, stale, crowded, or unsafe.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "candidate_id",
+    "created_at",
+    "as_of",
+    "primary_objection",
+    "objections",
+    "data_quality_risks",
+    "false_positive_risks",
+    "risk_flags",
+    "recommendation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique skeptic review ID. Suggested format: skeptic-{candidate-id}."
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "memo_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "primary_objection": {
+      "type": "string"
+    },
+    "objections": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "data_quality_risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "false_positive_risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "missing_work": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "move_extended",
+          "low_liquidity",
+          "safety_unknown",
+          "major_event_risk",
+          "conflicting_regime",
+          "no_clear_invalidation",
+          "stale_data",
+          "high_correlation_exposure",
+          "wide_spread",
+          "overfit_thesis",
+          "unsupported_claim",
+          "none",
+          "other"
+        ]
+      }
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": ["reject", "watch_only", "needs_more_research", "stalk_allowed", "paper_trade_allowed"]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

@@ -8,6 +8,12 @@ const [, , command, ...rest] = process.argv;
 
 try {
   switch (command) {
+    case "status":
+      print(await tv.getConnectionStatus());
+      break;
+    case "recover":
+      print(await tv.recover());
+      break;
     case "account":
       print(await tv.getAccountSummary());
       break;
@@ -109,6 +115,8 @@ function printHelp() {
 
 Usage:
   node tools/tradingview.mjs account
+  node tools/tradingview.mjs status
+  node tools/tradingview.mjs recover
   node tools/tradingview.mjs positions
   node tools/tradingview.mjs orders
   node tools/tradingview.mjs history

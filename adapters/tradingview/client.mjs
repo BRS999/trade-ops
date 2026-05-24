@@ -19,21 +19,62 @@ export class TradingViewAdapter {
     this.cliPath =
       options.cliPath ||
       "/Users/benjaminspencer/git/tradingview-mcp/src/cli/index.js";
+    this.autoRecover = options.autoRecover !== false;
   }
 
-  async run(commandArgs) {
-    const { stdout } = await execFileAsync(
-      this.nodeBinary,
-      [this.cliPath, ...commandArgs],
-      {
-        maxBuffer: 1024 * 1024 * 8,
-      },
-    );
-    const payload = JSON.parse(stdout);
+  async run(commandArgs, options = {}) {
+    const payload = await this.execTradingView(commandArgs).catch(async (error) => {
+      if (!this.autoRecover || options.recovered || !isRecoverableCdpError(error)) {
+        throw error;
+      }
+
+      await this.recoverConnection();
+      return this.run(commandArgs, { ...options, recovered: true });
+    });
+
     if (!payload.success) {
       throw new Error(payload.error || `TradingView command failed: ${commandArgs.join(" ")}`);
     }
     return payload;
+  }
+
+  async execTradingView(commandArgs) {
+    try {
+      const { stdout } = await execFileAsync(
+        this.nodeBinary,
+        [this.cliPath, ...commandArgs],
+        {
+          maxBuffer: 1024 * 1024 * 8,
+        },
+      );
+      return JSON.parse(stdout);
+    } catch (error) {
+      const payload = parseCommandPayload(error.stdout || error.stderr);
+      if (payload) {
+        const wrapped = new Error(payload.error || `TradingView command failed: ${commandArgs.join(" ")}`);
+        wrapped.payload = payload;
+        wrapped.exitCode = error.code;
+        throw wrapped;
+      }
+      throw error;
+    }
+  }
+
+  async recoverConnection() {
+    const payload = await this.execTradingView(["launch"]);
+    if (!payload.success) {
+      throw new Error(payload.error || "TradingView recovery launch failed");
+    }
+    await this.delay(1500);
+    return payload;
+  }
+
+  async getConnectionStatus() {
+    return this.run(["status"], { recovered: true });
+  }
+
+  async recover() {
+    return this.recoverConnection();
   }
 
   async getChartState() {
@@ -313,6 +354,24 @@ function normalizeTable(result) {
     });
     return entry;
   });
+}
+
+function parseCommandPayload(output) {
+  if (!output) return null;
+  try {
+    return JSON.parse(output);
+  } catch {
+    return null;
+  }
+}
+
+function isRecoverableCdpError(error) {
+  const message = [
+    error?.message,
+    error?.payload?.error,
+  ].filter(Boolean).join(" ");
+
+  return /CDP connection failed|ECONNREFUSED|fetch failed|not running|remote debugging/i.test(message);
 }
 
 function normalizeSymbol(symbol) {

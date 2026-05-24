@@ -27,15 +27,14 @@ Before doing substantial trading work:
 
 1. Check TradingView account state.
 2. Check whether any open positions or working orders already exist.
-3. Read the current active watchlist source of truth.
-4. Read the market context and wiki index if the task is broader than one symbol.
-5. For any symbol you are about to analyze deeply, read its symbol wiki file first if it exists.
+3. Read open journal records for any repo-tracked paper trades or manual positions.
+4. Read local market context and wiki memory rules if the task is broader than one symbol.
+5. For any symbol you are about to analyze deeply, read its local symbol wiki file first if it exists.
 
 Use these files first:
 
-- `watchlists/active.json`
 - `watchlists/universe.json`
-- `wiki/INDEX.md`
+- `wiki/README.md`
 - `wiki/market/context.md` if present locally
 - `wiki/symbols/<SYMBOL>.md`
 - `config/risk.json`
@@ -45,9 +44,9 @@ Use these files first:
 
 Prefer these repo files over older external notes:
 
-- Active watchlist: `watchlists/active.json`
+- Active account state: TradingView account, positions, and orders
+- Repo-tracked active trades: `journal/open/`
 - Universe: `watchlists/universe.json`
-- Open journal records: `journal/open/`
 - Closed journal records: `journal/closed/`
 - Knowledge base: `wiki/`
 - Risk rules: `config/risk.json`
@@ -96,10 +95,13 @@ If a proposed trade violates these limits, say so clearly.
 
 When reviewing the board:
 
-1. Scan the whole active watchlist, not just favorite names.
+1. Scan the relevant universe, not just favorite names.
 2. Use the right adapter for the asset class.
 3. Distinguish clearly between `interesting`, `stalk`, and `trade now`.
-4. If the board is extended or no clean setup exists, say `no trade`.
+4. Call raw tools individually instead of relying on a bundled survey or scanner to decide the board.
+5. Build an opportunity exploration queue of 3-5 pockets before making the final call.
+6. Explore at least one long, one short/hedge, one event/model-vs-market, and one high-beta/speculative expression when the data is available.
+7. If no expression is attractive after focused investigation, explain whether that is a true market conclusion or a search/data failure.
 
 Source preferences:
 
@@ -142,7 +144,7 @@ After a closed-trade review:
 2. update `wiki/setups/<SETUP>.md`
 3. update `wiki/mistakes.md`
 4. update `wiki/edges.md` when the sample is meaningful
-5. update `wiki/INDEX.md` if the compiled knowledge changed materially
+5. keep public wiki examples/docs scrubbed if the reusable structure changed materially
 
 ## Wiki Discipline
 
@@ -160,11 +162,11 @@ Use it to record what repeated evidence supports:
 
 When the user asks whether to trade:
 
-- state the conclusion first: `buy`, `sell`, `stalk`, or `no trade`
+- state the conclusion first: `buy`, `sell`, `paper_trade_candidate`, `stalk`, `research`, or `no trade`
 - explain why in terms of setup quality, risk/reward, and context
 - distinguish chart strength from entry quality
 - if a name is strong but extended, say so directly
-- if the answer is patience, say that clearly
+- if the answer is patience, say that clearly and name the best conditional expressions still being watched
 
 ## What To Avoid
 

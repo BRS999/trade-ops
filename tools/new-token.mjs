@@ -10,11 +10,18 @@ import {
   getPairsByTokens,
   getTopBoostedTokens
 } from "../adapters/dexscreener/index.mjs";
+import {
+  RugCheckClient,
+  getTokenReport,
+  getTokenReportSummary,
+  summarizeSafety
+} from "../adapters/rugcheck/index.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const [, , command = "help", ...rest] = process.argv;
 const client = new DexScreenerClient();
+const rugCheckClient = new RugCheckClient();
 
 try {
   switch (command) {
@@ -142,7 +149,7 @@ async function evaluateToken(chain, tokenAddress, context = {}) {
   const now = Date.now();
   const ageHours = primary.pair_created_at ? (now - primary.pair_created_at) / 3600000 : null;
   const metrics = buildMetrics(primary, matchingPairs, ageHours);
-  const safety = unknownSafety();
+  const safety = await fetchSafety(chain, tokenAddress);
   const lifecycle = classifyLifecycle(metrics, config);
   const decision = classifyTradeability(metrics, lifecycle, config, safety);
 
@@ -230,6 +237,22 @@ function classifyTradeability(metrics, lifecycle, config, safety) {
   const vl1h = metrics.volume_to_liquidity_1h;
 
   if (safety.status === "unknown") warnings.push("safety_unknown");
+  if (safety.status === "unavailable") warnings.push("safety_unavailable");
+  if (safety.status === "risk_flagged") warnings.push("rugcheck_risks");
+  if (safety.mint_authority === "enabled") warnings.push("mint_authority_enabled");
+  if (safety.freeze_authority === "enabled") warnings.push("freeze_authority_enabled");
+  if (safety.metadata_mutable === true) warnings.push("metadata_mutable");
+  if (safety.score_normalised != null && safety.score_normalised >= 75) reasons.push("rugcheck_high_risk_score");
+  if (safety.holder_concentration?.top_holder_pct != null && safety.holder_concentration.top_holder_pct >= 20) {
+    warnings.push("top_holder_concentration_high");
+  }
+  if (safety.holder_concentration?.top_10_pct != null && safety.holder_concentration.top_10_pct >= 50) {
+    warnings.push("top_10_concentration_high");
+  }
+  if (safety.lp_locked_pct != null && safety.lp_locked_pct < 25) {
+    warnings.push("lp_lock_low");
+  }
+
   if (liquidity == null) reasons.push("liquidity_unknown");
   else if (liquidity < config.min_watch_liquidity_usd) reasons.push("liquidity_too_thin");
   else if (liquidity < config.min_liquidity_usd) warnings.push("liquidity_below_trade_threshold");
@@ -247,7 +270,12 @@ function classifyTradeability(metrics, lifecycle, config, safety) {
   if (h1Change != null && h1Change <= -35) reasons.push("active_first_flush");
   if (h5Change != null && h5Change <= -10) warnings.push("short_term_sell_pressure");
 
-  if (reasons.includes("liquidity_unknown") || reasons.includes("liquidity_too_thin") || reasons.includes("fdv_too_low")) {
+  if (
+    reasons.includes("liquidity_unknown") ||
+    reasons.includes("liquidity_too_thin") ||
+    reasons.includes("fdv_too_low") ||
+    reasons.includes("rugcheck_high_risk_score")
+  ) {
     return { label: "untradeable", reasons, warnings };
   }
   if (lifecycle === "first_flush") {
@@ -334,6 +362,34 @@ function unknownSafety() {
     routing_slippage: "unknown",
     note: "DexScreener does not provide enough data for a full safety gate."
   };
+}
+
+async function fetchSafety(chain, tokenAddress) {
+  if (chain !== "solana") {
+    return {
+      ...unknownSafety(),
+      note: "RugCheck is currently used only for Solana token safety checks."
+    };
+  }
+
+  try {
+    const [report, summary] = await Promise.all([
+      getTokenReport(rugCheckClient, tokenAddress),
+      getTokenReportSummary(rugCheckClient, tokenAddress).catch(() => null)
+    ]);
+    return summarizeSafety(report, summary);
+  } catch (error) {
+    return {
+      status: "unavailable",
+      mint_authority: "unknown",
+      freeze_authority: "unknown",
+      holder_concentration: "unknown",
+      lp_lock_or_burn: "unknown",
+      routing_slippage: "unknown",
+      error: error instanceof Error ? error.message : String(error),
+      note: "RugCheck safety data could not be fetched."
+    };
+  }
 }
 
 function loadRiskConfig() {
