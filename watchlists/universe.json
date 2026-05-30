@@ -1,127 +1,1203 @@
 {
   "_comment": "The full tracked universe. Everything worth scanning lives here. Active state lives in TradingView and journal/open.",
-  "updated_at": "2026-05-24",
-
+  "updated_at": "2026-05-30",
   "equities": [
-    { "symbol": "GOOGL", "name": "Alphabet Inc.",                "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "AMZN",  "name": "Amazon.com Inc.",              "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "AVGO",  "name": "Broadcom Inc.",                "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "LLY",   "name": "Eli Lilly and Company",        "sector": "Healthcare",   "float_tier": "mega",  "index_member": "SPX", "notes": "GLP-1 / obesity leader, large-cap healthcare growth anchor." },
-    { "symbol": "TSM",   "name": "Taiwan Semiconductor",         "sector": "Technology",   "float_tier": "mega",  "index_member": null,  "notes": "ADR" },
-    { "symbol": "META",  "name": "Meta Platforms",               "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "NVDA",  "name": "NVIDIA Corporation",           "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "MSFT",  "name": "Microsoft Corporation",        "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "AAPL",  "name": "Apple Inc.",                   "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "AMD",   "name": "Advanced Micro Devices",       "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "NVDA competitor, AI GPU" },
-    { "symbol": "ARM",   "name": "Arm Holdings",                 "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "Chip architecture, AI edge" },
-    { "symbol": "ASML",  "name": "ASML Holding",                 "sector": "Technology",   "float_tier": "mega",  "index_member": null,  "notes": "ADR. EUV monopoly, semi upstream chokepoint" },
-    { "symbol": "MRVL",  "name": "Marvell Technology",           "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "AI networking chips, data center" },
-    { "symbol": "INOD",  "name": "Innodata Inc.",                 "sector": "Technology",   "float_tier": "small", "index_member": null,  "notes": "AI data services / high beta small-cap AI watchlist name." },
-    { "symbol": "QBTS",  "name": "D-Wave Quantum Inc.",           "sector": "Technology",   "float_tier": "small", "index_member": null,  "notes": "Quantum computing / speculative high beta technology watchlist name." },
-    { "symbol": "CRWD",  "name": "CrowdStrike Holdings",         "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "Cybersecurity leader, AI-native security platform." },
-    { "symbol": "PANW",  "name": "Palo Alto Networks",           "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "Cybersecurity platform, enterprise security and network exposure." },
-    { "symbol": "NET",   "name": "Cloudflare Inc.",               "sector": "Technology",   "float_tier": "large", "index_member": null,  "notes": "Cloud edge / cybersecurity / AI infrastructure watchlist name." },
-    { "symbol": "COIN",  "name": "Coinbase Global",              "sector": "Financials",   "float_tier": "large", "index_member": null,  "notes": "Crypto proxy, trades with BTC sentiment" },
-    { "symbol": "MSTR",  "name": "MicroStrategy",                "sector": "Technology",   "float_tier": "mid",   "index_member": null,  "notes": "Bitcoin proxy, high beta BTC play" },
-    { "symbol": "PLTR",  "name": "Palantir Technologies",        "sector": "Technology",   "float_tier": "large", "index_member": "NDX", "notes": "Pure-play AI/data, high momentum" },
-    { "symbol": "SPOT",  "name": "Spotify Technology S.A.",       "sector": "Communication Services", "float_tier": "large", "index_member": null, "notes": "Consumer internet / streaming growth and margin expansion watchlist name." },
-    { "symbol": "CRM",   "name": "Salesforce",                   "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "Enterprise AI, Agentforce" },
-    { "symbol": "NFLX",  "name": "Netflix",                      "sector": "Technology",   "float_tier": "mega",  "index_member": "NDX", "notes": "Momentum name, reports Apr 16" },
-    { "symbol": "DKNG",  "name": "DraftKings Inc.",               "sector": "Consumer",     "float_tier": "mid",   "index_member": null,  "notes": "Online sports betting / consumer discretionary high beta watchlist name." },
-    { "symbol": "UPST",  "name": "Upstart Holdings Inc.",         "sector": "Financials",   "float_tier": "small", "index_member": null,  "notes": "AI lending / rate-sensitive high beta fintech watchlist name." },
-    { "symbol": "AFRM",  "name": "Affirm Holdings Inc.",          "sector": "Financials",   "float_tier": "mid",   "index_member": null,  "notes": "BNPL / consumer credit / rate-sensitive fintech watchlist name." },
-    { "symbol": "JPM",   "name": "JPMorgan Chase",               "sector": "Financials",   "float_tier": "mega",  "index_member": "SPX", "notes": "Macro bellwether, reports Apr 14" },
-    { "symbol": "GS",    "name": "Goldman Sachs",                "sector": "Financials",   "float_tier": "large", "index_member": "SPX", "notes": "Risk appetite read, reports Apr 13" },
-    { "symbol": "HOOD",  "name": "Robinhood Markets",            "sector": "Financials",   "float_tier": "mid",   "index_member": null,  "notes": "Retail brokerage + crypto volume proxy" },
-    { "symbol": "TSLA",  "name": "Tesla",                        "sector": "Consumer",     "float_tier": "mega",  "index_member": "NDX", "notes": "" },
-    { "symbol": "RTX",   "name": "RTX Corporation",              "sector": "Industrials",  "float_tier": "mega",  "index_member": "SPX", "notes": "Aerospace and defense backlog, commercial + defense exposure." },
-    { "symbol": "FCX",   "name": "Freeport-McMoRan",             "sector": "Materials",    "float_tier": "large", "index_member": "SPX", "notes": "Largest US copper miner. Equity proxy for copper price." },
-    { "symbol": "XOM",   "name": "ExxonMobil",                   "sector": "Energy",       "float_tier": "mega",  "index_member": "SPX", "notes": "Largest US oil major. Earnings May 1." },
-    { "symbol": "FSLR",  "name": "First Solar Inc.",              "sector": "Technology",   "float_tier": "large", "index_member": "SPX", "notes": "Solar manufacturing / clean energy policy and power-demand watchlist name." },
-    { "symbol": "CEG",   "name": "Constellation Energy",         "sector": "Utilities",    "float_tier": "large", "index_member": "SPX", "notes": "Nuclear + power demand winner tied to data centers and AI load growth." },
-    { "symbol": "VST",   "name": "Vistra Corp.",                 "sector": "Utilities",    "float_tier": "large", "index_member": "SPX", "notes": "Merchant power / generation exposure, benefits from tight power markets and AI demand." }
+    {
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Search + Cloud + Waymo. AI integration across ads, cloud (Gemini), YouTube."
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com Inc.",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "AWS + retail + advertising. AI chip differentiation (Trainium/Inferentia)."
+    },
+    {
+      "symbol": "AVGO",
+      "name": "Broadcom Inc.",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Custom AI chips (Google TPU), networking, broadband. Messy financials but strong moat."
+    },
+    {
+      "symbol": "LLY",
+      "name": "Eli Lilly and Company",
+      "sector": "Healthcare",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "GLP-1 / obesity leader, large-cap healthcare growth anchor."
+    },
+    {
+      "symbol": "TSM",
+      "name": "Taiwan Semiconductor",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": null,
+      "notes": "ADR"
+    },
+    {
+      "symbol": "META",
+      "name": "Meta Platforms",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Social media monopoly. AI ad targeting efficiency + Reality Labs optionality."
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "AI GPU monopoly. Data center revenue growth, CUDA ecosystem lock-in."
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Office/Azure/Copilot. Enterprise AI distribution via existing customer base."
+    },
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "iPhone cycle + Services growth. Lower multiple than mega-peers, large buyback."
+    },
+    {
+      "symbol": "AMD",
+      "name": "Advanced Micro Devices",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "NVDA competitor, AI GPU"
+    },
+    {
+      "symbol": "ARM",
+      "name": "Arm Holdings",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Chip architecture, AI edge"
+    },
+    {
+      "symbol": "ASML",
+      "name": "ASML Holding",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": null,
+      "notes": "ADR. EUV monopoly, semi upstream chokepoint"
+    },
+    {
+      "symbol": "MRVL",
+      "name": "Marvell Technology",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "AI networking chips, data center"
+    },
+    {
+      "symbol": "INOD",
+      "name": "Innodata Inc.",
+      "sector": "Technology",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "AI data services / high beta small-cap AI watchlist name."
+    },
+    {
+      "symbol": "QBTS",
+      "name": "D-Wave Quantum Inc.",
+      "sector": "Technology",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Quantum computing / speculative high beta technology watchlist name."
+    },
+    {
+      "symbol": "CRWD",
+      "name": "CrowdStrike Holdings",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Cybersecurity leader, AI-native security platform."
+    },
+    {
+      "symbol": "PANW",
+      "name": "Palo Alto Networks",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Cybersecurity platform, enterprise security and network exposure."
+    },
+    {
+      "symbol": "NET",
+      "name": "Cloudflare Inc.",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Cloud edge / cybersecurity / AI infrastructure watchlist name."
+    },
+    {
+      "symbol": "COIN",
+      "name": "Coinbase Global",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Crypto proxy, trades with BTC sentiment"
+    },
+    {
+      "symbol": "MSTR",
+      "name": "MicroStrategy",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin proxy, high beta BTC play"
+    },
+    {
+      "symbol": "PLTR",
+      "name": "Palantir Technologies",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Pure-play AI/data, high momentum"
+    },
+    {
+      "symbol": "SPOT",
+      "name": "Spotify Technology S.A.",
+      "sector": "Communication Services",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Consumer internet / streaming growth and margin expansion watchlist name."
+    },
+    {
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Enterprise AI, Agentforce"
+    },
+    {
+      "symbol": "NFLX",
+      "name": "Netflix",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Momentum name, reports Apr 16"
+    },
+    {
+      "symbol": "DKNG",
+      "name": "DraftKings Inc.",
+      "sector": "Consumer",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Online sports betting / consumer discretionary high beta watchlist name."
+    },
+    {
+      "symbol": "UPST",
+      "name": "Upstart Holdings Inc.",
+      "sector": "Financials",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "AI lending / rate-sensitive high beta fintech watchlist name."
+    },
+    {
+      "symbol": "AFRM",
+      "name": "Affirm Holdings Inc.",
+      "sector": "Financials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "BNPL / consumer credit / rate-sensitive fintech watchlist name."
+    },
+    {
+      "symbol": "JPM",
+      "name": "JPMorgan Chase",
+      "sector": "Financials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Macro bellwether, reports Apr 14"
+    },
+    {
+      "symbol": "GS",
+      "name": "Goldman Sachs",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Risk appetite read, reports Apr 13"
+    },
+    {
+      "symbol": "HOOD",
+      "name": "Robinhood Markets",
+      "sector": "Financials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Retail brokerage + crypto volume proxy"
+    },
+    {
+      "symbol": "TSLA",
+      "name": "Tesla",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "EV + autonomy + energy storage. High volatility, retail favorite, Elon factor."
+    },
+    {
+      "symbol": "RTX",
+      "name": "RTX Corporation",
+      "sector": "Industrials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Aerospace and defense backlog, commercial + defense exposure."
+    },
+    {
+      "symbol": "FCX",
+      "name": "Freeport-McMoRan",
+      "sector": "Materials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Largest US copper miner. Equity proxy for copper price."
+    },
+    {
+      "symbol": "XOM",
+      "name": "ExxonMobil",
+      "sector": "Energy",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest US oil major. Earnings May 1."
+    },
+    {
+      "symbol": "FSLR",
+      "name": "First Solar Inc.",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Solar manufacturing / clean energy policy and power-demand watchlist name."
+    },
+    {
+      "symbol": "CEG",
+      "name": "Constellation Energy",
+      "sector": "Utilities",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Nuclear + power demand winner tied to data centers and AI load growth."
+    },
+    {
+      "symbol": "VST",
+      "name": "Vistra Corp.",
+      "sector": "Utilities",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Merchant power / generation exposure, benefits from tight power markets and AI demand."
+    },
+    {
+      "symbol": "UNH",
+      "name": "UnitedHealth Group",
+      "sector": "Healthcare",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest US health insurer. Earnings and guidance are macro consumer health proxies."
+    },
+    {
+      "symbol": "ABT",
+      "name": "Abbott Laboratories",
+      "sector": "Healthcare",
+      "float_tier": "mega",
+      "index_member": null,
+      "notes": "Medtech / diagnostics / diabetes monitoring (Libre). Defensive growth."
+    },
+    {
+      "symbol": "ISRG",
+      "name": "Intuitive Surgical",
+      "sector": "Healthcare",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Robotic surgery monopoly, durable growth, high margin."
+    },
+    {
+      "symbol": "VRTX",
+      "name": "Vertex Pharmaceuticals",
+      "sector": "Healthcare",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Cystic fibrosis leader + expanding into pain, APOL1, sickle cell."
+    },
+    {
+      "symbol": "PFE",
+      "name": "Pfizer Inc.",
+      "sector": "Healthcare",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Deep value pharma. Oncology via Seagen, GLP-1 oral candidate."
+    },
+    {
+      "symbol": "LMT",
+      "name": "Lockheed Martin",
+      "sector": "Industrials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest pure-play defense prime. F-35, hypersonics, missile defense."
+    },
+    {
+      "symbol": "GD",
+      "name": "General Dynamics",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Gulfstream + shipbuilding (Columbia/Virginia class subs) + combat systems."
+    },
+    {
+      "symbol": "NOC",
+      "name": "Northrop Grumman",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "B-21 bomber, space systems, missile defense. Purest space in SPX."
+    },
+    {
+      "symbol": "KLAC",
+      "name": "KLA Corporation",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Process control & inspection. Critical semi-cap equipment name."
+    },
+    {
+      "symbol": "LRCX",
+      "name": "Lam Research",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Etch & deposition. Key beneficiary of advanced node spending."
+    },
+    {
+      "symbol": "AMAT",
+      "name": "Applied Materials",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Broadest semi-cap equipment portfolio. Leading indicator of WFE investment."
+    },
+    {
+      "symbol": "VRT",
+      "name": "Vertiv Holdings",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Data center cooling & power infrastructure. Pure-play AI buildout beneficiary."
+    },
+    {
+      "symbol": "ETN",
+      "name": "Eaton Corporation",
+      "sector": "Industrials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Electrical power management. Grid modernization + data center power demand."
+    },
+    {
+      "symbol": "MCD",
+      "name": "McDonald's Corporation",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Consumer health proxy. Value play via low-end consumer spend."
+    },
+    {
+      "symbol": "SBUX",
+      "name": "Starbucks Corporation",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "China-sensitive consumer name. Turnaround story under new CEO."
+    },
+    {
+      "symbol": "NKE",
+      "name": "NIKE Inc.",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Global consumer brand, China exposure, inventory cycle play."
+    },
+    {
+      "symbol": "CMG",
+      "name": "Chipotle Mexican Grill",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Premium fast-casual. Unit growth, strong margins, consistent comp growth."
+    },
+    {
+      "symbol": "RCL",
+      "name": "Royal Caribbean",
+      "sector": "Consumer",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Largest cruise line. Consumer discretionary bellwether, travel demand proxy."
+    },
+    {
+      "symbol": "AMT",
+      "name": "American Tower",
+      "sector": "Real Estate",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Cell tower REIT. Rate-sensitive, infrastructure-like cash flows."
+    },
+    {
+      "symbol": "PLD",
+      "name": "Prologis Inc.",
+      "sector": "Real Estate",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest industrial/logistics REIT. E-commerce, data center land."
+    },
+    {
+      "symbol": "EQIX",
+      "name": "Equinix Inc.",
+      "sector": "Real Estate",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Data center colocation REIT. Direct AI compute infrastructure play."
+    },
+    {
+      "symbol": "BKNG",
+      "name": "Booking Holdings",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest OTA (Booking.com, Priceline). Travel demand proxy."
+    },
+    {
+      "symbol": "ADBE",
+      "name": "Adobe Inc.",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Creative software monopoly + AI (Firefly) integration."
+    },
+    {
+      "symbol": "ORCL",
+      "name": "Oracle Corporation",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Enterprise database lock-in. OCI cloud + AI data center demand."
+    },
+    {
+      "symbol": "CSCO",
+      "name": "Cisco Systems",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Networking infrastructure. AI data center switching + security."
+    },
+    {
+      "symbol": "COP",
+      "name": "ConocoPhillips",
+      "sector": "Energy",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest US independent E&P. Permian Basin leader, disciplined capital return."
+    },
+    {
+      "symbol": "V",
+      "name": "Visa Inc.",
+      "sector": "Financials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Payments data proxy for consumer spending resilience."
+    },
+    {
+      "symbol": "UPS",
+      "name": "United Parcel Service",
+      "sector": "Industrials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Package volume is a real-time economic health proxy."
+    },
+    {
+      "symbol": "FDX",
+      "name": "FedEx Corporation",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Express shipping demand is a leading business cycle indicator."
+    },
+    {
+      "symbol": "CSX",
+      "name": "CSX Corporation",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Eastern US rail. Freight volumes signal industrial activity."
+    },
+    {
+      "symbol": "UNP",
+      "name": "Union Pacific",
+      "sector": "Industrials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Largest US railroad by revenue. West Coast, agricultural commodity flows."
+    }
   ],
-
   "etfs": [
-    { "symbol": "SPY",  "name": "SPDR S&P 500 ETF",              "yahoo_symbol": "SPY",  "tracks": "SPX",           "notes": "Macro context" },
-    { "symbol": "QQQ",  "name": "Invesco QQQ Trust",              "yahoo_symbol": "QQQ",  "tracks": "NDX",           "notes": "Macro context" },
-    { "symbol": "XLF",  "name": "Financials Select Sector",      "yahoo_symbol": "XLF",  "tracks": "S&P Financials","notes": "Broad financials exposure" },
-    { "symbol": "XLE",  "name": "Energy Select Sector",          "yahoo_symbol": "XLE",  "tracks": "S&P Energy",    "notes": "Broad energy — complements XOM/CL/BZ" },
-    { "symbol": "XLK",  "name": "Technology Select Sector",      "yahoo_symbol": "XLK",  "tracks": "S&P Technology","notes": "Pure tech sector read separate from QQQ" },
-    { "symbol": "XLP",  "name": "Consumer Staples Select Sector","yahoo_symbol": "XLP",  "tracks": "S&P Staples",   "notes": "Defensive — outperforms in risk-off" },
-    { "symbol": "XLI",  "name": "Industrials Select Sector",     "yahoo_symbol": "XLI",  "tracks": "S&P Industrials","notes": "Tariff-sensitive, capex cycle read" },
-    { "symbol": "GDX",  "name": "VanEck Gold Miners ETF",        "yahoo_symbol": "GDX",  "tracks": "Gold miners",   "notes": "Leveraged gold play via miners" },
-    { "symbol": "TLT",  "name": "iShares 20Y Treasury ETF",      "yahoo_symbol": "TLT",  "tracks": "20Y Treasuries","notes": "Long end of yield curve" },
-    { "symbol": "IEF",  "name": "iShares 7-10Y Treasury ETF",    "yahoo_symbol": "IEF",  "tracks": "7-10Y Treasuries","notes": "Middle of the curve — completes TLT picture" },
-    { "symbol": "HYG",  "name": "iShares High Yield Bond ETF",   "yahoo_symbol": "HYG",  "tracks": "HY Credit",     "notes": "Credit stress canary. Drops before equities in real risk-off." },
-    { "symbol": "FXI",  "name": "iShares China Large-Cap ETF",   "yahoo_symbol": "FXI",  "tracks": "China large cap","notes": "China equity exposure — directly relevant with tariffs" },
-    { "symbol": "KWEB", "name": "KraneShares China Internet ETF","yahoo_symbol": "KWEB", "tracks": "China internet", "notes": "BABA, JD, Tencent — China tech specifically" },
-    { "symbol": "VXX",  "name": "iPath VIX Short-Term Futures",  "yahoo_symbol": "VXX",  "tracks": "VIX futures",   "notes": "Tradeable volatility. Hedge or express fear directly." },
-    { "symbol": "TQQQ", "name": "ProShares UltraPro QQQ 3x",     "yahoo_symbol": "TQQQ", "tracks": "NDX 3x",        "notes": "High conviction risk-on. Short holds only." },
-    { "symbol": "SQQQ", "name": "ProShares UltraPro Short QQQ",  "yahoo_symbol": "SQQQ", "tracks": "NDX -3x",       "notes": "Market hedge or short. Short holds only." },
-    { "symbol": "SOXL", "name": "Direxion Semi 3x Bull",         "yahoo_symbol": "SOXL", "tracks": "SOX 3x",        "notes": "High beta semi play, risk-on only" },
-    { "symbol": "ARKK", "name": "ARK Innovation ETF",            "yahoo_symbol": "ARKK", "tracks": "Disruptive tech","notes": "Risk appetite proxy" }
+    {
+      "symbol": "SPY",
+      "name": "SPDR S&P 500 ETF",
+      "yahoo_symbol": "SPY",
+      "tracks": "SPX",
+      "notes": "Macro context"
+    },
+    {
+      "symbol": "QQQ",
+      "name": "Invesco QQQ Trust",
+      "yahoo_symbol": "QQQ",
+      "tracks": "NDX",
+      "notes": "Macro context"
+    },
+    {
+      "symbol": "XLF",
+      "name": "Financials Select Sector",
+      "yahoo_symbol": "XLF",
+      "tracks": "S&P Financials",
+      "notes": "Broad financials exposure"
+    },
+    {
+      "symbol": "XLE",
+      "name": "Energy Select Sector",
+      "yahoo_symbol": "XLE",
+      "tracks": "S&P Energy",
+      "notes": "Broad energy \u2014 complements XOM/CL/BZ"
+    },
+    {
+      "symbol": "XLK",
+      "name": "Technology Select Sector",
+      "yahoo_symbol": "XLK",
+      "tracks": "S&P Technology",
+      "notes": "Pure tech sector read separate from QQQ"
+    },
+    {
+      "symbol": "XLP",
+      "name": "Consumer Staples Select Sector",
+      "yahoo_symbol": "XLP",
+      "tracks": "S&P Staples",
+      "notes": "Defensive \u2014 outperforms in risk-off"
+    },
+    {
+      "symbol": "XLI",
+      "name": "Industrials Select Sector",
+      "yahoo_symbol": "XLI",
+      "tracks": "S&P Industrials",
+      "notes": "Tariff-sensitive, capex cycle read"
+    },
+    {
+      "symbol": "GDX",
+      "name": "VanEck Gold Miners ETF",
+      "yahoo_symbol": "GDX",
+      "tracks": "Gold miners",
+      "notes": "Leveraged gold play via miners"
+    },
+    {
+      "symbol": "TLT",
+      "name": "iShares 20Y Treasury ETF",
+      "yahoo_symbol": "TLT",
+      "tracks": "20Y Treasuries",
+      "notes": "Long end of yield curve"
+    },
+    {
+      "symbol": "IEF",
+      "name": "iShares 7-10Y Treasury ETF",
+      "yahoo_symbol": "IEF",
+      "tracks": "7-10Y Treasuries",
+      "notes": "Middle of the curve \u2014 completes TLT picture"
+    },
+    {
+      "symbol": "HYG",
+      "name": "iShares High Yield Bond ETF",
+      "yahoo_symbol": "HYG",
+      "tracks": "HY Credit",
+      "notes": "Credit stress canary. Drops before equities in real risk-off."
+    },
+    {
+      "symbol": "FXI",
+      "name": "iShares China Large-Cap ETF",
+      "yahoo_symbol": "FXI",
+      "tracks": "China large cap",
+      "notes": "China equity exposure \u2014 directly relevant with tariffs"
+    },
+    {
+      "symbol": "KWEB",
+      "name": "KraneShares China Internet ETF",
+      "yahoo_symbol": "KWEB",
+      "tracks": "China internet",
+      "notes": "BABA, JD, Tencent \u2014 China tech specifically"
+    },
+    {
+      "symbol": "VXX",
+      "name": "iPath VIX Short-Term Futures",
+      "yahoo_symbol": "VXX",
+      "tracks": "VIX futures",
+      "notes": "Tradeable volatility. Hedge or express fear directly."
+    },
+    {
+      "symbol": "TQQQ",
+      "name": "ProShares UltraPro QQQ 3x",
+      "yahoo_symbol": "TQQQ",
+      "tracks": "NDX 3x",
+      "notes": "High conviction risk-on. Short holds only."
+    },
+    {
+      "symbol": "SQQQ",
+      "name": "ProShares UltraPro Short QQQ",
+      "yahoo_symbol": "SQQQ",
+      "tracks": "NDX -3x",
+      "notes": "Market hedge or short. Short holds only."
+    },
+    {
+      "symbol": "SOXL",
+      "name": "Direxion Semi 3x Bull",
+      "yahoo_symbol": "SOXL",
+      "tracks": "SOX 3x",
+      "notes": "High beta semi play, risk-on only"
+    },
+    {
+      "symbol": "ARKK",
+      "name": "ARK Innovation ETF",
+      "yahoo_symbol": "ARKK",
+      "tracks": "Disruptive tech",
+      "notes": "Risk appetite proxy"
+    },
+    {
+      "symbol": "SMH",
+      "name": "VanEck Semiconductor ETF",
+      "yahoo_symbol": "SMH",
+      "tracks": "Philadelphia Semiconductor Index",
+      "notes": "Pure semiconductor sector read. No financials weight like QQQ."
+    },
+    {
+      "symbol": "IWM",
+      "name": "iShares Russell 2000 ETF",
+      "yahoo_symbol": "IWM",
+      "tracks": "Russell 2000",
+      "notes": "Small-cap read. Rate-sensitive, domestically focused, leading indicator."
+    },
+    {
+      "symbol": "SCHP",
+      "name": "Schwab TIPS ETF",
+      "yahoo_symbol": "SCHP",
+      "tracks": "TIPS",
+      "notes": "Inflation protection. Real rate read."
+    },
+    {
+      "symbol": "EFA",
+      "name": "iShares MSCI EAFE ETF",
+      "yahoo_symbol": "EFA",
+      "tracks": "Developed ex-US equities",
+      "notes": "International developed market exposure. Non-US equity diversification."
+    },
+    {
+      "symbol": "URNM",
+      "name": "Sprott Uranium Miners ETF",
+      "yahoo_symbol": "URNM",
+      "tracks": "Uranium miners",
+      "notes": "Nuclear renaissance thematic. Complements CEG/VST power demand thesis."
+    },
+    {
+      "symbol": "IBIT",
+      "name": "iShares Bitcoin Trust ETF",
+      "yahoo_symbol": "IBIT",
+      "tracks": "Spot Bitcoin",
+      "notes": "Largest BTC spot ETF. Flow data = institutional BTC demand proxy."
+    },
+    {
+      "symbol": "FBTC",
+      "name": "Fidelity BTC ETF",
+      "yahoo_symbol": "FBTC",
+      "tracks": "Spot Bitcoin",
+      "notes": "Fidelity BTC spot ETF. Flows + institutional adoption signal."
+    },
+    {
+      "symbol": "DJP",
+      "name": "iPath Bloomberg Commodity ETF",
+      "yahoo_symbol": "DJP",
+      "tracks": "Broad commodities",
+      "notes": "Broad commodity basket for inflation/real asset exposure."
+    }
   ],
-
   "forex": [
-    { "symbol": "FX:EURUSD", "name": "Euro / US Dollar",    "yahoo_symbol": "EURUSD=X",  "notes": "Most liquid FX pair. Dollar strength/weakness read." },
-    { "symbol": "FX:USDJPY", "name": "US Dollar / Yen",     "yahoo_symbol": "JPY=X",     "notes": "Yen = global risk-off currency. Yen strengthens when risk sells off." },
-    { "symbol": "TVC:DXY",   "name": "US Dollar Index",     "yahoo_symbol": "DX-Y.NYB",  "notes": "Dollar vs basket of currencies. Single best dollar strength read." }
+    {
+      "symbol": "FX:EURUSD",
+      "name": "Euro / US Dollar",
+      "yahoo_symbol": "EURUSD=X",
+      "notes": "Most liquid FX pair. Dollar strength/weakness read."
+    },
+    {
+      "symbol": "FX:USDJPY",
+      "name": "US Dollar / Yen",
+      "yahoo_symbol": "JPY=X",
+      "notes": "Yen = global risk-off currency. Yen strengthens when risk sells off."
+    },
+    {
+      "symbol": "TVC:DXY",
+      "name": "US Dollar Index",
+      "yahoo_symbol": "DX-Y.NYB",
+      "notes": "Dollar vs basket of currencies. Single best dollar strength read."
+    }
   ],
-
   "futures": [
-    { "symbol": "CME_MINI:MES1!",  "name": "Micro E-mini S&P 500",    "yahoo_symbol": "MES=F",  "exchange": "CME",   "notes": "Macro context / intraday" },
-    { "symbol": "CME_MINI:MNQ1!",  "name": "Micro E-mini Nasdaq 100", "yahoo_symbol": "MNQ=F",  "exchange": "CME",   "notes": "Macro context / intraday" },
-    { "symbol": "COMEX:GC1!",      "name": "Gold",                    "yahoo_symbol": "GC=F",   "exchange": "COMEX", "notes": "Safe haven / macro" },
-    { "symbol": "COMEX:SI1!",      "name": "Silver",                  "yahoo_symbol": "SI=F",   "exchange": "COMEX", "notes": "Higher beta gold proxy" },
-    { "symbol": "NYMEX:CL1!",      "name": "Crude Oil (WTI)",         "yahoo_symbol": "CL=F",   "exchange": "NYMEX", "notes": "Inflation + geopolitical read" },
-    { "symbol": "ICEEUR:B1!",      "name": "Brent Crude",             "yahoo_symbol": "BZ=F",   "exchange": "ICE",   "notes": "International oil benchmark. Watch WTI/Brent spread." },
-    { "symbol": "NYMEX:NG1!",      "name": "Natural Gas",             "yahoo_symbol": "NG=F",   "exchange": "NYMEX", "notes": "Seasonal + geopolitical" },
-    { "symbol": "COMEX:HG1!",      "name": "Copper",                  "yahoo_symbol": "HG=F",   "exchange": "COMEX", "notes": "Dr. Copper — leading macro indicator. China demand proxy." },
-    { "symbol": "CBOT:ZW1!",       "name": "Wheat",                   "yahoo_symbol": "ZW=F",   "exchange": "CBOT",  "notes": "Geopolitically sensitive. Ukraine/Russia supply, tariff exposure." },
-    { "symbol": "CBOT:ZC1!",       "name": "Corn",                    "yahoo_symbol": "ZC=F",   "exchange": "CBOT",  "notes": "Most liquid ag futures. China demand proxy." },
-    { "symbol": "CBOT:ZS1!",       "name": "Soybeans",                "yahoo_symbol": "ZS=F",   "exchange": "CBOT",  "notes": "China's largest US import. Trades directly with trade war headlines." },
-    { "symbol": "ICEUS:KC1!",      "name": "Coffee",                  "yahoo_symbol": "KC=F",   "exchange": "ICE",   "notes": "Best trending commodity for technical setups. Clean multi-month moves." }
+    {
+      "symbol": "CME_MINI:MES1!",
+      "name": "Micro E-mini S&P 500",
+      "yahoo_symbol": "MES=F",
+      "exchange": "CME",
+      "notes": "Macro context / intraday"
+    },
+    {
+      "symbol": "CME_MINI:MNQ1!",
+      "name": "Micro E-mini Nasdaq 100",
+      "yahoo_symbol": "MNQ=F",
+      "exchange": "CME",
+      "notes": "Macro context / intraday"
+    },
+    {
+      "symbol": "COMEX:GC1!",
+      "name": "Gold",
+      "yahoo_symbol": "GC=F",
+      "exchange": "COMEX",
+      "notes": "Safe haven / macro"
+    },
+    {
+      "symbol": "COMEX:SI1!",
+      "name": "Silver",
+      "yahoo_symbol": "SI=F",
+      "exchange": "COMEX",
+      "notes": "Higher beta gold proxy"
+    },
+    {
+      "symbol": "NYMEX:CL1!",
+      "name": "Crude Oil (WTI)",
+      "yahoo_symbol": "CL=F",
+      "exchange": "NYMEX",
+      "notes": "Inflation + geopolitical read"
+    },
+    {
+      "symbol": "ICEEUR:B1!",
+      "name": "Brent Crude",
+      "yahoo_symbol": "BZ=F",
+      "exchange": "ICE",
+      "notes": "International oil benchmark. Watch WTI/Brent spread."
+    },
+    {
+      "symbol": "NYMEX:NG1!",
+      "name": "Natural Gas",
+      "yahoo_symbol": "NG=F",
+      "exchange": "NYMEX",
+      "notes": "Seasonal + geopolitical"
+    },
+    {
+      "symbol": "COMEX:HG1!",
+      "name": "Copper",
+      "yahoo_symbol": "HG=F",
+      "exchange": "COMEX",
+      "notes": "Dr. Copper \u2014 leading macro indicator. China demand proxy."
+    },
+    {
+      "symbol": "CBOT:ZW1!",
+      "name": "Wheat",
+      "yahoo_symbol": "ZW=F",
+      "exchange": "CBOT",
+      "notes": "Geopolitically sensitive. Ukraine/Russia supply, tariff exposure."
+    },
+    {
+      "symbol": "CBOT:ZC1!",
+      "name": "Corn",
+      "yahoo_symbol": "ZC=F",
+      "exchange": "CBOT",
+      "notes": "Most liquid ag futures. China demand proxy."
+    },
+    {
+      "symbol": "CBOT:ZS1!",
+      "name": "Soybeans",
+      "yahoo_symbol": "ZS=F",
+      "exchange": "CBOT",
+      "notes": "China's largest US import. Trades directly with trade war headlines."
+    },
+    {
+      "symbol": "ICEUS:KC1!",
+      "name": "Coffee",
+      "yahoo_symbol": "KC=F",
+      "exchange": "ICE",
+      "notes": "Best trending commodity for technical setups. Clean multi-month moves."
+    }
   ],
-
   "crypto": [
-    { "symbol": "CRYPTO:BTCUSD",  "name": "Bitcoin",        "yahoo_symbol": "BTC-USD",  "coingecko_id": "bitcoin",          "notes": "Primary macro anchor" },
-    { "symbol": "CRYPTO:ETHUSD",  "name": "Ethereum",       "yahoo_symbol": "ETH-USD",  "coingecko_id": "ethereum",         "notes": "" },
-    { "symbol": "CRYPTO:SOLUSD",  "name": "Solana",         "yahoo_symbol": "SOL-USD",  "coingecko_id": "solana",           "notes": "Primary on-chain trading venue" },
-    { "symbol": "CRYPTO:BNBUSD",  "name": "BNB",            "yahoo_symbol": "BNB-USD",  "coingecko_id": "binancecoin",      "notes": "BNB Chain ecosystem" },
-    { "symbol": "CRYPTO:XRPUSD",  "name": "XRP",            "yahoo_symbol": "XRP-USD",  "coingecko_id": "ripple",           "notes": "High liquidity, regulatory clarity" },
-    { "symbol": "CRYPTO:AVAXUSD", "name": "Avalanche",      "yahoo_symbol": "AVAX-USD", "coingecko_id": "avalanche-2",      "notes": "L1 competitor, active DeFi" },
-    { "symbol": "CRYPTO:LINKUSD", "name": "Chainlink",      "yahoo_symbol": "LINK-USD", "coingecko_id": "chainlink",        "notes": "Oracle infrastructure, DeFi backbone" },
-    { "symbol": "CRYPTO:JUPUSD",  "name": "Jupiter",        "yahoo_symbol": null, "gecko_network": "solana", "gecko_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN", "coingecko_id": "jupiter-exchange-solana", "notes": "Largest Solana DEX. Yahoo broken — use GeckoTerminal for price." },
-    { "symbol": "CRYPTO:WIFUSD",  "name": "dogwifhat",      "yahoo_symbol": "WIF-USD",  "gecko_network": "solana", "gecko_address": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm", "coingecko_id": "dogwifcoin", "notes": "Solana meme watchlist — tier 1 liquid meme, high beta SOL proxy." },
-    { "symbol": "CRYPTO:TRUMPUSD", "name": "Official Trump", "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN", "coingecko_id": null, "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:BONKUSD",  "name": "Bonk",           "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263", "coingecko_id": null, "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:PENGUUSD", "name": "Pudgy Penguins", "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv", "coingecko_id": null, "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:FARTCOINUSD", "name": "Fartcoin",    "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump", "coingecko_id": null, "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:MEWUSD",   "name": "cat in a dogs world", "yahoo_symbol": null,  "gecko_network": "solana", "gecko_address": "MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5", "coingecko_id": null, "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:POPCATUSD", "name": "Popcat",        "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr", "coingecko_id": null, "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:USELESSUSD", "name": "Useless Coin", "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:DOGUSD",   "name": "Dog (Bitcoin)",  "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "dog1viwbb2vWDpER5FrJ4YFG6gq6XuyFohUe9TXN65u", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:PNUTUSD",  "name": "Peanut the Squirrel", "yahoo_symbol": null,  "gecko_network": "solana", "gecko_address": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:MOODENGUSD", "name": "Moo Deng",     "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:BOMEUSD",  "name": "BOOK OF MEME",   "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:TROLLUSD", "name": "TROLL",          "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:GOATUSD",  "name": "Goatseus Maximus", "yahoo_symbol": null,     "gecko_network": "solana", "gecko_address": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:GIGAUSD",  "name": "Gigachad",       "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "63LfDmNb3MQ8mw9MtZ2To9bEA2M71kZUUGq5tiJxcqj9", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:PONKEUSD", "name": "PONKE",          "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "5z3EqYQo9HiCEs3R84RCDMu2n7anpDMxRhdK8PSWmrRC", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:CHILLGUYUSD", "name": "Just a chill guy", "yahoo_symbol": null,  "gecko_network": "solana", "gecko_address": "Df6yfrKC8kZE3KNkrHERKzAetSxbrWeniQfyJY4Jpump", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:ACTUSD",   "name": "Act I The AI Prophecy", "yahoo_symbol": null, "gecko_network": "solana", "gecko_address": "GJAFwWjJ3vnTsrQVabjBVK2TYB1YtRCQXRDfDgUnpump", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate, AI/culture crossover. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:FWOGUSD",  "name": "Fwog",           "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:BUTTCOINUSD", "name": "Buttcoin",    "yahoo_symbol": null,       "gecko_network": "solana", "gecko_address": "Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump", "coingecko_id": null, "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price." },
-    { "symbol": "CRYPTO:ARBUSD",  "name": "Arbitrum",      "yahoo_symbol": null,           "gecko_network": "eth",      "gecko_address": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1", "coingecko_id": "arbitrum",   "notes": "Largest Ethereum L2, DeFi hub. Yahoo broken — use GeckoTerminal." },
-    { "symbol": "CRYPTO:OPUSD",   "name": "Optimism",      "yahoo_symbol": null,           "gecko_network": "optimism", "gecko_address": "0x4200000000000000000000000000000000000042", "coingecko_id": "optimism",   "notes": "Ethereum L2, OP Stack ecosystem. Yahoo broken — use GeckoTerminal." },
-    { "symbol": "CRYPTO:SUIUSD",  "name": "Sui",           "yahoo_symbol": "SUI20947-USD", "gecko_network": null,       "gecko_address": null,                                          "coingecko_id": "sui",        "notes": "Fast-growing L1. Yahoo symbol: SUI20947-USD." },
-    { "symbol": "CRYPTO:AAVEUSD", "name": "Aave",          "yahoo_symbol": "AAVE-USD",     "gecko_network": "eth",      "gecko_address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9", "coingecko_id": "aave",       "notes": "DeFi lending blue chip." },
-    { "symbol": "CRYPTO:UNIUSD",  "name": "Uniswap",       "yahoo_symbol": null,           "gecko_network": "eth",      "gecko_address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", "coingecko_id": "uniswap",    "notes": "Largest DEX by volume, DeFi bellwether. Yahoo broken — use GeckoTerminal." }
+    {
+      "symbol": "CRYPTO:BTCUSD",
+      "name": "Bitcoin",
+      "yahoo_symbol": "BTC-USD",
+      "coingecko_id": "bitcoin",
+      "notes": "Primary macro anchor"
+    },
+    {
+      "symbol": "CRYPTO:ETHUSD",
+      "name": "Ethereum",
+      "yahoo_symbol": "ETH-USD",
+      "coingecko_id": "ethereum",
+      "notes": ""
+    },
+    {
+      "symbol": "CRYPTO:SOLUSD",
+      "name": "Solana",
+      "yahoo_symbol": "SOL-USD",
+      "coingecko_id": "solana",
+      "notes": "Primary on-chain trading venue"
+    },
+    {
+      "symbol": "CRYPTO:BNBUSD",
+      "name": "BNB",
+      "yahoo_symbol": "BNB-USD",
+      "coingecko_id": "binancecoin",
+      "notes": "BNB Chain ecosystem"
+    },
+    {
+      "symbol": "CRYPTO:XRPUSD",
+      "name": "XRP",
+      "yahoo_symbol": "XRP-USD",
+      "coingecko_id": "ripple",
+      "notes": "High liquidity, regulatory clarity"
+    },
+    {
+      "symbol": "CRYPTO:AVAXUSD",
+      "name": "Avalanche",
+      "yahoo_symbol": "AVAX-USD",
+      "coingecko_id": "avalanche-2",
+      "notes": "L1 competitor, active DeFi"
+    },
+    {
+      "symbol": "CRYPTO:LINKUSD",
+      "name": "Chainlink",
+      "yahoo_symbol": "LINK-USD",
+      "coingecko_id": "chainlink",
+      "notes": "Oracle infrastructure, DeFi backbone"
+    },
+    {
+      "symbol": "CRYPTO:JUPUSD",
+      "name": "Jupiter",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+      "coingecko_id": "jupiter-exchange-solana",
+      "notes": "Largest Solana DEX. Yahoo broken \u2014 use GeckoTerminal for price."
+    },
+    {
+      "symbol": "CRYPTO:WIFUSD",
+      "name": "dogwifhat",
+      "yahoo_symbol": "WIF-USD",
+      "gecko_network": "solana",
+      "gecko_address": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+      "coingecko_id": "dogwifcoin",
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme, high beta SOL proxy."
+    },
+    {
+      "symbol": "CRYPTO:TRUMPUSD",
+      "name": "Official Trump",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:BONKUSD",
+      "name": "Bonk",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:PENGUUSD",
+      "name": "Pudgy Penguins",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:FARTCOINUSD",
+      "name": "Fartcoin",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:MEWUSD",
+      "name": "cat in a dogs world",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:POPCATUSD",
+      "name": "Popcat",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:USELESSUSD",
+      "name": "Useless Coin",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:DOGUSD",
+      "name": "Dog (Bitcoin)",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "dog1viwbb2vWDpER5FrJ4YFG6gq6XuyFohUe9TXN65u",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:PNUTUSD",
+      "name": "Peanut the Squirrel",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:MOODENGUSD",
+      "name": "Moo Deng",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:BOMEUSD",
+      "name": "BOOK OF MEME",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:TROLLUSD",
+      "name": "TROLL",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:GOATUSD",
+      "name": "Goatseus Maximus",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:GIGAUSD",
+      "name": "Gigachad",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "63LfDmNb3MQ8mw9MtZ2To9bEA2M71kZUUGq5tiJxcqj9",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:PONKEUSD",
+      "name": "PONKE",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "5z3EqYQo9HiCEs3R84RCDMu2n7anpDMxRhdK8PSWmrRC",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:CHILLGUYUSD",
+      "name": "Just a chill guy",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "Df6yfrKC8kZE3KNkrHERKzAetSxbrWeniQfyJY4Jpump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:ACTUSD",
+      "name": "Act I The AI Prophecy",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "GJAFwWjJ3vnTsrQVabjBVK2TYB1YtRCQXRDfDgUnpump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate, AI/culture crossover. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:FWOGUSD",
+      "name": "Fwog",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:BUTTCOINUSD",
+      "name": "Buttcoin",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:ARBUSD",
+      "name": "Arbitrum",
+      "yahoo_symbol": null,
+      "gecko_network": "eth",
+      "gecko_address": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
+      "coingecko_id": "arbitrum",
+      "notes": "Largest Ethereum L2, DeFi hub. Yahoo broken \u2014 use GeckoTerminal."
+    },
+    {
+      "symbol": "CRYPTO:OPUSD",
+      "name": "Optimism",
+      "yahoo_symbol": null,
+      "gecko_network": "optimism",
+      "gecko_address": "0x4200000000000000000000000000000000000042",
+      "coingecko_id": "optimism",
+      "notes": "Ethereum L2, OP Stack ecosystem. Yahoo broken \u2014 use GeckoTerminal."
+    },
+    {
+      "symbol": "CRYPTO:SUIUSD",
+      "name": "Sui",
+      "yahoo_symbol": "SUI20947-USD",
+      "gecko_network": null,
+      "gecko_address": null,
+      "coingecko_id": "sui",
+      "notes": "Fast-growing L1. Yahoo symbol: SUI20947-USD."
+    },
+    {
+      "symbol": "CRYPTO:AAVEUSD",
+      "name": "Aave",
+      "yahoo_symbol": "AAVE-USD",
+      "gecko_network": "eth",
+      "gecko_address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+      "coingecko_id": "aave",
+      "notes": "DeFi lending blue chip."
+    },
+    {
+      "symbol": "CRYPTO:UNIUSD",
+      "name": "Uniswap",
+      "yahoo_symbol": null,
+      "gecko_network": "eth",
+      "gecko_address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+      "coingecko_id": "uniswap",
+      "notes": "Largest DEX by volume, DeFi bellwether. Yahoo broken \u2014 use GeckoTerminal."
+    },
+    {
+      "symbol": "CRYPTO:DOGEUSD",
+      "name": "Dogecoin",
+      "yahoo_symbol": "DOGE-USD",
+      "coingecko_id": "dogecoin",
+      "notes": "Tier-1 liquid meme. High beta BTC/risk proxy."
+    },
+    {
+      "symbol": "CRYPTO:SHIBUSD",
+      "name": "Shiba Inu",
+      "yahoo_symbol": "SHIB-USD",
+      "coingecko_id": "shiba-inu",
+      "notes": "Tier-1 meme by market cap. Shibarium L2 ecosystem."
+    },
+    {
+      "symbol": "CRYPTO:RNDRUSD",
+      "name": "Render Token",
+      "yahoo_symbol": null,
+      "gecko_network": "eth",
+      "gecko_address": "0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24",
+      "coingecko_id": "render-token",
+      "notes": "Decentralized GPU rendering + AI compute. Real use case, Apple Vision Pro partner. Yahoo broken -- use GeckoTerminal."
+    },
+    {
+      "symbol": "CRYPTO:FETUSD",
+      "name": "Fetch.ai",
+      "yahoo_symbol": "FET-USD",
+      "coingecko_id": "fetch-ai",
+      "notes": "AI agent / autonomous agent infrastructure. AI narrative leader."
+    },
+    {
+      "symbol": "CRYPTO:TAOUSD",
+      "name": "Bittensor",
+      "yahoo_symbol": "TAO22974-USD",
+      "coingecko_id": "bittensor",
+      "notes": "Decentralized AI model training. One of the few crypto tokens with genuine AI thesis."
+    },
+    {
+      "symbol": "CRYPTO:PENDLEUSD",
+      "name": "Pendle",
+      "yahoo_symbol": null,
+      "gecko_network": "eth",
+      "gecko_address": "0x808507121B80c02388fAd14726482e061B8da827",
+      "coingecko_id": "pendle",
+      "notes": "Yield tokenization / fixed rate DeFi. Real DeFi primitive, growing TVL."
+    }
   ],
-
   "prediction_markets": [
-    { "symbol": "FED-CUT-2026",    "platform": "kalshi", "notes": "Fed rate decision markets" },
-    { "symbol": "TARIFF-PAUSE-Q2", "platform": "kalshi", "notes": "Trade policy" }
+    {
+      "symbol": "FED-CUT-2026",
+      "platform": "kalshi",
+      "notes": "Fed rate decision markets"
+    },
+    {
+      "symbol": "TARIFF-PAUSE-Q2",
+      "platform": "kalshi",
+      "notes": "Trade policy"
+    },
+    {
+      "symbol": "BTC-ABOVE-100K",
+      "platform": "polymarket",
+      "notes": "BTC price threshold markets"
+    },
+    {
+      "symbol": "FED-RATE-DECISION",
+      "platform": "kalshi",
+      "notes": "Fed rate cut / hold / hike markets by meeting date"
+    },
+    {
+      "symbol": "GDP-RECESSION",
+      "platform": "kalshi",
+      "notes": "Recession probability markets"
+    },
+    {
+      "symbol": "BTC-ETF-FLOWS",
+      "platform": "polymarket",
+      "notes": "Spot BTC ETF flow direction markets"
+    }
   ]
 }
