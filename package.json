@@ -33,7 +33,12 @@
     "chronos": "node tools/chronos.mjs",
     "timesfm": "node tools/timesfm.mjs",
     "kronos": "node tools/kronos.mjs",
-    "kalshi": "node tools/kalshi.mjs"
+    "coingecko": "node tools/coingecko.mjs",
+    "kalshi": "node tools/kalshi.mjs",
+    "eia": "node tools/eia.mjs",
+    "finnhub": "node tools/finnhub.mjs",
+    "securitiesdb": "node tools/securitiesdb.mjs",
+    "gdelt": "node tools/gdelt.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"

@@ -7,7 +7,123 @@
  *   - Long/short ratio and taker-flow context for crowded positioning
  */
 
-export { BinanceFuturesClient, BinanceFuturesError } from "./client.mjs";
+export { BinanceFuturesClient, BinanceFuturesError, BinanceSpotClient } from "./client.mjs";
+
+// ── Spot ──────────────────────────────────────────────────────────────────────
+
+/**
+ * Latest price for a symbol, or all symbols if none given.
+ * @param {string} [symbol]  e.g. "BTCUSDT" — omit for all prices
+ */
+export function getSpotPrice(client, symbol) {
+  return client.get("api/v3/ticker/price", symbol ? { symbol: symbol.toUpperCase() } : {});
+}
+
+/**
+ * 24-hour rolling statistics: price change, high, low, volume, VWAP.
+ * @param {string} [symbol]  Omit for all symbols (large response)
+ */
+export function getSpot24hr(client, symbol) {
+  return client.get("api/v3/ticker/24hr", symbol ? { symbol: symbol.toUpperCase() } : {});
+}
+
+/**
+ * Best bid and ask price + quantity (useful for spread analysis).
+ * @param {string} [symbol]
+ */
+export function getSpotBookTicker(client, symbol) {
+  return client.get("api/v3/ticker/bookTicker", symbol ? { symbol: symbol.toUpperCase() } : {});
+}
+
+/**
+ * 5-minute average price.
+ * @param {string} symbol
+ */
+export function getSpotAvgPrice(client, symbol) {
+  return client.get("api/v3/avgPrice", { symbol: symbol.toUpperCase() });
+}
+
+/**
+ * Order book depth.
+ * @param {string} symbol
+ * @param {number} [limit]  5 | 10 | 20 | 50 | 100 | 500 | 1000 (default 20)
+ */
+export function getSpotOrderBook(client, symbol, limit = 20) {
+  return client.get("api/v3/depth", { symbol: symbol.toUpperCase(), limit });
+}
+
+/**
+ * OHLCV candlestick data.
+ * @param {string} symbol
+ * @param {string} [interval]  1s 1m 3m 5m 15m 30m 1h 2h 4h 6h 8h 12h 1d 3d 1w 1M (default 1h)
+ * @param {number} [limit]     Max 1000 (default 24)
+ * @param {number} [startTime] Unix ms
+ * @param {number} [endTime]   Unix ms
+ */
+export function getSpotKlines(client, symbol, options = {}) {
+  const { interval = "1h", limit = 24, startTime, endTime } = options;
+  return client.get("api/v3/klines", {
+    symbol: symbol.toUpperCase(),
+    interval,
+    limit,
+    startTime,
+    endTime,
+  });
+}
+
+/**
+ * Rolling window price statistics (flexible window size).
+ * @param {string} symbol
+ * @param {string} [windowSize]  1m 2m ... 1h 2h ... 1d (default 1h)
+ */
+export function getSpotTicker(client, symbol, windowSize = "1h") {
+  return client.get("api/v3/ticker", { symbol: symbol.toUpperCase(), windowSize });
+}
+
+/**
+ * Combined spot snapshot for one or more symbols.
+ * Returns price, 24h stats, and best bid/ask in one object per symbol.
+ *
+ * @param {string[]} [symbols]  Default ["BTCUSDT","ETHUSDT","SOLUSDT","BNBUSDT"]
+ */
+export async function getSpotSnapshot(client, symbols = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]) {
+  const results = await Promise.all(
+    symbols.map(async (sym) => {
+      const [stats, book] = await Promise.all([
+        getSpot24hr(client, sym),
+        getSpotBookTicker(client, sym),
+      ]);
+      return normalizeSpotSnapshot(sym, stats, book);
+    }),
+  );
+
+  return {
+    as_of: new Date().toISOString(),
+    source: "binance_spot",
+    symbols: results,
+  };
+}
+
+function normalizeSpotSnapshot(symbol, stats, book) {
+  return {
+    symbol,
+    price: number(stats.lastPrice),
+    price_change_24h: number(stats.priceChange),
+    price_change_pct_24h: number(stats.priceChangePercent),
+    high_24h: number(stats.highPrice),
+    low_24h: number(stats.lowPrice),
+    volume_24h: number(stats.volume),
+    quote_volume_24h: number(stats.quoteVolume),
+    vwap: number(stats.weightedAvgPrice),
+    open_24h: number(stats.openPrice),
+    bid: number(book.bidPrice),
+    bid_qty: number(book.bidQty),
+    ask: number(book.askPrice),
+    ask_qty: number(book.askQty),
+    spread: number(book.askPrice) - number(book.bidPrice),
+    trades_24h: stats.count,
+  };
+}
 
 export function getPremiumIndex(client, symbol) {
   return client.get("fapi/v1/premiumIndex", { symbol: requireSymbol(symbol) });

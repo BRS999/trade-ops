@@ -32,6 +32,7 @@ Examples:
 - [timesfm.mjs](/Users/benjaminspencer/git/trade-ops/tools/timesfm.mjs)
 - [kronos.mjs](/Users/benjaminspencer/git/trade-ops/tools/kronos.mjs)
 - [kalshi.mjs](/Users/benjaminspencer/git/trade-ops/tools/kalshi.mjs)
+- [gdelt.mjs](/Users/benjaminspencer/git/trade-ops/tools/gdelt.mjs)
 
 The TradingView tool is a thin operator-friendly wrapper over the internal TradingView adapter.
 
@@ -182,7 +183,7 @@ Current Kraken commands:
 - `ohlc <pair> [--interval 60] [--since unix]`
 - `snapshot [XBTUSD,ETHUSD,SOLUSD]`
 
-The Polymarket tool is a read-only wrapper over public market/event discovery and CLOB order-book data.
+The Polymarket tool is a read-only wrapper over public market/event discovery, CLOB order-book data, and public wallet activity/position data.
 
 Current commands:
 
@@ -191,6 +192,15 @@ Current commands:
 - `market <id>`
 - `event <id>`
 - `book <clobTokenId>`
+- `leaderboard [--category OVERALL] [--period MONTH] [--order-by PNL] [--limit 25]`
+- `consensus-study [--query bitcoin] [--match bitcoin,btc] [--market-limit 50] [--max-pages 25] [--horizons 168,24,1,0]`
+- `btc-consensus-study [--market-limit 50] [--max-pages 25] [--horizons 168,24,1,0]`
+- `wallet-profile <wallet>`
+- `wallet-activity <wallet> [--limit 100] [--type TRADE] [--start unix] [--end unix]`
+- `wallet-trades <wallet> [--limit 100] [--side BUY|SELL]`
+- `wallet-positions <wallet> [--limit 100] [--sort-by CURRENT]`
+- `wallet-summary <wallet> [--days 90] [--limit 250]`
+- `market-positions <conditionId> [--status OPEN] [--limit 50]`
 - `scan [--limit 100]`
 
 The DeFiLlama tool is a read-only wrapper over public crypto ecosystem data.
@@ -233,6 +243,22 @@ Current commands:
 - `check`
 - `example`
 - `forecast <symbol> [--range 6mo] [--interval 1d] [--prediction-length 8] [--max-context 1024] [--local-files-only]`
+
+The GDELT tool is a read-only wrapper over the free GDELT DOC 2.0 geopolitical news API.
+
+GDELT asks callers to limit requests to one every 5 seconds. The client enforces a minimum interval automatically.
+
+Current commands:
+
+- `search <query> [--timespan 7d] [--max-records 50]`
+- `articles [--keyword TEXT] [--theme KEY] [--source-country COUNTRY] [--timespan 7d] [--max-records 50]`
+- `volume <query> [--timespan 7d] [--raw]`
+- `tone <query> [--timespan 7d]`
+- `tone-chart <query> [--timespan 7d]`
+- `languages <query> [--timespan 7d]`
+- `countries <query> [--timespan 7d]`
+- `snapshot <query>|--keyword ... [--timespan 7d] [--max-records 25]`
+- `themes`
 
 The Kalshi tool is a read-only wrapper over public prediction-market endpoints.
 

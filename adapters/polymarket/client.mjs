@@ -9,12 +9,14 @@ try { process.loadEnvFile(); } catch {}
 
 const DEFAULT_GAMMA_BASE_URL = "https://gamma-api.polymarket.com";
 const DEFAULT_CLOB_BASE_URL = "https://clob.polymarket.com";
+const DEFAULT_DATA_BASE_URL = "https://data-api.polymarket.com";
 const DEFAULT_TIMEOUT_MS = 15_000;
 
 export class PolymarketClient {
   constructor(options = {}) {
     this.gammaBaseUrl = options.gammaBaseUrl ?? process.env.POLYMARKET_GAMMA_BASE_URL ?? DEFAULT_GAMMA_BASE_URL;
     this.clobBaseUrl = options.clobBaseUrl ?? process.env.POLYMARKET_CLOB_BASE_URL ?? DEFAULT_CLOB_BASE_URL;
+    this.dataBaseUrl = options.dataBaseUrl ?? process.env.POLYMARKET_DATA_BASE_URL ?? DEFAULT_DATA_BASE_URL;
     this.timeoutMs = options.timeoutMs ?? Number(process.env.POLYMARKET_TIMEOUT_MS ?? DEFAULT_TIMEOUT_MS);
   }
 
@@ -24,6 +26,10 @@ export class PolymarketClient {
 
   clob(path, params = {}) {
     return this.get(this.clobBaseUrl, path, params);
+  }
+
+  data(path, params = {}) {
+    return this.get(this.dataBaseUrl, path, params);
   }
 
   async get(baseUrl, path, params = {}) {

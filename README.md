@@ -92,8 +92,11 @@ Core Trade-Ops usage is intentionally lightweight.
 - `MASSIVE_API_KEY`
 - `FRED_API_KEY`
 - `FMP_API_KEY`
+- `COINGECKO_API_KEY` — optional; public tier works without a key but is rate-limited (~5 req/min)
+- `EIA_API_KEY`
+- `FINNHUB_API_KEY`
 
-You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, CFTC, Binance Futures public data, Hyperliquid, Deribit, Coinbase/Kraken public market data, GeckoTerminal, DexScreener, DeFiLlama, Kalshi/Polymarket public market data, BLS, Treasury FiscalData, and Fear & Greed.
+You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, SecuritiesDB, GDELT, CFTC, Binance Futures public data, Hyperliquid, Deribit, Coinbase/Kraken public market data, CoinGecko public tier, GeckoTerminal, DexScreener, DeFiLlama, Kalshi/Polymarket public market data, BLS, Treasury FiscalData, and Fear & Greed.
 
 ### Optional: Forecasting Models
 
@@ -151,15 +154,20 @@ If you do not care about local forecasting models, you do not need Python or any
 | **Deribit** | deribit.com | BTC/ETH options/futures books, IV, open interest, volume | — |
 | **Coinbase** | coinbase.com | US-accessible public spot products, order books, candles | — |
 | **Kraken** | kraken.com | Public spot ticker, order books, OHLC | — |
+| **CoinGecko** | coingecko.com | Aggregated CEX+DEX prices, global market, trending, sovereign/corporate BTC treasury | optional `COINGECKO_API_KEY` |
 | **GeckoTerminal** | geckoterminal.com | On-chain pools, DEX OHLCV, Solana trending | — |
 | **DexScreener** | dexscreener.com | Cross-chain pair search, liquidity, boosted tokens | — |
 | **DeFiLlama** | defillama.com | Chain/protocol TVL, stablecoin supply, DEX volume, fees, yields | — |
 | **RugCheck** | rugcheck.xyz | Solana token risk reports, authority checks, LP locks, holder concentration | optional `RUGCHECK_API_KEY` / `RUGCHECK_JWT` |
 | **Kalshi** | kalshi.com | Prediction-market discovery, market details, orderbooks, trades, events, series | — |
-| **Polymarket** | polymarket.com | Prediction-market discovery, active market flow, CLOB books | — |
+| **Polymarket** | polymarket.com | Prediction-market discovery, active market flow, CLOB books, public wallet activity/positions/leaderboards | — |
 | **BLS** | bls.gov | Official labor, CPI, payroll, wages time series | optional `BLS_API_KEY` |
 | **Treasury FiscalData** | fiscaldata.treasury.gov | Debt, Treasury statement, securities sales/issuance data | — |
 | **Fear & Greed** | alternative.me | Crypto sentiment index (0–100) | — |
+| **EIA** | eia.gov | WTI/Brent, crude inventories, nat gas storage, SPR, US production | `EIA_API_KEY` |
+| **Finnhub** | finnhub.io | Equity quotes, insider/congressional trading, earnings, news sentiment | `FINNHUB_API_KEY` |
+| **SecuritiesDB** | securitiesdb.com | Form 4 insider transactions, 13F institutional flow | — |
+| **GDELT** | gdeltproject.org | Global geopolitical news search, coverage volume/tone timelines, 65-language monitoring | — |
 
 ---
 
@@ -187,10 +195,23 @@ npm run sec    -- facts-concept TSLA Revenues --limit 3
 
 npm run cftc   -- snapshot gold crude spx ndx eurusd bitcoin
 
+npm run eia    -- snapshot
+npm run eia    -- crude-stocks --limit 8
+
+npm run coingecko -- snapshot
+npm run coingecko -- price bitcoin,solana --change
+npm run coingecko -- sovereign-btc
+npm run coingecko -- treasury strategy
+
 npm run gecko  -- solana
 npm run gecko  -- trending-network solana 1h
 npm run gecko  -- ohlcv solana <poolAddress> hour 1 100
 npm run gecko  -- token-price solana <tokenAddress>
+
+npm run binance-futures -- snapshot BTCUSDT,ETHUSDT,SOLUSDT
+npm run binance-futures -- funding BTCUSDT --limit 24
+
+npm run hyperliquid -- snapshot BTC,ETH,SOL
 
 npm run dex    -- search "ETH/USDC" 10
 npm run dex    -- pair solana <pairAddress>
@@ -208,10 +229,31 @@ npm run kalshi -- trades --ticker <marketTicker> --limit 100
 npm run kalshi -- events --limit 20
 npm run kalshi -- series --category Economics --limit 20
 
+npm run polymarket -- scan --limit 100
+npm run polymarket -- market <id>
+npm run polymarket -- wallet-summary <wallet> --days 90
+
+npm run defillama -- snapshot --limit 10
+
 npm run fng    -- current
 npm run fng    -- history 30
 
-npm run massive -- quote AAPL
+npm run finnhub -- snapshot PLTR
+npm run finnhub -- insider-transactions PLTR --from 2026-01-01
+
+npm run securitiesdb -- snapshot PLTR
+npm run securitiesdb -- institutional AAPL
+
+npm run gdelt -- snapshot "tariff" --timespan 7d
+npm run gdelt -- articles --theme sanctions --max-records 20
+npm run gdelt -- volume "ukraine" --timespan 14d
+
+npm run regime -- crypto --range 1mo --interval 1h
+npm run regime -- symbol BTC-USD --range 1mo --interval 1h
+
+npm run new-token -- scan --source latest-boosted --chain solana --limit 10
+
+npm run massive -- snapshot AAPL
 npm run massive -- financials AAPL --timeframe quarterly --limit 4
 npm run tv      -- status
 npm run tv      -- recover
@@ -298,9 +340,14 @@ Examples of exploratory tool calls:
 npm run yahoo -- quotes SPY,QQQ,HYG,TLT,VXX,NVDA,AMD,HOOD
 npm run fred -- macro
 npm run cftc -- snapshot bitcoin,gold,ndx
+npm run coingecko -- snapshot
 npm run hyperliquid -- snapshot BTC,ETH,SOL
 npm run deribit -- options-snapshot BTC,ETH
+npm run eia -- snapshot
 npm run polymarket -- scan --limit 100
+npm run polymarket -- leaderboard --category CRYPTO --period MONTH --limit 25
+npm run polymarket -- btc-consensus-study --market-limit 50 --horizons 168,24,1,0
+npm run polymarket -- wallet-summary <wallet> --days 90
 npm run defillama -- snapshot --limit 10
 npm run new-token -- scan --source latest-boosted --chain solana --limit 10
 ```
@@ -408,9 +455,10 @@ cp .env.example .env
 
 # 3. Test the stack
 npm run tv      -- account         # Requires the TradingView desktop app
-npm run fng    -- current          # Fear & Greed — no key needed
-npm run gecko  -- solana           # SOL snapshot — no key needed
-npm run yahoo  -- quote AAPL       # Live quote — no key needed
+npm run fng        -- current          # Fear & Greed — no key needed
+npm run coingecko  -- snapshot         # Global crypto market — no key needed (rate-limited)
+npm run gecko      -- solana           # SOL on-chain snapshot — no key needed
+npm run yahoo      -- quote AAPL       # Live quote — no key needed
 npm run fred   -- macro            # Macro snapshot — needs FRED key
 npm run fmp    -- summary AAPL     # Analyst consensus — needs FMP key
 
@@ -490,7 +538,7 @@ All execution workflows read these before sizing or placing any order.
 - **Types**: TypeScript for domain types and tool manifest (`tsc --noEmit` only)
 - **Storage**: File-based JSON + Markdown — flat files are the canonical source of truth in V1
 - **Knowledge**: LLM-maintained wiki compiled from journal records and adapter snapshots
-- **Data**: 10 adapters covering equities, crypto, macro, positioning, on-chain, DEX, sentiment, and filings
+- **Data**: 20+ source adapters covering equities, crypto, macro, energy, positioning, on-chain, DEX, prediction markets, sentiment, and filings
 
 ---
 
