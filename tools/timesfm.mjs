@@ -93,20 +93,25 @@ function runForecast(args) {
   ensureSetup();
   const symbol = requireArg(args[0], "symbol");
   const options = parseForecastOptions(args.slice(1), { allowSymbol: true });
-  const bars = fetchYahooBars(symbol, options);
-  const usableBars = bars.filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
-
-  if (usableBars.length < options.minBars) {
-    throw new Error(`Need at least ${options.minBars} usable bars; got ${usableBars.length}`);
-  }
 
   mkdirSync(timesfmRoot, { recursive: true });
   mkdirSync(forecastRoot, { recursive: true });
 
   const stem = `${sanitizeSymbol(symbol)}-${options.range}-${options.interval}`;
-  const inputPath = path.join(timesfmRoot, `${stem}.json`);
   const outputPath = path.join(forecastRoot, `${stem}.json`);
-  writeFileSync(inputPath, JSON.stringify(usableBars, null, 2));
+
+  let inputPath;
+  if (options.inputFile) {
+    inputPath = options.inputFile;
+  } else {
+    const bars = fetchYahooBars(symbol, options);
+    const usableBars = bars.filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
+    if (usableBars.length < options.minBars) {
+      throw new Error(`Need at least ${options.minBars} usable bars; got ${usableBars.length}`);
+    }
+    inputPath = path.join(timesfmRoot, `${stem}.json`);
+    writeFileSync(inputPath, JSON.stringify(usableBars, null, 2));
+  }
 
   runTimesfmPython({
     mode: "forecast",
@@ -198,6 +203,11 @@ function parseForecastOptions(args, { allowSymbol }) {
     }
     if (arg === "--local-files-only") {
       options.localFilesOnly = true;
+      continue;
+    }
+    if (arg === "--input") {
+      options.inputFile = requireArg(args[index + 1], "input");
+      index += 1;
       continue;
     }
     throw new Error(`Unknown option: ${arg}`);

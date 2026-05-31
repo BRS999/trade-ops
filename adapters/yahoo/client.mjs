@@ -15,7 +15,7 @@
 const BASE_URL = "https://query2.finance.yahoo.com";
 const DEFAULT_REQUESTS_PER_MINUTE = 10;
 const DEFAULT_TIMEOUT_MS = 15_000;
-const USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36";
+const USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 
 export class YahooClient {
   constructor(options = {}) {
@@ -23,6 +23,76 @@ export class YahooClient {
       options.requestsPerMinute ?? DEFAULT_REQUESTS_PER_MINUTE;
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
     this._queue = [];
+    this._crumb = null;
+    this._cookie = null;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Crumb auth — required for v7 endpoints (options chains)
+  // ---------------------------------------------------------------------------
+
+  async _fetchCrumb() {
+    // Get session cookie from fc.yahoo.com
+    const fcRes = await fetch("https://fc.yahoo.com", {
+      headers: { "User-Agent": USER_AGENT },
+      redirect: "manual",
+      signal: AbortSignal.timeout(this.timeoutMs),
+    });
+    const cookies = fcRes.headers.getSetCookie?.() ?? [];
+    this._cookie = cookies.map(c => c.split(";")[0]).join("; ");
+
+    // Exchange cookie for crumb
+    const crumbRes = await fetch("https://query2.finance.yahoo.com/v1/test/getcrumb", {
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Cookie": this._cookie,
+        "Referer": "https://finance.yahoo.com/",
+      },
+      signal: AbortSignal.timeout(this.timeoutMs),
+    });
+
+    if (!crumbRes.ok) {
+      throw new YahooError(crumbRes.status, crumbRes.statusText, "/v1/test/getcrumb", "");
+    }
+
+    this._crumb = await crumbRes.text();
+    return this._crumb;
+  }
+
+  async getCrumb() {
+    if (!this._crumb) await this._fetchCrumb();
+    return this._crumb;
+  }
+
+  async getWithCrumb(path, params = {}) {
+    await this._waitForRateLimit();
+    const crumb = await this.getCrumb();
+
+    const url = new URL(path, BASE_URL);
+    url.searchParams.set("crumb", crumb);
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== null) {
+        url.searchParams.set(key, String(value));
+      }
+    }
+
+    const response = await fetch(url.toString(), {
+      headers: { "User-Agent": USER_AGENT, "Cookie": this._cookie },
+      signal: AbortSignal.timeout(this.timeoutMs),
+    });
+
+    // Crumb expired — refresh once and retry
+    if (response.status === 401) {
+      this._crumb = null;
+      this._cookie = null;
+      return this.getWithCrumb(path, params);
+    }
+
+    if (!response.ok) {
+      throw new YahooError(response.status, response.statusText, path, "");
+    }
+
+    return response.json();
   }
 
   // ---------------------------------------------------------------------------

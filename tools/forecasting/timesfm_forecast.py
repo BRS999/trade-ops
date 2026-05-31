@@ -181,7 +181,11 @@ def prepare_series(values: np.ndarray) -> np.ndarray:
 
 
 def read_bars(path: Path) -> list[dict]:
-    bars = json.loads(path.read_text(encoding="utf-8"))
+    text = path.read_text(encoding="utf-8")
+    start = text.find("[")
+    if start == -1:
+        raise ValueError("input file contains no JSON array")
+    bars = json.loads(text[start:])
     if not isinstance(bars, list):
         raise ValueError("input JSON must be a list of bars")
     return [bar for bar in bars if isinstance(bar, dict) and positive_close(bar)]

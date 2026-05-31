@@ -125,11 +125,17 @@ function runNativeForecast(args) {
 
   const symbol = requireArg(args[0], "symbol");
   const options = parseForecastOptions(args.slice(1));
-  const bars = fetchYahooBars(symbol, options);
-  const inputPath = path.join(kronosCacheRoot, `${sanitizeSymbol(symbol)}-${options.range}-${options.interval}.json`);
 
   mkdirSync(kronosCacheRoot, { recursive: true });
-  writeFileSync(inputPath, JSON.stringify(bars, null, 2));
+
+  let inputPath;
+  if (options.inputFile) {
+    inputPath = options.inputFile;
+  } else {
+    const bars = fetchYahooBars(symbol, options);
+    inputPath = path.join(kronosCacheRoot, `${sanitizeSymbol(symbol)}-${options.range}-${options.interval}.json`);
+    writeFileSync(inputPath, JSON.stringify(bars, null, 2));
+  }
 
   runHost(nativePython, [
     "-c",
@@ -246,6 +252,11 @@ function parseForecastOptions(args) {
     }
     if (arg === "--pred-len") {
       options.predLen = Number.parseInt(requireArg(args[index + 1], "pred-len"), 10);
+      index += 1;
+      continue;
+    }
+    if (arg === "--input") {
+      options.inputFile = requireArg(args[index + 1], "input");
       index += 1;
       continue;
     }

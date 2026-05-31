@@ -1,29 +1,21 @@
 # Trade-Ops
 
 You are operating a retail trading system for Benjamin Spencer.
-TradingView is the primary charting surface. This repo is everything behind it.
+TradingView is the primary charting surface. Alpaca is the primary trading execution surface (paper and live). This repo is everything behind both.
 
 ---
 
 ## How to Orient
 
 Start every session by reading:
-1. **Open positions** (below) — know what's live before anything else
+1. **Open positions** — run `npm run alpaca -- positions` and `npm run alpaca -- orders --status open` for live state
 2. **`wiki/README.md`** — rules for local compiled memory
 3. **`wiki/market/context.md`** — current macro and watchlist state, if present locally
 
 For any symbol you're about to work with, read its wiki file first:
 - `wiki/symbols/<SYMBOL>.md` — local trade history, what works, what to watch out for, if present
 
----
-
-## Open Positions
-
-*None.*
-
-*Update this table whenever a position opens or closes.*
-
----
+Journal files in `journal/open/` are the source of truth for trade plans (thesis, stops, targets). Alpaca is the source of truth for fills and current position state.
 
 ---
 
@@ -62,8 +54,15 @@ npm run fred   -- macro                 # Macro snapshot
 npm run fmp    -- summary <symbol>      # Analyst consensus
 npm run gecko  -- solana                # SOL/on-chain snapshot
 npm run dex    -- search "<query>"      # Cross-chain pair search
-npm run fng    -- current               # Fear & Greed
+npm run fng    -- current               # Fear & Greed (crypto)
+npm run fng    -- equity-snapshot       # Fear & Greed (equity, CNN)
 npm run sec    -- filings <symbol>      # SEC filings
+npm run finra  -- multi <SYM1> <SYM2>  # Short sale volume
+
+npm run alpaca -- positions             # Live positions (source of truth)
+npm run alpaca -- orders --status open  # All open orders and bracket legs
+npm run alpaca -- account               # Equity, cash, buying power
+npm run alpaca -- bars <symbol>         # Equity OHLCV bars (fallback when Yahoo is down)
 ```
 
 ---
@@ -75,7 +74,6 @@ After reviewing a closed trade:
 2. Update local `wiki/setups/<SETUP>.md` — update stats
 3. Update local `wiki/mistakes.md` — increment any triggered mistakes
 4. Update local `wiki/edges.md` — update sample counts and stats
-6. Update **Open Positions** table above
 
 After running adapter snapshots:
 1. Update local `wiki/market/context.md` with fresh macro and sentiment data

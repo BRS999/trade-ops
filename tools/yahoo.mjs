@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { YahooClient, getBars, getQuote, getCryptoQuote, getQuotes } from "../adapters/yahoo/index.mjs";
+import { YahooClient, getBars, getQuote, getCryptoQuote, getQuotes, getExpiries, getChain, getAtmSnapshot } from "../adapters/yahoo/index.mjs";
 
 const client = new YahooClient();
 const [, , command, ...rest] = process.argv;
@@ -18,6 +18,23 @@ try {
       break;
     case "bars":
       print(await runBars(rest));
+      break;
+    case "expiries":
+      print(await getExpiries(client, requireArg(rest[0], "symbol")));
+      break;
+    case "chain": {
+      const sym = requireArg(rest[0], "symbol");
+      const opts = {};
+      for (let i = 1; i < rest.length; i++) {
+        if (rest[i] === "--expiry")   { opts.expiry  = rest[++i]; continue; }
+        if (rest[i] === "--type")     { opts.type    = rest[++i]; continue; }
+        if (rest[i] === "--strikes")  { opts.strikes = Number(rest[++i]); continue; }
+      }
+      print(await getChain(client, sym, opts));
+      break;
+    }
+    case "atm":
+      print(await getAtmSnapshot(client, requireArg(rest[0], "symbol")));
       break;
     case "help":
     case undefined:
@@ -85,5 +102,10 @@ Examples:
   node tools/yahoo.mjs quotes NVDA,TSLA,META
   node tools/yahoo.mjs bars NVDA --range 6mo --interval 1d
   node tools/yahoo.mjs bars BTC-USD --range 5d --interval 1h
+
+Options (require crumb auth — first call fetches session automatically):
+  node tools/yahoo.mjs expiries NVDA
+  node tools/yahoo.mjs atm NVDA
+  node tools/yahoo.mjs chain NVDA --expiry 2026-06-20 --type calls --strikes 5
 `);
 }
