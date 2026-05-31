@@ -101,20 +101,26 @@ function runForecast(args) {
   ensureSetup();
   const symbol = requireArg(args[0], "symbol");
   const options = parseForecastOptions(args.slice(1), { allowSymbol: true });
-  const bars = fetchYahooBars(symbol, options);
-  const usableBars = bars.filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
-
-  if (usableBars.length < options.minBars) {
-    throw new Error(`Need at least ${options.minBars} usable bars; got ${usableBars.length}`);
-  }
 
   mkdirSync(chronosRoot, { recursive: true });
   mkdirSync(forecastRoot, { recursive: true });
 
   const stem = `${sanitizeSymbol(symbol)}-${options.range}-${options.interval}`;
-  const inputPath = path.join(chronosRoot, `${stem}.json`);
   const outputPath = path.join(forecastRoot, `${stem}.json`);
-  writeFileSync(inputPath, JSON.stringify(usableBars, null, 2));
+
+  let inputPath;
+  if (options.inputFile) {
+    // Bars supplied externally — use as-is, no fetch needed
+    inputPath = options.inputFile;
+  } else {
+    const bars = fetchYahooBars(symbol, options);
+    const usableBars = bars.filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
+    if (usableBars.length < options.minBars) {
+      throw new Error(`Need at least ${options.minBars} usable bars; got ${usableBars.length}`);
+    }
+    inputPath = path.join(chronosRoot, `${stem}.json`);
+    writeFileSync(inputPath, JSON.stringify(usableBars, null, 2));
+  }
 
   runChronosPython({
     mode: "forecast",
@@ -213,6 +219,11 @@ function parseForecastOptions(args, { allowSymbol }) {
       options.localFilesOnly = true;
       continue;
     }
+    if (arg === "--input") {
+      options.inputFile = requireArg(args[index + 1], "input");
+      index += 1;
+      continue;
+    }
     if (arg === "--min-bars") {
       options.minBars = parsePositiveInt(requireArg(args[index + 1], "min-bars"), "min-bars");
       index += 1;
@@ -227,25 +238,11 @@ function parseForecastOptions(args, { allowSymbol }) {
 function fetchYahooBars(symbol, options) {
   const result = spawnSync(
     "node",
-    [
-      path.join(repoRoot, "tools", "yahoo.mjs"),
-      "bars",
-      symbol,
-      "--range",
-      options.range,
-      "--interval",
-      options.interval
-    ],
-    {
-      cwd: repoRoot,
-      encoding: "utf8"
-    }
+    [path.join(repoRoot, "tools", "yahoo.mjs"), "bars", symbol, "--range", options.range, "--interval", options.interval],
+    { cwd: repoRoot, encoding: "utf8" }
   );
 
-  if (result.error) {
-    throw result.error;
-  }
-
+  if (result.error) throw result.error;
   if (typeof result.status === "number" && result.status !== 0) {
     throw new Error(result.stderr || `Yahoo bars command failed with status ${result.status}`);
   }

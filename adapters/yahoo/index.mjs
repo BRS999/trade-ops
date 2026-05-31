@@ -21,6 +21,7 @@
 
 export { YahooClient, YahooError } from "./client.mjs";
 export { getQuote, getCryptoQuote, getQuotes, getBars } from "./quotes.mjs";
+export { getExpiries, getChain, getAtmSnapshot } from "./options.mjs";
 
 import { getQuote, getCryptoQuote } from "./quotes.mjs";
 
