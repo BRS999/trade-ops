@@ -1,6 +1,6 @@
 {
   "_comment": "The full tracked universe. Everything worth scanning lives here. Active state lives in TradingView and journal/open.",
-  "updated_at": "2026-05-30",
+  "updated_at": "2026-05-31",
   "equities": [
     {
       "symbol": "GOOGL",
@@ -545,6 +545,62 @@
       "float_tier": "mega",
       "index_member": "SPX",
       "notes": "Largest US railroad by revenue. West Coast, agricultural commodity flows."
+    },
+    {
+      "symbol": "MU",
+      "name": "Micron Technology",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": null,
+      "notes": "DRAM/HBM producer, direct AI infrastructure name. Key beneficiary of HBM demand for AI accelerators."
+    },
+    {
+      "symbol": "SOFI",
+      "name": "SoFi Technologies",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Fintech platform: lending, brokerage, crypto. Rate-sensitive, strong deposit growth, profitable."
+    },
+    {
+      "symbol": "APP",
+      "name": "Applovin Corporation",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "AI-driven mobile advertising platform. Strong momentum, high-margin recurring revenue."
+    },
+    {
+      "symbol": "NOW",
+      "name": "ServiceNow Inc.",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": null,
+      "notes": "Enterprise workflow automation. AI integration (Now Assist), strong net dollar retention."
+    },
+    {
+      "symbol": "AVAV",
+      "name": "AeroVironment Inc.",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Defense drone / unmanned systems. Direct beneficiary of DoD modernization and drone spending surge."
+    },
+    {
+      "symbol": "KTOS",
+      "name": "Kratos Defense & Security",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Defense technology: drones, satellite comms, directed energy. Speculative but pure-play next-gen defense."
+    },
+    {
+      "symbol": "MARA",
+      "name": "Marathon Digital Holdings",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin mining equity. Higher-leverage BTC proxy than MSTR. Hash rate growth + BTC treasury."
     }
   ],
   "etfs": [
@@ -729,6 +785,20 @@
       "yahoo_symbol": "DJP",
       "tracks": "Broad commodities",
       "notes": "Broad commodity basket for inflation/real asset exposure."
+    },
+    {
+      "symbol": "GLD",
+      "name": "SPDR Gold Shares",
+      "yahoo_symbol": "GLD",
+      "tracks": "Physical Gold",
+      "notes": "Largest physical gold ETF. Safe haven / inflation hedge. Underweight in current portfolio."
+    },
+    {
+      "symbol": "BITO",
+      "name": "ProShares Bitcoin Strategy ETF",
+      "yahoo_symbol": "BITO",
+      "tracks": "BTC Futures",
+      "notes": "BTC futures-based ETF. Exposure without holding spot crypto directly."
     }
   ],
   "forex": [
@@ -1166,6 +1236,42 @@
       "gecko_address": "0x808507121B80c02388fAd14726482e061B8da827",
       "coingecko_id": "pendle",
       "notes": "Yield tokenization / fixed rate DeFi. Real DeFi primitive, growing TVL."
+    },
+    {
+      "symbol": "CRYPTO:TIAUSD",
+      "name": "Celestia",
+      "yahoo_symbol": null,
+      "gecko_network": "celestia",
+      "gecko_address": null,
+      "coingecko_id": "celestia",
+      "notes": "Modular blockchain / data availability layer. Growing ecosystem of rollups building on top."
+    },
+    {
+      "symbol": "CRYPTO:JTOUSD",
+      "name": "Jito",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL",
+      "coingecko_id": "jito-governance-token",
+      "notes": "Liquid staking on Solana. Real yield from MEV + staking. Fundamental SOL ecosystem play."
+    },
+    {
+      "symbol": "CRYPTO:PYTHUSD",
+      "name": "Pyth Network",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "HZ1JovNiVvGrGNiiYvEozEVgZ58xaU3RKwX8eACQBCt3",
+      "coingecko_id": "pyth-network",
+      "notes": "Oracle network for Solana and cross-chain. Key DeFi infrastructure, real adoption."
+    },
+    {
+      "symbol": "CRYPTO:IMXUSD",
+      "name": "Immutable X",
+      "yahoo_symbol": null,
+      "gecko_network": "eth",
+      "gecko_address": "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF",
+      "coingecko_id": "immutable-x",
+      "notes": "Gaming/NFT L2 on Ethereum. zk-rollup with strong game studio partnerships."
     }
   ],
   "prediction_markets": [
