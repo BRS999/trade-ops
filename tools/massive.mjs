@@ -9,6 +9,13 @@ import {
   getOptionTrades,
   getOptionBars,
   scanUnusualOptions,
+  getFuturesContracts,
+  getFuturesProducts,
+  getFuturesSchedule,
+  getFuturesSnapshots,
+  getFuturesBars,
+  getFuturesTrades,
+  getFrontContract,
   getPrevDay,
   getSnapshot,
   getSnapshots,
@@ -69,6 +76,34 @@ try {
     case "options-unusual":
       ensureClient();
       print(await runOptionsUnusual(rest));
+      break;
+    case "futures-contracts":
+      ensureClient();
+      print(await runFuturesContracts(rest));
+      break;
+    case "futures-products":
+      ensureClient();
+      print(await runFuturesProducts(rest));
+      break;
+    case "futures-snapshot":
+      ensureClient();
+      print(await runFuturesSnapshot(rest));
+      break;
+    case "futures-bars":
+      ensureClient();
+      print(await runFuturesBars(rest));
+      break;
+    case "futures-trades":
+      ensureClient();
+      print(await runFuturesTrades(rest));
+      break;
+    case "futures-front":
+      ensureClient();
+      print(await runFuturesFront(rest));
+      break;
+    case "futures-schedule":
+      ensureClient();
+      print(await runFuturesSchedule(rest));
       break;
     case "help":
     case undefined:
@@ -196,6 +231,75 @@ async function runOptionsUnusual(args) {
   return scanUnusualOptions(client, underlying, { minVolume, oiMultiplier });
 }
 
+// ── Futures runners ───────────────────────────────────────────────────────────
+
+async function runFuturesContracts(args) {
+  const productCode = flag(args, "--product") || flag(args, "--product-code");
+  const asOf = flag(args, "--as-of");
+  const limit = Number(flag(args, "--limit", "100"));
+  const includeInactive = args.includes("--all");
+  return getFuturesContracts(client, {
+    product_code: productCode,
+    active: !includeInactive,
+    as_of: asOf || undefined,
+    limit,
+  });
+}
+
+async function runFuturesProducts(args) {
+  const exchange = flag(args, "--exchange");
+  const sector = flag(args, "--sector");
+  const limit = Number(flag(args, "--limit", "100"));
+  return getFuturesProducts(client, { exchange, sector, limit });
+}
+
+async function runFuturesSnapshot(args) {
+  const ticker = flag(args, "--ticker");
+  const productCode = flag(args, "--product") || flag(args, "--product-code");
+  const sort = flag(args, "--sort");
+  const limit = Number(flag(args, "--limit", "100"));
+  return getFuturesSnapshots(client, {
+    ticker: ticker || undefined,
+    product_code: productCode || undefined,
+    sort: sort || undefined,
+    limit,
+  });
+}
+
+async function runFuturesBars(args) {
+  const ticker = requireArg(args[0], "ticker");
+  const from = flag(args, "--from");
+  const to = flag(args, "--to");
+  const timespan = flag(args, "--timespan", "day");
+  const multiplier = Number(flag(args, "--multiplier", "1"));
+  const limit = Number(flag(args, "--limit", "5000"));
+  return getFuturesBars(client, ticker, { from, to, timespan, multiplier, limit });
+}
+
+async function runFuturesTrades(args) {
+  const ticker = requireArg(args[0], "ticker");
+  const from = flag(args, "--from");
+  const to = flag(args, "--to");
+  const limit = Number(flag(args, "--limit", "100"));
+  const opts = { limit };
+  if (from) opts.timestamp_gte = from;
+  if (to) opts.timestamp_lte = to;
+  return getFuturesTrades(client, ticker, opts);
+}
+
+async function runFuturesFront(args) {
+  const productCode = requireArg(args[0], "product-code");
+  return getFrontContract(client, productCode);
+}
+
+async function runFuturesSchedule(args) {
+  const from = flag(args, "--from");
+  const to = flag(args, "--to");
+  const productCode = flag(args, "--product") || flag(args, "--product-code");
+  const limit = Number(flag(args, "--limit", "100"));
+  return getFuturesSchedule(client, { from, to, product_code: productCode || undefined, limit });
+}
+
 function ensureClient() {
   if (!client) {
     throw new Error("Massive client is unavailable");
@@ -238,5 +342,15 @@ Options (requires paid Massive plan — Starter $29/mo+):
   node tools/massive.mjs options-trades <options-ticker> [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit 100]
   node tools/massive.mjs options-bars <options-ticker> --from YYYY-MM-DD --to YYYY-MM-DD [--timespan day] [--multiplier 1] [--limit 120]
   node tools/massive.mjs options-unusual <underlying> [--min-volume 100] [--oi-multiplier 2]
-}`);
+
+Futures (requires paid Massive plan — Starter $29/mo+):
+  node tools/massive.mjs futures-contracts [--product ES|GC|CL|...] [--all] [--limit 100]
+  node tools/massive.mjs futures-products [--exchange CME|NYMEX|...] [--sector Energy|Metals|...]
+  node tools/massive.mjs futures-front <product-code>
+  node tools/massive.mjs futures-snapshot --ticker ESZ24 [--sort field] [--limit 100]
+  node tools/massive.mjs futures-snapshot --product ES
+  node tools/massive.mjs futures-bars <ticker> --from YYYY-MM-DD --to YYYY-MM-DD [--timespan day] [--multiplier 1]
+  node tools/massive.mjs futures-trades <ticker> [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit 100]
+  node tools/massive.mjs futures-schedule --from YYYY-MM-DD --to YYYY-MM-DD [--product ES|GC|...]
+`);
 }

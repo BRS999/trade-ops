@@ -28,3 +28,13 @@ export {
   getOptionBars,
   scanUnusualOptions,
 } from "./options.mjs";
+export {
+  getFuturesContracts,
+  getFuturesContract,
+  getFuturesProducts,
+  getFuturesSchedule,
+  getFuturesSnapshots,
+  getFuturesBars,
+  getFuturesTrades,
+  getFrontContract,
+} from "./futures.mjs";
