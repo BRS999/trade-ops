@@ -1,6 +1,19 @@
 #!/usr/bin/env node
 
-import { MassiveClient, getBars, getFinancials, getPrevDay, getSnapshot, getTickerDetails } from "../adapters/massive/index.mjs";
+import {
+  MassiveClient,
+  getBars,
+  getFinancials,
+  getOptionContracts,
+  getOptionChainSnapshot,
+  getOptionTrades,
+  getOptionBars,
+  scanUnusualOptions,
+  getPrevDay,
+  getSnapshot,
+  getSnapshots,
+  getTickerDetails,
+} from "../adapters/massive/index.mjs";
 
 let client;
 
@@ -36,6 +49,26 @@ try {
     case "bars":
       ensureClient();
       print(await runBars(rest));
+      break;
+    case "options-contracts":
+      ensureClient();
+      print(await runOptionsContracts(rest));
+      break;
+    case "options-chain":
+      ensureClient();
+      print(await runOptionsChain(rest));
+      break;
+    case "options-trades":
+      ensureClient();
+      print(await runOptionsTrades(rest));
+      break;
+    case "options-bars":
+      ensureClient();
+      print(await runOptionsBars(rest));
+      break;
+    case "options-unusual":
+      ensureClient();
+      print(await runOptionsUnusual(rest));
       break;
     case "help":
     case undefined:
@@ -120,6 +153,49 @@ async function runBars(args) {
   return getBars(client, ticker, options);
 }
 
+// ── Options runners ───────────────────────────────────────────────────────────
+
+async function runOptionsContracts(args) {
+  const underlying = requireArg(args[0], "underlying");
+  const contractType = flag(args, "--type");
+  const asOf = flag(args, "--as-of");
+  const limit = Number(flag(args, "--limit", "100"));
+  return getOptionContracts(client, underlying, contractType || undefined, asOf || undefined, limit);
+}
+
+async function runOptionsChain(args) {
+  const underlying = requireArg(args[0], "underlying");
+  return getOptionChainSnapshot(client, underlying);
+}
+
+async function runOptionsTrades(args) {
+  const ticker = requireArg(args[0], "options-ticker");
+  const from = flag(args, "--from");
+  const to = flag(args, "--to");
+  const limit = Number(flag(args, "--limit", "100"));
+  const opts = { limit };
+  if (from) opts.timestamp_gte = from;
+  if (to) opts.timestamp_lte = to;
+  return getOptionTrades(client, ticker, opts);
+}
+
+async function runOptionsBars(args) {
+  const ticker = requireArg(args[0], "options-ticker");
+  const from = flag(args, "--from");
+  const to = flag(args, "--to");
+  const timespan = flag(args, "--timespan", "day");
+  const multiplier = Number(flag(args, "--multiplier", "1"));
+  const limit = Number(flag(args, "--limit", "120"));
+  return getOptionBars(client, ticker, { from, to, timespan, multiplier, limit });
+}
+
+async function runOptionsUnusual(args) {
+  const underlying = requireArg(args[0], "underlying");
+  const minVolume = Number(flag(args, "--min-volume", "100"));
+  const oiMultiplier = Number(flag(args, "--oi-multiplier", "2"));
+  return scanUnusualOptions(client, underlying, { minVolume, oiMultiplier });
+}
+
 function ensureClient() {
   if (!client) {
     throw new Error("Massive client is unavailable");
@@ -131,6 +207,12 @@ function requireArg(value, name) {
     throw new Error(`${name} is required`);
   }
   return value;
+}
+
+function flag(args, name, defaultVal) {
+  const idx = args.indexOf(name);
+  if (idx === -1) return defaultVal;
+  return args[idx + 1];
 }
 
 function print(value) {
@@ -149,5 +231,12 @@ Usage:
   node tools/massive.mjs ticker-details <ticker>
   node tools/massive.mjs financials <ticker> [--timeframe quarterly] [--limit 4]
   node tools/massive.mjs bars <ticker> --from YYYY-MM-DD --to YYYY-MM-DD [--timespan day] [--multiplier 1] [--limit 120]
-`);
+
+Options (requires paid Massive plan — Starter $29/mo+):
+  node tools/massive.mjs options-contracts <underlying> [--type call|put] [--as-of YYYY-MM-DD] [--limit 100]
+  node tools/massive.mjs options-chain <underlying>
+  node tools/massive.mjs options-trades <options-ticker> [--from YYYY-MM-DD] [--to YYYY-MM-DD] [--limit 100]
+  node tools/massive.mjs options-bars <options-ticker> --from YYYY-MM-DD --to YYYY-MM-DD [--timespan day] [--multiplier 1] [--limit 120]
+  node tools/massive.mjs options-unusual <underlying> [--min-volume 100] [--oi-multiplier 2]
+}`);
 }
