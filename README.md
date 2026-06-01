@@ -302,6 +302,11 @@ npm run massive -- options-chain AAPL
 npm run massive -- options-contracts AAPL --type call --limit 50
 npm run massive -- options-unusual AAPL --min-volume 100 --oi-multiplier 2
 
+npm run massive -- futures-contracts --product ES
+npm run massive -- futures-front ES
+npm run massive -- futures-snapshot --ticker ESZ24
+npm run massive -- futures-bars ESZ24 --from 2026-01-01 --to 2026-06-01
+
 npm run tv      -- status
 npm run tv      -- recover
 npm run tv      -- chart
