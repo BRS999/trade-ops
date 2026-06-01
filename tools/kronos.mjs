@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 const kronosCacheRoot = path.join(repoRoot, "tmp", "kronos-native");
+const forecastRoot = path.join(repoRoot, "tmp", "forecasts", "kronos");
 const nativeVenv = path.join(kronosCacheRoot, ".venv");
 const nativePython = path.join(nativeVenv, "bin", "python");
 const nativeRepo = path.join(kronosCacheRoot, "Kronos");
@@ -127,17 +128,23 @@ function runNativeForecast(args) {
   const options = parseForecastOptions(args.slice(1));
 
   mkdirSync(kronosCacheRoot, { recursive: true });
+  mkdirSync(forecastRoot, { recursive: true });
+
+  const outputPath = path.join(forecastRoot, `${sanitizeSymbol(symbol)}.json`);
 
   let inputPath;
   if (options.inputFile) {
     inputPath = options.inputFile;
-  } else {
-    const bars = fetchYahooBars(symbol, options);
-    inputPath = path.join(kronosCacheRoot, `${sanitizeSymbol(symbol)}-${options.range}-${options.interval}.json`);
+  } else if (options.stdin) {
+    const raw = readFileSync("/dev/stdin", "utf8");
+    const bars = JSON.parse(raw);
+    inputPath = path.join(kronosCacheRoot, `${sanitizeSymbol(symbol)}.json`);
     writeFileSync(inputPath, JSON.stringify(bars, null, 2));
+  } else {
+    throw new Error("No candle data provided. Pipe bars via stdin or use --input <file>.\nExample: npm run alpaca -- bars AAPL | npm run kronos -- forecast AAPL --stdin");
   }
 
-  runHost(nativePython, [
+  runKronosForecast(nativePython, [
     "-c",
     [
       "import json",
@@ -154,7 +161,12 @@ function runNativeForecast(args) {
       `input_path = Path(${JSON.stringify(inputPath)})`,
       "bars = json.loads(input_path.read_text())",
       "df = pd.DataFrame(bars)",
-      "df['timestamps'] = pd.to_datetime(df['timestamp'], unit='s')",
+      "if 'timestamp' in df.columns:",
+      "    df['timestamps'] = pd.to_datetime(df['timestamp'], unit='s')",
+      "elif 'date' in df.columns:",
+      "    df['timestamps'] = pd.to_datetime(df['date'])",
+      "else:",
+      "    raise KeyError('bars must have a timestamp (unix s) or date (ISO) field')",
       "df = df[['timestamps', 'open', 'high', 'low', 'close']].copy()",
       "x_df = df.tail(lookback)[['open', 'high', 'low', 'close']].reset_index(drop=True)",
       "x_timestamp = df.tail(lookback)['timestamps'].reset_index(drop=True)",
@@ -194,7 +206,22 @@ function runNativeForecast(args) {
       "}",
       "print(json.dumps(payload, indent=2))"
     ].join("\n")
-  ]);
+  ], outputPath);
+}
+
+function runKronosForecast(cmd, args, outputPath) {
+  const result = spawnSync(cmd, args, { cwd: repoRoot, encoding: "utf8" });
+
+  if (result.error) throw result.error;
+  if (typeof result.status === "number" && result.status !== 0) {
+    process.stderr.write(result.stderr ?? "");
+    process.exit(result.status);
+  }
+
+  // Parse stdout to validate JSON, then write to file
+  const payload = JSON.parse(result.stdout);
+  writeFileSync(outputPath, JSON.stringify(payload, null, 2));
+  console.log(JSON.stringify(payload, null, 2));
 }
 
 function runHost(cmd, args) {
@@ -203,10 +230,7 @@ function runHost(cmd, args) {
     stdio: "inherit"
   });
 
-  if (result.error) {
-    throw result.error;
-  }
-
+  if (result.error) throw result.error;
   if (typeof result.status === "number" && result.status !== 0) {
     process.exit(result.status);
   }
@@ -227,7 +251,6 @@ function ensureNativeSetup() {
 
 function parseForecastOptions(args) {
   const options = {
-    range: "6mo",
     interval: "1d",
     lookback: undefined,
     predLen: undefined
@@ -235,11 +258,6 @@ function parseForecastOptions(args) {
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
-    if (arg === "--range") {
-      options.range = requireArg(args[index + 1], "range");
-      index += 1;
-      continue;
-    }
     if (arg === "--interval") {
       options.interval = requireArg(args[index + 1], "interval");
       index += 1;
@@ -258,6 +276,10 @@ function parseForecastOptions(args) {
     if (arg === "--input") {
       options.inputFile = requireArg(args[index + 1], "input");
       index += 1;
+      continue;
+    }
+    if (arg === "--stdin") {
+      options.stdin = true;
       continue;
     }
     throw new Error(`Unknown forecast option: ${arg}`);
@@ -281,34 +303,6 @@ function requireArg(value, name) {
   return value;
 }
 
-function fetchYahooBars(symbol, options) {
-  const result = spawnSync(
-    "node",
-    [
-      path.join(repoRoot, "tools", "yahoo.mjs"),
-      "bars",
-      symbol,
-      "--range",
-      options.range,
-      "--interval",
-      options.interval
-    ],
-    {
-      cwd: repoRoot,
-      encoding: "utf8"
-    }
-  );
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (typeof result.status === "number" && result.status !== 0) {
-    throw new Error(result.stderr || `Yahoo bars command failed with status ${result.status}`);
-  }
-
-  return JSON.parse(result.stdout);
-}
 
 function sanitizeSymbol(symbol) {
   return symbol.replaceAll(/[^A-Za-z0-9_-]+/g, "_");
@@ -327,13 +321,17 @@ Commands:
   setup     Create a local Python env for Kronos under tmp/ and install deps
   check     Verify PyTorch and Kronos imports, including MPS availability
   example   Run a synthetic forecast using MPS when available
-  forecast  Run a forecast on Yahoo bars using MPS when available
+  forecast  Run a forecast from piped or file candle data, write tmp/forecasts/kronos/<symbol>.json
+
+Candle input (required — no built-in data source):
+  --stdin           Read JSON bars from stdin (pipe from any bars command)
+  --input <file>    Read JSON bars from a file
 
 Examples:
   npm run kronos -- setup
   npm run kronos -- check
   npm run kronos -- example
-  npm run kronos -- forecast BTC-USD --range 5d --interval 1h
-  npm run kronos -- forecast TSM --range 6mo --interval 1d
+  npm run alpaca -- bars AAPL | npm run kronos -- forecast AAPL --stdin
+  npm run kronos -- forecast AAPL --input tmp/bars/AAPL.json
 `);
 }

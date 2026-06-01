@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -103,14 +103,16 @@ function runForecast(args) {
   let inputPath;
   if (options.inputFile) {
     inputPath = options.inputFile;
-  } else {
-    const bars = fetchYahooBars(symbol, options);
-    const usableBars = bars.filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
-    if (usableBars.length < options.minBars) {
-      throw new Error(`Need at least ${options.minBars} usable bars; got ${usableBars.length}`);
+  } else if (options.stdin) {
+    const raw = readFileSync("/dev/stdin", "utf8");
+    const bars = JSON.parse(raw).filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
+    if (bars.length < options.minBars) {
+      throw new Error(`Need at least ${options.minBars} usable bars; got ${bars.length}`);
     }
     inputPath = path.join(timesfmRoot, `${stem}.json`);
-    writeFileSync(inputPath, JSON.stringify(usableBars, null, 2));
+    writeFileSync(inputPath, JSON.stringify(bars, null, 2));
+  } else {
+    throw new Error("No candle data provided. Pipe bars via stdin or use --input <file>.\nExample: node tools/alpaca.mjs bars AAPL | node tools/timesfm.mjs forecast AAPL --stdin");
   }
 
   runTimesfmPython({
@@ -210,40 +212,16 @@ function parseForecastOptions(args, { allowSymbol }) {
       index += 1;
       continue;
     }
+    if (arg === "--stdin") {
+      options.stdin = true;
+      continue;
+    }
     throw new Error(`Unknown option: ${arg}`);
   }
 
   return options;
 }
 
-function fetchYahooBars(symbol, options) {
-  const result = spawnSync(
-    "node",
-    [
-      path.join(repoRoot, "tools", "yahoo.mjs"),
-      "bars",
-      symbol,
-      "--range",
-      options.range,
-      "--interval",
-      options.interval
-    ],
-    {
-      cwd: repoRoot,
-      encoding: "utf8"
-    }
-  );
-
-  if (result.error) {
-    throw result.error;
-  }
-
-  if (typeof result.status === "number" && result.status !== 0) {
-    throw new Error(result.stderr || `Yahoo bars command failed with status ${result.status}`);
-  }
-
-  return JSON.parse(result.stdout);
-}
 
 function ensureUv() {
   const result = spawnSync("uv", ["--version"], { cwd: repoRoot, stdio: "ignore" });
@@ -305,14 +283,18 @@ Commands:
   setup     Create a local Python env under tmp/ and install TimesFM deps
   check     Verify native PyTorch and TimesFM imports
   example   Run a synthetic local forecast
-  forecast  Run a local forecast on Yahoo bars and write tmp/forecasts/timesfm/*.json
+  forecast  Run a forecast from piped or file candle data, write tmp/forecasts/timesfm/<symbol>.json
+
+Candle input (required — no built-in data source):
+  --stdin           Read JSON bars from stdin (pipe from any bars command)
+  --input <file>    Read JSON bars from a file
 
 Examples:
   npm run timesfm -- setup
   npm run timesfm -- check
   npm run timesfm -- example
-  npm run timesfm -- forecast BTC-USD --range 5d --interval 1h --prediction-length 12
-  npm run timesfm -- forecast BTC-USD --range 5d --interval 1h --prediction-length 12 --local-files-only
-  npm run timesfm -- forecast TSM --range 6mo --interval 1d --prediction-length 5
+  npm run alpaca -- bars AAPL | npm run timesfm -- forecast AAPL --stdin
+  npm run alpaca -- bars AAPL | npm run timesfm -- forecast AAPL --stdin --prediction-length 12
+  npm run timesfm -- forecast AAPL --input tmp/bars/AAPL.json
 `);
 }

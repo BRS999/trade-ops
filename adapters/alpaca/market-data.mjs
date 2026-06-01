@@ -20,6 +20,10 @@
  * @param {string} [opts.feed]      "iex" (free) | "sip" (paid). Default "iex"
  */
 export async function getBars(client, symbol, opts = {}) {
+  if (looksLikeCryptoPair(symbol)) {
+    return getCryptoBars(client, symbol, opts);
+  }
+
   const {
     start = new Date(Date.now() - 365 * 24 * 3600 * 1000).toISOString().slice(0, 10),
     end,
@@ -34,6 +38,38 @@ export async function getBars(client, symbol, opts = {}) {
 
   const data = await client.request("GET", `stocks/${symbol.toUpperCase()}/bars`, { params, base: "data" });
   const bars = data?.bars ?? [];
+
+  return bars.map(b => ({
+    date:   b.t.slice(0, 10),
+    open:   b.o,
+    high:   b.h,
+    low:    b.l,
+    close:  b.c,
+    volume: b.v,
+    vwap:   b.vw ?? null,
+  }));
+}
+
+/**
+ * Daily OHLCV bars for an Alpaca crypto pair.
+ *
+ * Accepts "BTC/USD" or the position-style "BTCUSD".
+ */
+export async function getCryptoBars(client, symbol, opts = {}) {
+  const {
+    start = new Date(Date.now() - 365 * 24 * 3600 * 1000).toISOString().slice(0, 10),
+    end,
+    timeframe = "1Day",
+    limit = 500,
+  } = opts;
+
+  const pair = normalizeCryptoPair(symbol);
+  const params = { symbols: pair, timeframe, limit };
+  if (start) params.start = start;
+  if (end)   params.end   = end;
+
+  const data = await client.request("GET", "/v1beta3/crypto/us/bars", { params, base: "data" });
+  const bars = data?.bars?.[pair] ?? [];
 
   return bars.map(b => ({
     date:   b.t.slice(0, 10),
@@ -106,4 +142,14 @@ export async function getBarsForForecast(client, symbol, opts = {}) {
   const closes = bars.map(b => ({ timestamp: new Date(b.date).getTime(), close: b.close }));
   const ohlc   = bars.map(b => ({ timestamp: Math.floor(new Date(b.date).getTime() / 1000), open: b.open, high: b.high, low: b.low, close: b.close }));
   return { closes, ohlc, bars };
+}
+
+function looksLikeCryptoPair(symbol) {
+  return /^[A-Z0-9]+\/USD$/i.test(symbol) || /^[A-Z0-9]+USD$/i.test(symbol);
+}
+
+function normalizeCryptoPair(symbol) {
+  const upper = symbol.toUpperCase();
+  if (upper.includes("/")) return upper;
+  return `${upper.slice(0, -3)}/USD`;
 }

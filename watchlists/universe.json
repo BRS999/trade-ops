@@ -1,6 +1,6 @@
 {
   "_comment": "The full tracked universe. Everything worth scanning lives here. Active state lives in TradingView and journal/open.",
-  "updated_at": "2026-05-31",
+  "updated_at": "2026-06-01",
   "equities": [
     {
       "symbol": "GOOGL",
@@ -235,6 +235,46 @@
       "notes": "Risk appetite read, reports Apr 13"
     },
     {
+      "symbol": "CME",
+      "name": "CME Group",
+      "sector": "Financials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Derivatives exchange and clearinghouse. Benefits from volatility, futures volume, and rate/commodity activity."
+    },
+    {
+      "symbol": "ICE",
+      "name": "Intercontinental Exchange",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Exchange, clearing, data, and mortgage technology. Market plumbing name with energy and rates exposure."
+    },
+    {
+      "symbol": "CBOE",
+      "name": "Cboe Global Markets",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Options and volatility exchange. Direct read on derivatives activity, VIX products, and hedging demand."
+    },
+    {
+      "symbol": "BRK.B",
+      "name": "Berkshire Hathaway",
+      "sector": "Financials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Quality defensive compounder. Insurance, cash, operating businesses, and broad US economy exposure."
+    },
+    {
+      "symbol": "PGR",
+      "name": "Progressive Corporation",
+      "sector": "Financials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Property and casualty insurance compounder. Defensive financial with pricing-cycle and rate exposure."
+    },
+    {
       "symbol": "HOOD",
       "name": "Robinhood Markets",
       "sector": "Financials",
@@ -299,6 +339,46 @@
       "notes": "Merchant power / generation exposure, benefits from tight power markets and AI demand."
     },
     {
+      "symbol": "GEV",
+      "name": "GE Vernova",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Power equipment, grid, gas turbines, and electrification. AI power demand and grid buildout beneficiary."
+    },
+    {
+      "symbol": "PWR",
+      "name": "Quanta Services",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Grid construction and infrastructure services. Direct beneficiary of transmission, utility capex, and data center power demand."
+    },
+    {
+      "symbol": "CCJ",
+      "name": "Cameco Corporation",
+      "sector": "Energy",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Uranium producer. Nuclear fuel cycle exposure that complements CEG, VST, and URNM."
+    },
+    {
+      "symbol": "BWXT",
+      "name": "BWX Technologies",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Nuclear components and government nuclear services. Defense and nuclear infrastructure crossover."
+    },
+    {
+      "symbol": "LEU",
+      "name": "Centrus Energy",
+      "sector": "Energy",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Uranium enrichment and HALEU exposure. Speculative nuclear fuel-chain watchlist name."
+    },
+    {
       "symbol": "UNH",
       "name": "UnitedHealth Group",
       "sector": "Healthcare",
@@ -337,6 +417,22 @@
       "float_tier": "mega",
       "index_member": "SPX",
       "notes": "Deep value pharma. Oncology via Seagen, GLP-1 oral candidate."
+    },
+    {
+      "symbol": "HCA",
+      "name": "HCA Healthcare",
+      "sector": "Healthcare",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Largest US hospital operator. Healthcare utilization, labor cost, and consumer health proxy."
+    },
+    {
+      "symbol": "TMO",
+      "name": "Thermo Fisher Scientific",
+      "sector": "Healthcare",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Life-science tools and diagnostics. Biotech funding cycle and lab demand bellwether."
     },
     {
       "symbol": "LMT",
@@ -411,6 +507,30 @@
       "notes": "Consumer health proxy. Value play via low-end consumer spend."
     },
     {
+      "symbol": "WMT",
+      "name": "Walmart Inc.",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Defensive retail and lower-income consumer health proxy. Performs well when shoppers trade down."
+    },
+    {
+      "symbol": "COST",
+      "name": "Costco Wholesale",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Defensive quality retail compounder. Membership model, traffic resilience, and consumer staples overlap."
+    },
+    {
+      "symbol": "PG",
+      "name": "Procter & Gamble",
+      "sector": "Consumer",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Consumer staples anchor. Defensive quality, pricing power, and risk-off relative strength candidate."
+    },
+    {
       "symbol": "SBUX",
       "name": "Starbucks Corporation",
       "sector": "Consumer",
@@ -441,6 +561,22 @@
       "float_tier": "large",
       "index_member": null,
       "notes": "Largest cruise line. Consumer discretionary bellwether, travel demand proxy."
+    },
+    {
+      "symbol": "DHI",
+      "name": "D.R. Horton",
+      "sector": "Consumer",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Largest US homebuilder. Rate-sensitive housing demand and mortgage-rate relief proxy."
+    },
+    {
+      "symbol": "LEN",
+      "name": "Lennar Corporation",
+      "sector": "Consumer",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Major US homebuilder. Housing cycle, affordability, and rate-cut sensitivity watchlist name."
     },
     {
       "symbol": "AMT",
@@ -505,6 +641,14 @@
       "float_tier": "mega",
       "index_member": "SPX",
       "notes": "Largest US independent E&P. Permian Basin leader, disciplined capital return."
+    },
+    {
+      "symbol": "SLB",
+      "name": "SLB",
+      "sector": "Energy",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Oilfield services leader. Energy capex, international drilling, and commodity-cycle exposure."
     },
     {
       "symbol": "V",
@@ -601,6 +745,518 @@
       "float_tier": "mid",
       "index_member": null,
       "notes": "Bitcoin mining equity. Higher-leverage BTC proxy than MSTR. Hash rate growth + BTC treasury."
+    },
+    {
+      "symbol": "ANET",
+      "name": "Arista Networks",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "AI data center networking and ethernet switching. Key second-order AI infrastructure name."
+    },
+    {
+      "symbol": "DELL",
+      "name": "Dell Technologies",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "AI server and enterprise hardware infrastructure exposure. Useful read on AI compute demand beyond chips."
+    },
+    {
+      "symbol": "SMCI",
+      "name": "Super Micro Computer",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "High-beta AI server infrastructure. Volatile, execution/accounting-risk sensitive, but important AI hardware proxy."
+    },
+    {
+      "symbol": "HPE",
+      "name": "Hewlett Packard Enterprise",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Enterprise servers, networking, and AI systems exposure."
+    },
+    {
+      "symbol": "CDNS",
+      "name": "Cadence Design Systems",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "EDA software toll road for chip design. AI/semi infrastructure without direct chip-cycle exposure."
+    },
+    {
+      "symbol": "SNPS",
+      "name": "Synopsys",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "EDA and semiconductor IP. Structural beneficiary of chip-design complexity."
+    },
+    {
+      "symbol": "MPWR",
+      "name": "Monolithic Power Systems",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Power management semis for data center, auto, and industrial systems."
+    },
+    {
+      "symbol": "QCOM",
+      "name": "Qualcomm",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Mobile, edge AI, automotive, and connectivity semis. Useful contrast to AI data center chips."
+    },
+    {
+      "symbol": "INTC",
+      "name": "Intel",
+      "sector": "Technology",
+      "float_tier": "mega",
+      "index_member": "NDX",
+      "notes": "Turnaround/foundry/geopolitical semiconductor name. High headline sensitivity."
+    },
+    {
+      "symbol": "ALAB",
+      "name": "Astera Labs",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "AI data center connectivity, PCIe/CXL retimers, high-beta AI infrastructure."
+    },
+    {
+      "symbol": "CRDO",
+      "name": "Credo Technology",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "High-speed connectivity for AI/data center networking. High beta, momentum-sensitive."
+    },
+    {
+      "symbol": "CARR",
+      "name": "Carrier Global",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "HVAC/cooling exposure for buildings and data center thermal demand."
+    },
+    {
+      "symbol": "TT",
+      "name": "Trane Technologies",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "HVAC and thermal management. Beneficiary of efficiency, cooling, and infrastructure demand."
+    },
+    {
+      "symbol": "NVT",
+      "name": "nVent Electric",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": "SPX",
+      "notes": "Electrical enclosures and connection/protection products. Grid and data center infrastructure exposure."
+    },
+    {
+      "symbol": "AAON",
+      "name": "AAON Inc.",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Commercial HVAC and data center cooling adjacency. Smaller, higher beta infrastructure name."
+    },
+    {
+      "symbol": "STRL",
+      "name": "Sterling Infrastructure",
+      "sector": "Industrials",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Infrastructure construction, site development, and data center-related civil work."
+    },
+    {
+      "symbol": "FIX",
+      "name": "Comfort Systems USA",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Mechanical/electrical contracting with data center and industrial infrastructure exposure."
+    },
+    {
+      "symbol": "EME",
+      "name": "EMCOR Group",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": "SPX",
+      "notes": "Mechanical/electrical construction and facilities services. Data center and infrastructure buildout read."
+    },
+    {
+      "symbol": "BE",
+      "name": "Bloom Energy",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Fuel cells/distributed power. Speculative data center power and clean energy backup expression."
+    },
+    {
+      "symbol": "GNRC",
+      "name": "Generac Holdings",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": "SPX",
+      "notes": "Backup power and grid resilience. Storm, outage, and distributed-power exposure."
+    },
+    {
+      "symbol": "FLNC",
+      "name": "Fluence Energy",
+      "sector": "Industrials",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Grid-scale battery storage. High beta clean grid infrastructure."
+    },
+    {
+      "symbol": "OKLO",
+      "name": "Oklo Inc.",
+      "sector": "Utilities/Energy",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Advanced nuclear / SMR speculation tied to AI power demand and nuclear policy."
+    },
+    {
+      "symbol": "SMR",
+      "name": "NuScale Power",
+      "sector": "Utilities/Energy",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Small modular reactor pure-play. Very speculative nuclear infrastructure exposure."
+    },
+    {
+      "symbol": "NNE",
+      "name": "Nano Nuclear Energy",
+      "sector": "Utilities/Energy",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Microreactor/nuclear fuel speculation. High-risk nuclear theme tracker."
+    },
+    {
+      "symbol": "UEC",
+      "name": "Uranium Energy Corp.",
+      "sector": "Energy",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Uranium miner/developer. Higher-beta uranium supply expression."
+    },
+    {
+      "symbol": "UUUU",
+      "name": "Energy Fuels",
+      "sector": "Energy",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Uranium and critical minerals exposure. High beta commodity/nuclear supply chain name."
+    },
+    {
+      "symbol": "IONQ",
+      "name": "IonQ",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Quantum computing pure-play. Speculative but central to quantum equity basket."
+    },
+    {
+      "symbol": "RGTI",
+      "name": "Rigetti Computing",
+      "sector": "Technology",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Quantum computing pure-play. High beta, funding/headline sensitive."
+    },
+    {
+      "symbol": "QUBT",
+      "name": "Quantum Computing Inc.",
+      "sector": "Technology",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Speculative quantum computing name. Useful as a risk-appetite/high-beta quantum proxy."
+    },
+    {
+      "symbol": "ARQQ",
+      "name": "Arqit Quantum",
+      "sector": "Technology",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Quantum encryption/security theme. Very speculative."
+    },
+    {
+      "symbol": "LHX",
+      "name": "L3Harris Technologies",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Defense electronics, communications, space, sensors. Complements RTX/NOC/GD/LMT."
+    },
+    {
+      "symbol": "LDOS",
+      "name": "Leidos Holdings",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Government IT, defense, intelligence, and systems integration."
+    },
+    {
+      "symbol": "BA",
+      "name": "Boeing",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Aerospace/defense turnaround and commercial aviation bellwether. Headline-sensitive."
+    },
+    {
+      "symbol": "RKLB",
+      "name": "Rocket Lab",
+      "sector": "Industrials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Launch and space systems. High-beta public space infrastructure name."
+    },
+    {
+      "symbol": "ASTS",
+      "name": "AST SpaceMobile",
+      "sector": "Communication Services",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Satellite-to-mobile broadband. High beta space/connectivity speculation."
+    },
+    {
+      "symbol": "MIR",
+      "name": "Mirion Technologies",
+      "sector": "Industrials",
+      "float_tier": "small",
+      "index_member": null,
+      "notes": "Radiation detection/measurement. Nuclear, defense, medical, and energy infrastructure adjacency."
+    },
+    {
+      "symbol": "IRDM",
+      "name": "Iridium Communications",
+      "sector": "Communication Services",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Satellite communications. Defensive/space connectivity exposure."
+    },
+    {
+      "symbol": "TDY",
+      "name": "Teledyne Technologies",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Sensors, imaging, aerospace/defense, industrial technology."
+    },
+    {
+      "symbol": "HII",
+      "name": "Huntington Ingalls Industries",
+      "sector": "Industrials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "US naval shipbuilding and defense services. Defense budget exposure distinct from primes."
+    },
+    {
+      "symbol": "CRCL",
+      "name": "Circle Internet Group",
+      "sector": "Financials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Stablecoin and crypto payments infrastructure. Pure-play USDC/public crypto infrastructure."
+    },
+    {
+      "symbol": "RIOT",
+      "name": "Riot Platforms",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin miner. High beta BTC and hashprice exposure."
+    },
+    {
+      "symbol": "CLSK",
+      "name": "CleanSpark",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin miner. Operational execution and BTC beta."
+    },
+    {
+      "symbol": "HUT",
+      "name": "Hut 8",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin mining and HPC/data center adjacency."
+    },
+    {
+      "symbol": "CIFR",
+      "name": "Cipher Mining",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin miner with data center/power optionality."
+    },
+    {
+      "symbol": "WULF",
+      "name": "TeraWulf",
+      "sector": "Technology",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Bitcoin miner with low-carbon power/HPC optionality."
+    },
+    {
+      "symbol": "GLXY",
+      "name": "Galaxy Digital",
+      "sector": "Financials",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Institutional crypto finance, asset management, markets, and infrastructure exposure."
+    },
+    {
+      "symbol": "UBER",
+      "name": "Uber Technologies",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Mobility/delivery platform, consumer and autonomous vehicle optionality."
+    },
+    {
+      "symbol": "CAVA",
+      "name": "CAVA Group",
+      "sector": "Consumer",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "High-growth restaurant concept. Consumer momentum and valuation-risk tracker."
+    },
+    {
+      "symbol": "SHOP",
+      "name": "Shopify",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "E-commerce platform and merchant software. Consumer/internet growth exposure."
+    },
+    {
+      "symbol": "TTD",
+      "name": "The Trade Desk",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Programmatic advertising platform. Ad-tech read alongside APP/META/GOOGL."
+    },
+    {
+      "symbol": "DDOG",
+      "name": "Datadog",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": "NDX",
+      "notes": "Cloud observability/security platform. Software growth and AI/cloud workload proxy."
+    },
+    {
+      "symbol": "SNOW",
+      "name": "Snowflake",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Cloud data platform. AI data infrastructure/software growth read."
+    },
+    {
+      "symbol": "MDB",
+      "name": "MongoDB",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Developer database platform. Software growth and AI application infrastructure."
+    },
+    {
+      "symbol": "RBLX",
+      "name": "Roblox",
+      "sector": "Communication Services",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Gaming/social platform. Youth engagement, ads, and metaverse/UGC optionality."
+    },
+    {
+      "symbol": "SE",
+      "name": "Sea Limited",
+      "sector": "Technology",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Southeast Asia e-commerce, gaming, fintech. EM consumer/internet high-beta name."
+    },
+    {
+      "symbol": "MELI",
+      "name": "MercadoLibre",
+      "sector": "Consumer",
+      "float_tier": "large",
+      "index_member": null,
+      "notes": "Latin America e-commerce and fintech compounder."
+    },
+    {
+      "symbol": "CELH",
+      "name": "Celsius Holdings",
+      "sector": "Consumer",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Consumer growth/beverage momentum. Useful high-beta consumer discretionary tracker."
+    },
+    {
+      "symbol": "HIMS",
+      "name": "Hims & Hers Health",
+      "sector": "Healthcare",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Consumer healthcare/telehealth and GLP-1 adjacency. High-beta retail favorite."
+    },
+    {
+      "symbol": "TMDX",
+      "name": "TransMedics Group",
+      "sector": "Healthcare",
+      "float_tier": "mid",
+      "index_member": null,
+      "notes": "Organ transplant logistics/medical technology. High-growth healthcare innovation."
+    },
+    {
+      "symbol": "REGN",
+      "name": "Regeneron Pharmaceuticals",
+      "sector": "Healthcare",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Large-cap biotech anchor. Useful healthcare growth contrast to LLY/VRTX."
+    },
+    {
+      "symbol": "MRNA",
+      "name": "Moderna",
+      "sector": "Healthcare",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Vaccine/platform biotech. High-beta healthcare turnaround/catalyst tracker."
+    },
+    {
+      "symbol": "IBKR",
+      "name": "Interactive Brokers",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Brokerage, trading activity, cash yields, and retail/institutional trading volume."
+    },
+    {
+      "symbol": "SCHW",
+      "name": "Charles Schwab",
+      "sector": "Financials",
+      "float_tier": "large",
+      "index_member": "SPX",
+      "notes": "Brokerage and wealth platform. Rate/cash sweep and retail activity exposure."
+    },
+    {
+      "symbol": "BLK",
+      "name": "BlackRock",
+      "sector": "Financials",
+      "float_tier": "mega",
+      "index_member": "SPX",
+      "notes": "Asset management, ETF flows, and tokenization/crypto ETF infrastructure."
     }
   ],
   "etfs": [
@@ -630,7 +1286,7 @@
       "name": "Energy Select Sector",
       "yahoo_symbol": "XLE",
       "tracks": "S&P Energy",
-      "notes": "Broad energy \u2014 complements XOM/CL/BZ"
+      "notes": "Broad energy — complements XOM/CL/BZ"
     },
     {
       "symbol": "XLK",
@@ -644,7 +1300,7 @@
       "name": "Consumer Staples Select Sector",
       "yahoo_symbol": "XLP",
       "tracks": "S&P Staples",
-      "notes": "Defensive \u2014 outperforms in risk-off"
+      "notes": "Defensive — outperforms in risk-off"
     },
     {
       "symbol": "XLI",
@@ -672,7 +1328,7 @@
       "name": "iShares 7-10Y Treasury ETF",
       "yahoo_symbol": "IEF",
       "tracks": "7-10Y Treasuries",
-      "notes": "Middle of the curve \u2014 completes TLT picture"
+      "notes": "Middle of the curve — completes TLT picture"
     },
     {
       "symbol": "HYG",
@@ -686,14 +1342,14 @@
       "name": "iShares China Large-Cap ETF",
       "yahoo_symbol": "FXI",
       "tracks": "China large cap",
-      "notes": "China equity exposure \u2014 directly relevant with tariffs"
+      "notes": "China equity exposure — directly relevant with tariffs"
     },
     {
       "symbol": "KWEB",
       "name": "KraneShares China Internet ETF",
       "yahoo_symbol": "KWEB",
       "tracks": "China internet",
-      "notes": "BABA, JD, Tencent \u2014 China tech specifically"
+      "notes": "BABA, JD, Tencent — China tech specifically"
     },
     {
       "symbol": "VXX",
@@ -715,6 +1371,20 @@
       "yahoo_symbol": "SQQQ",
       "tracks": "NDX -3x",
       "notes": "Market hedge or short. Short holds only."
+    },
+    {
+      "symbol": "SH",
+      "name": "ProShares Short S&P500",
+      "yahoo_symbol": "SH",
+      "tracks": "SPX -1x",
+      "notes": "Lower-volatility broad market hedge than leveraged inverse products."
+    },
+    {
+      "symbol": "PSQ",
+      "name": "ProShares Short QQQ",
+      "yahoo_symbol": "PSQ",
+      "tracks": "NDX -1x",
+      "notes": "Lower-volatility Nasdaq hedge than SQQQ. Useful when thesis is risk reduction, not aggressive short beta."
     },
     {
       "symbol": "SOXL",
@@ -745,6 +1415,13 @@
       "notes": "Small-cap read. Rate-sensitive, domestically focused, leading indicator."
     },
     {
+      "symbol": "ITB",
+      "name": "iShares U.S. Home Construction ETF",
+      "yahoo_symbol": "ITB",
+      "tracks": "US homebuilders",
+      "notes": "Housing and rate-cut sensitivity basket. Complements DHI and LEN."
+    },
+    {
       "symbol": "SCHP",
       "name": "Schwab TIPS ETF",
       "yahoo_symbol": "SCHP",
@@ -757,6 +1434,20 @@
       "yahoo_symbol": "EFA",
       "tracks": "Developed ex-US equities",
       "notes": "International developed market exposure. Non-US equity diversification."
+    },
+    {
+      "symbol": "INDA",
+      "name": "iShares MSCI India ETF",
+      "yahoo_symbol": "INDA",
+      "tracks": "India equities",
+      "notes": "India growth and EM diversification. Helps avoid treating China as the only non-US opportunity set."
+    },
+    {
+      "symbol": "EEM",
+      "name": "iShares MSCI Emerging Markets ETF",
+      "yahoo_symbol": "EEM",
+      "tracks": "Emerging markets",
+      "notes": "Broad EM risk appetite and dollar-sensitivity read."
     },
     {
       "symbol": "URNM",
@@ -799,6 +1490,192 @@
       "yahoo_symbol": "BITO",
       "tracks": "BTC Futures",
       "notes": "BTC futures-based ETF. Exposure without holding spot crypto directly."
+    },
+    {
+      "symbol": "QTUM",
+      "name": "Defiance Quantum ETF",
+      "asset_class": "ETF",
+      "notes": "Quantum computing and machine learning basket."
+    },
+    {
+      "symbol": "UFO",
+      "name": "Procure Space ETF",
+      "asset_class": "ETF",
+      "notes": "Space economy basket: satellites, launch, space infrastructure."
+    },
+    {
+      "symbol": "ARKX",
+      "name": "ARK Space Exploration & Innovation ETF",
+      "asset_class": "ETF",
+      "notes": "Space, autonomous tech, and innovation basket."
+    },
+    {
+      "symbol": "URA",
+      "name": "Global X Uranium ETF",
+      "asset_class": "ETF",
+      "notes": "Uranium miners and nuclear fuel cycle exposure."
+    },
+    {
+      "symbol": "NLR",
+      "name": "VanEck Uranium and Nuclear ETF",
+      "asset_class": "ETF",
+      "notes": "Uranium and nuclear energy basket."
+    },
+    {
+      "symbol": "GRID",
+      "name": "First Trust Nasdaq Clean Edge Smart Grid Infrastructure ETF",
+      "asset_class": "ETF",
+      "notes": "Grid modernization, electrification, and power infrastructure basket."
+    },
+    {
+      "symbol": "PAVE",
+      "name": "Global X U.S. Infrastructure Development ETF",
+      "asset_class": "ETF",
+      "notes": "US infrastructure, construction, industrials, materials."
+    },
+    {
+      "symbol": "IFRA",
+      "name": "iShares U.S. Infrastructure ETF",
+      "asset_class": "ETF",
+      "notes": "US infrastructure basket; useful broad infra read."
+    },
+    {
+      "symbol": "BOTZ",
+      "name": "Global X Robotics & Artificial Intelligence ETF",
+      "asset_class": "ETF",
+      "notes": "Robotics and AI automation basket."
+    },
+    {
+      "symbol": "ROBO",
+      "name": "ROBO Global Robotics & Automation ETF",
+      "asset_class": "ETF",
+      "notes": "Robotics, automation, industrial tech basket."
+    },
+    {
+      "symbol": "ITA",
+      "name": "iShares U.S. Aerospace & Defense ETF",
+      "asset_class": "ETF",
+      "notes": "Large-cap aerospace and defense basket."
+    },
+    {
+      "symbol": "XAR",
+      "name": "SPDR S&P Aerospace & Defense ETF",
+      "asset_class": "ETF",
+      "notes": "More equal-weight aerospace and defense basket."
+    },
+    {
+      "symbol": "IYT",
+      "name": "iShares U.S. Transportation ETF",
+      "asset_class": "ETF",
+      "notes": "Transportation and logistics macro cyclicality."
+    },
+    {
+      "symbol": "ETHA",
+      "name": "iShares Ethereum Trust ETF",
+      "asset_class": "ETF",
+      "notes": "Spot ETH ETF expression."
+    },
+    {
+      "symbol": "IGV",
+      "name": "iShares Expanded Tech-Software Sector ETF",
+      "asset_class": "ETF",
+      "notes": "Software sector basket for enterprise/software risk appetite."
+    },
+    {
+      "symbol": "CLOU",
+      "name": "Global X Cloud Computing ETF",
+      "asset_class": "ETF",
+      "notes": "Cloud software and infrastructure basket."
+    },
+    {
+      "symbol": "WCLD",
+      "name": "WisdomTree Cloud Computing Fund",
+      "asset_class": "ETF",
+      "notes": "Higher beta cloud software basket."
+    },
+    {
+      "symbol": "XBI",
+      "name": "SPDR S&P Biotech ETF",
+      "asset_class": "ETF",
+      "notes": "Equal-weight biotech risk appetite and catalyst basket."
+    },
+    {
+      "symbol": "IBB",
+      "name": "iShares Biotechnology ETF",
+      "asset_class": "ETF",
+      "notes": "Large-cap biotech basket."
+    },
+    {
+      "symbol": "KRE",
+      "name": "SPDR S&P Regional Banking ETF",
+      "asset_class": "ETF",
+      "notes": "Regional banks, credit stress, and rate-cycle sensitivity."
+    },
+    {
+      "symbol": "KBE",
+      "name": "SPDR S&P Bank ETF",
+      "asset_class": "ETF",
+      "notes": "Broad bank basket for financials/rates/credit context."
+    },
+    {
+      "symbol": "XRT",
+      "name": "SPDR S&P Retail ETF",
+      "asset_class": "ETF",
+      "notes": "Retail/consumer discretionary breadth."
+    },
+    {
+      "symbol": "JETS",
+      "name": "U.S. Global Jets ETF",
+      "asset_class": "ETF",
+      "notes": "Airlines/travel demand basket."
+    },
+    {
+      "symbol": "TAN",
+      "name": "Invesco Solar ETF",
+      "asset_class": "ETF",
+      "notes": "Solar/renewable energy basket."
+    },
+    {
+      "symbol": "FAN",
+      "name": "First Trust Global Wind Energy ETF",
+      "asset_class": "ETF",
+      "notes": "Wind energy basket."
+    },
+    {
+      "symbol": "COPX",
+      "name": "Global X Copper Miners ETF",
+      "asset_class": "ETF",
+      "notes": "Copper miners and electrification commodity exposure."
+    },
+    {
+      "symbol": "DBA",
+      "name": "Invesco DB Agriculture Fund",
+      "asset_class": "ETF",
+      "notes": "Agricultural commodities basket."
+    },
+    {
+      "symbol": "USO",
+      "name": "United States Oil Fund",
+      "asset_class": "ETF",
+      "notes": "Crude oil price expression."
+    },
+    {
+      "symbol": "UNG",
+      "name": "United States Natural Gas Fund",
+      "asset_class": "ETF",
+      "notes": "Natural gas price expression."
+    },
+    {
+      "symbol": "SLV",
+      "name": "iShares Silver Trust",
+      "asset_class": "ETF",
+      "notes": "Silver/metals expression, industrial + precious metal hybrid."
+    },
+    {
+      "symbol": "SGOV",
+      "name": "iShares 0-3 Month Treasury Bond ETF",
+      "asset_class": "ETF",
+      "notes": "Cash/T-bill baseline and risk-free yield proxy."
     }
   ],
   "forex": [
@@ -876,7 +1753,7 @@
       "name": "Copper",
       "yahoo_symbol": "HG=F",
       "exchange": "COMEX",
-      "notes": "Dr. Copper \u2014 leading macro indicator. China demand proxy."
+      "notes": "Dr. Copper — leading macro indicator. China demand proxy."
     },
     {
       "symbol": "CBOT:ZW1!",
@@ -964,7 +1841,7 @@
       "gecko_network": "solana",
       "gecko_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
       "coingecko_id": "jupiter-exchange-solana",
-      "notes": "Largest Solana DEX. Yahoo broken \u2014 use GeckoTerminal for price."
+      "notes": "Largest Solana DEX. Yahoo broken — use GeckoTerminal for price."
     },
     {
       "symbol": "CRYPTO:WIFUSD",
@@ -973,7 +1850,7 @@
       "gecko_network": "solana",
       "gecko_address": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
       "coingecko_id": "dogwifcoin",
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme, high beta SOL proxy."
+      "notes": "Solana meme watchlist — tier 1 liquid meme, high beta SOL proxy."
     },
     {
       "symbol": "CRYPTO:TRUMPUSD",
@@ -982,7 +1859,7 @@
       "gecko_network": "solana",
       "gecko_address": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:BONKUSD",
@@ -991,7 +1868,7 @@
       "gecko_network": "solana",
       "gecko_address": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:PENGUUSD",
@@ -1000,7 +1877,7 @@
       "gecko_network": "solana",
       "gecko_address": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:FARTCOINUSD",
@@ -1009,7 +1886,7 @@
       "gecko_network": "solana",
       "gecko_address": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:MEWUSD",
@@ -1018,7 +1895,7 @@
       "gecko_network": "solana",
       "gecko_address": "MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:POPCATUSD",
@@ -1027,7 +1904,7 @@
       "gecko_network": "solana",
       "gecko_address": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:USELESSUSD",
@@ -1036,7 +1913,7 @@
       "gecko_network": "solana",
       "gecko_address": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:DOGUSD",
@@ -1045,7 +1922,7 @@
       "gecko_network": "solana",
       "gecko_address": "dog1viwbb2vWDpER5FrJ4YFG6gq6XuyFohUe9TXN65u",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:PNUTUSD",
@@ -1054,7 +1931,7 @@
       "gecko_network": "solana",
       "gecko_address": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:MOODENGUSD",
@@ -1063,7 +1940,7 @@
       "gecko_network": "solana",
       "gecko_address": "ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:BOMEUSD",
@@ -1072,7 +1949,7 @@
       "gecko_network": "solana",
       "gecko_address": "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:TROLLUSD",
@@ -1081,7 +1958,7 @@
       "gecko_network": "solana",
       "gecko_address": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:GOATUSD",
@@ -1090,7 +1967,7 @@
       "gecko_network": "solana",
       "gecko_address": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:GIGAUSD",
@@ -1099,7 +1976,7 @@
       "gecko_network": "solana",
       "gecko_address": "63LfDmNb3MQ8mw9MtZ2To9bEA2M71kZUUGq5tiJxcqj9",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:PONKEUSD",
@@ -1108,7 +1985,7 @@
       "gecko_network": "solana",
       "gecko_address": "5z3EqYQo9HiCEs3R84RCDMu2n7anpDMxRhdK8PSWmrRC",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:CHILLGUYUSD",
@@ -1117,7 +1994,7 @@
       "gecko_network": "solana",
       "gecko_address": "Df6yfrKC8kZE3KNkrHERKzAetSxbrWeniQfyJY4Jpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:ACTUSD",
@@ -1126,7 +2003,7 @@
       "gecko_network": "solana",
       "gecko_address": "GJAFwWjJ3vnTsrQVabjBVK2TYB1YtRCQXRDfDgUnpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate, AI/culture crossover. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate, AI/culture crossover. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:FWOGUSD",
@@ -1135,7 +2012,7 @@
       "gecko_network": "solana",
       "gecko_address": "A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:BUTTCOINUSD",
@@ -1144,7 +2021,7 @@
       "gecko_network": "solana",
       "gecko_address": "Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:ARBUSD",
@@ -1153,7 +2030,7 @@
       "gecko_network": "eth",
       "gecko_address": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
       "coingecko_id": "arbitrum",
-      "notes": "Largest Ethereum L2, DeFi hub. Yahoo broken \u2014 use GeckoTerminal."
+      "notes": "Largest Ethereum L2, DeFi hub. Yahoo broken — use GeckoTerminal."
     },
     {
       "symbol": "CRYPTO:OPUSD",
@@ -1162,7 +2039,7 @@
       "gecko_network": "optimism",
       "gecko_address": "0x4200000000000000000000000000000000000042",
       "coingecko_id": "optimism",
-      "notes": "Ethereum L2, OP Stack ecosystem. Yahoo broken \u2014 use GeckoTerminal."
+      "notes": "Ethereum L2, OP Stack ecosystem. Yahoo broken — use GeckoTerminal."
     },
     {
       "symbol": "CRYPTO:SUIUSD",
@@ -1189,7 +2066,7 @@
       "gecko_network": "eth",
       "gecko_address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
       "coingecko_id": "uniswap",
-      "notes": "Largest DEX by volume, DeFi bellwether. Yahoo broken \u2014 use GeckoTerminal."
+      "notes": "Largest DEX by volume, DeFi bellwether. Yahoo broken — use GeckoTerminal."
     },
     {
       "symbol": "CRYPTO:DOGEUSD",

@@ -14,6 +14,8 @@
  *   base URL and auth header.
  */
 
+try { process.loadEnvFile(); } catch {}
+
 export class CoinGeckoError extends Error {
   constructor(message, status) {
     super(message);

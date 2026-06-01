@@ -29,6 +29,11 @@ import {
   getAsset,
   isTradeable,
   getActivities,
+  getNews,
+  getOptionSnapshots,
+  getOptionChain,
+  getExpectedMove,
+  getCorporateActions,
 } from "../adapters/alpaca/index.mjs";
 
 // ── Parse --live flag before anything else ────────────────────────────────
@@ -161,6 +166,68 @@ try {
       break;
     }
 
+    // ── News ─────────────────────────────────────────────────────────────
+    case "news": {
+      const symbols = rest.filter(r => !r.startsWith("--"));
+      const limit   = Number(flag(rest, "--limit", "10"));
+      const start   = flag(rest, "--start");
+      const end     = flag(rest, "--end");
+      print(await getNews(client, { symbols: symbols.length ? symbols : undefined, limit, start, end }));
+      break;
+    }
+
+    // ── Options ──────────────────────────────────────────────────────────
+    case "options": {
+      const sym      = requireArg(rest[0], "symbol");
+      const type     = flag(rest, "--type");
+      const strikeGte = flag(rest, "--strike-gte");
+      const strikeLte = flag(rest, "--strike-lte");
+      const expiryGte = flag(rest, "--expiry-gte");
+      const expiryLte = flag(rest, "--expiry-lte");
+      const limit    = Number(flag(rest, "--limit", "100"));
+      print(await getOptionSnapshots(client, sym, {
+        type,
+        strike_gte: strikeGte ? Number(strikeGte) : undefined,
+        strike_lte: strikeLte ? Number(strikeLte) : undefined,
+        expiry_gte: expiryGte,
+        expiry_lte: expiryLte,
+        limit,
+      }));
+      break;
+    }
+
+    case "options-chain": {
+      const sym       = requireArg(rest[0], "symbol");
+      const expiryGte = flag(rest, "--expiry-gte");
+      const expiryLte = flag(rest, "--expiry-lte");
+      const strikeGte = flag(rest, "--strike-gte");
+      const strikeLte = flag(rest, "--strike-lte");
+      print(await getOptionChain(client, sym, {
+        expiry_gte: expiryGte,
+        expiry_lte: expiryLte,
+        strike_gte: strikeGte ? Number(strikeGte) : undefined,
+        strike_lte: strikeLte ? Number(strikeLte) : undefined,
+      }));
+      break;
+    }
+
+    case "expected-move": {
+      const sym    = requireArg(rest[0], "symbol");
+      const spot   = Number(requireArg(flag(rest, "--spot"), "--spot"));
+      const expiry = requireArg(flag(rest, "--expiry"), "--expiry");
+      print(await getExpectedMove(client, sym, spot, expiry));
+      break;
+    }
+
+    // ── Corporate actions ─────────────────────────────────────────────────
+    case "corporate-actions": {
+      const symbols = rest.filter(r => !r.startsWith("--"));
+      const start   = flag(rest, "--start");
+      const end     = flag(rest, "--end");
+      print(await getCorporateActions(client, symbols.length ? symbols : requireArg(null, "symbol"), { start, end }));
+      break;
+    }
+
     // ── Market data ──────────────────────────────────────────────────────────
     case "bars": {
       const sym   = requireArg(rest[0], "symbol");
@@ -274,6 +341,19 @@ Placing orders:
                           [--notional DOLLARS] [--extended]
   sell <symbol> --qty N  [same options as buy]
   replace <order_id> [--limit PRICE] [--stop PRICE] [--qty N] [--tif TIF]
+
+News:
+  news [symbol1 symbol2 ...] [--limit 10] [--start YYYY-MM-DD] [--end YYYY-MM-DD]
+
+Options:
+  options <symbol> [--type call|put] [--strike-gte N] [--strike-lte N]
+                   [--expiry-gte YYYY-MM-DD] [--expiry-lte YYYY-MM-DD] [--limit 100]
+  options-chain <symbol> [--expiry-gte YYYY-MM-DD] [--expiry-lte YYYY-MM-DD]
+                         [--strike-gte N] [--strike-lte N]
+  expected-move <symbol> --spot PRICE --expiry YYYY-MM-DD
+
+Corporate actions:
+  corporate-actions <symbol> [--start YYYY-MM-DD] [--end YYYY-MM-DD]
 
 Research:
   asset <symbol>                       Asset details (tradeable, fractionable, etc.)

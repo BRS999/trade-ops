@@ -24,10 +24,11 @@
 
 ## What Is This
 
-Trade-Ops is a retail trading operating system built around TradingView as the primary charting and discretionary cockpit. It does not try to replace TradingView — it extends it with durable memory, structured workflows, and a data adapter layer that an AI agent can actually use.
+Trade-Ops is a retail trading operating system built around TradingView as the primary charting surface and Alpaca as the primary execution surface. It does not try to replace either — it extends them with durable memory, structured workflows, and a data adapter layer that an AI agent can actually use.
 
 - **LLM knowledge base** — a wiki compiled and maintained by the agent from raw journal data. Symbols, setups, edges, mistakes, and market context — all synthesized and queryable
 - **Multi-source market data** — equities, crypto, macro, on-chain, DEX, sentiment, filings
+- **Source-agnostic chart state** — normalized candle input becomes indicators, distances, returns, volatility, volume, and flags for agent analysis
 - **Structured journal** — every trade has a thesis, risk box, and review trail in JSON + Markdown
 - **Signal candidate layer** — observations, signals, and ranked candidates bridge raw data to research memos
 - **Trading universe** — broad cross-asset menu for scans, candidates, and research
@@ -59,6 +60,7 @@ The repository should teach the structure without bundling personal trade histor
 
 - active trades
 - closed personal journal records
+- broker/account snapshots
 - generated signal candidates
 - generated research memos and reports
 - live market context snapshots
@@ -95,14 +97,20 @@ Core Trade-Ops usage is intentionally lightweight.
 
 ### Optional API keys
 
+- `ALPACA_API_KEY` + `ALPACA_API_SECRET` — Alpaca paper trading and Alpaca market data
 - `MASSIVE_API_KEY`
 - `FRED_API_KEY`
 - `FMP_API_KEY`
 - `COINGECKO_API_KEY` — optional; public tier works without a key but is rate-limited (~5 req/min)
 - `EIA_API_KEY`
 - `FINNHUB_API_KEY`
+- `ALPHAVANTAGE_API_KEY` — optional; free tier works without a key but is limited to 25 req/day
+- `BEA_API_KEY`
+- `ETHERSCAN_API_KEY` — optional; free tier works without a key (5 req/s, 100k/day)
 
-You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, SecuritiesDB, GDELT, CFTC, Binance Futures public data, Hyperliquid, Deribit, Coinbase/Kraken public market data, CoinGecko public tier, GeckoTerminal, DexScreener, DeFiLlama, Kalshi/Polymarket public market data, BLS, Treasury FiscalData, and Fear & Greed.
+You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, SecuritiesDB, GDELT, CFTC, Binance Futures public data, Hyperliquid, Deribit, Coinbase/Kraken public market data, CoinGecko public tier, GeckoTerminal, DexScreener, DeFiLlama, Kalshi/Polymarket public market data, BLS, Treasury FiscalData, Fear & Greed, FINRA, and AlphaVantage/BEA/Etherscan free tiers.
+
+When using Alpaca paper trading, treat Alpaca positions and open orders as the source of truth for active account state. Local journal entries should be synced to Alpaca rather than trusted blindly.
 
 ### Optional: Forecasting Models
 
@@ -149,6 +157,7 @@ If you do not care about local forecasting models, you do not need Python or any
 | Adapter | Source | What It Provides | Key |
 |---|---|---|---|
 | **TradingView** | TradingView desktop app | Chart state, indicators, paper positions | — |
+| **Alpaca** | alpaca.markets | Paper positions, orders, fills, equity candles, crypto candles | `ALPACA_API_KEY` + `ALPACA_API_SECRET` |
 | **Yahoo Finance** | Yahoo | Live quotes, bars, multi-asset (equities, crypto, futures) | — |
 | **Massive** | massive.com | Tick data, earnings, fundamentals | `MASSIVE_API_KEY` |
 | **SEC EDGAR** | sec.gov | Filings, ownership, insider activity | — |
@@ -174,12 +183,24 @@ If you do not care about local forecasting models, you do not need Python or any
 | **Finnhub** | finnhub.io | Equity quotes, insider/congressional trading, earnings, news sentiment | `FINNHUB_API_KEY` |
 | **SecuritiesDB** | securitiesdb.com | Form 4 insider transactions, 13F institutional flow | — |
 | **GDELT** | gdeltproject.org | Global geopolitical news search, coverage volume/tone timelines, 65-language monitoring | — |
+| **AlphaVantage** | alphavantage.co | News sentiment, market movers (gainers/losers), earnings calendar, commodities, economic indicators | `ALPHAVANTAGE_API_KEY` |
+| **BEA** | bea.gov | GDP and components, personal consumption, government spending, investment, international transactions, regional/state economic data | `BEA_API_KEY` |
+| **Etherscan** | etherscan.io | Ethereum on-chain data — whale wallet tracking, exchange flows, gas prices, token transfers, DeFi positions | `ETHERSCAN_API_KEY` |
+| **FINRA** | finra.org | Daily short sale volume per symbol — short pressure and exhaustion signals | — |
 
 ---
 
 ## CLI Tools
 
 ```bash
+npm run alpaca -- positions
+npm run alpaca -- orders --status open --limit 50
+npm run alpaca -- bars GEV --timeframe 1Day --limit 260
+npm run alpaca -- bars BTCUSD --timeframe 1Day --limit 260
+
+npm run chart-state -- --input candles.json --symbol GEV --timeframe 1Day
+node tools/alpaca.mjs bars GEV | npm run chart-state -- --symbol GEV --timeframe 1Day
+
 npm run yahoo  -- quote AAPL
 npm run yahoo  -- bars SOL-USD --interval 1d --range 1mo
 
@@ -254,8 +275,24 @@ npm run gdelt -- snapshot "tariff" --timespan 7d
 npm run gdelt -- articles --theme sanctions --max-records 20
 npm run gdelt -- volume "ukraine" --timespan 14d
 
-npm run regime -- crypto --range 1mo --interval 1h
-npm run regime -- symbol BTC-USD --range 1mo --interval 1h
+npm run alphavantage -- gainers-losers
+npm run alphavantage -- news --tickers AAPL,MSFT
+npm run alphavantage -- earnings-calendar
+npm run alphavantage -- commodity wheat
+npm run alphavantage -- economic GDP
+
+npm run bea -- snapshot
+npm run bea -- gdp
+npm run bea -- pce
+npm run bea -- state-gdp --fips 06000
+
+npm run etherscan -- snapshot <address>
+npm run etherscan -- gas
+npm run etherscan -- price
+
+npm run finra -- symbol AAPL
+npm run finra -- multi AAPL,MSFT,TSLA
+npm run finra -- top --limit 20
 
 npm run new-token -- scan --source latest-boosted --chain solana --limit 10
 
@@ -544,7 +581,7 @@ All execution workflows read these before sizing or placing any order.
 - **Types**: TypeScript for domain types and tool manifest (`tsc --noEmit` only)
 - **Storage**: File-based JSON + Markdown — flat files are the canonical source of truth in V1
 - **Knowledge**: LLM-maintained wiki compiled from journal records and adapter snapshots
-- **Data**: 20+ source adapters covering equities, crypto, macro, energy, positioning, on-chain, DEX, prediction markets, sentiment, and filings
+- **Data**: 24+ source adapters covering equities, crypto, macro, energy, positioning, on-chain, DEX, prediction markets, sentiment, filings, and short volume
 
 ---
 
