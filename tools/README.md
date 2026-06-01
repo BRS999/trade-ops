@@ -34,7 +34,7 @@ Crypto trades 24/7 and fills immediately. Equity orders queue for market open.
 - `tradeable <symbol>`
 
 Market data (same keys, `data.alpaca.markets` — primary fallback when Yahoo is rate-limited):
-- `bars <symbol> [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--timeframe 1Day] [--limit 500]`
+- `bars <symbol> [--start YYYY-MM-DD] [--end YYYY-MM-DD] [--timeframe 1Day] [--limit 500]` — stocks and Alpaca crypto pairs such as `BTCUSD` or `BTC/USD`
 - `price <symbol>` — latest trade price
 - `snapshot <symbol1> <symbol2> ...` — latest trade, quote, and daily bar
 
@@ -127,6 +127,12 @@ News sentiment, commodity prices, market movers, earnings calendar. ⚠ Free tie
 - `commodity <name> [--interval monthly|weekly|daily]`
 - `commodities`
 - `economic <indicator> [--interval monthly] [--maturity 10year]`
+
+### chart-state
+Source-agnostic candle facts for LLM analysis. This does not fetch market data and does not recommend trades; pass candles from Alpaca, Yahoo, GeckoTerminal, DexScreener, or another adapter.
+
+- `--input candles.json [--symbol GEV] [--timeframe 1Day]`
+- `--input - [--symbol BTC-USD] [--timeframe 1d]`
 
 ---
 

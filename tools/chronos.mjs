@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -110,16 +110,17 @@ function runForecast(args) {
 
   let inputPath;
   if (options.inputFile) {
-    // Bars supplied externally — use as-is, no fetch needed
     inputPath = options.inputFile;
-  } else {
-    const bars = fetchYahooBars(symbol, options);
-    const usableBars = bars.filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
-    if (usableBars.length < options.minBars) {
-      throw new Error(`Need at least ${options.minBars} usable bars; got ${usableBars.length}`);
+  } else if (options.stdin) {
+    const raw = readFileSync("/dev/stdin", "utf8");
+    const bars = JSON.parse(raw).filter((bar) => Number.isFinite(Number(bar.close)) && Number(bar.close) > 0);
+    if (bars.length < options.minBars) {
+      throw new Error(`Need at least ${options.minBars} usable bars; got ${bars.length}`);
     }
     inputPath = path.join(chronosRoot, `${stem}.json`);
-    writeFileSync(inputPath, JSON.stringify(usableBars, null, 2));
+    writeFileSync(inputPath, JSON.stringify(bars, null, 2));
+  } else {
+    throw new Error("No candle data provided. Pipe bars via stdin or use --input <file>.\nExample: node tools/alpaca.mjs bars AAPL | node tools/chronos.mjs forecast AAPL --stdin");
   }
 
   runChronosPython({
@@ -224,6 +225,10 @@ function parseForecastOptions(args, { allowSymbol }) {
       index += 1;
       continue;
     }
+    if (arg === "--stdin") {
+      options.stdin = true;
+      continue;
+    }
     if (arg === "--min-bars") {
       options.minBars = parsePositiveInt(requireArg(args[index + 1], "min-bars"), "min-bars");
       index += 1;
@@ -235,20 +240,6 @@ function parseForecastOptions(args, { allowSymbol }) {
   return options;
 }
 
-function fetchYahooBars(symbol, options) {
-  const result = spawnSync(
-    "node",
-    [path.join(repoRoot, "tools", "yahoo.mjs"), "bars", symbol, "--range", options.range, "--interval", options.interval],
-    { cwd: repoRoot, encoding: "utf8" }
-  );
-
-  if (result.error) throw result.error;
-  if (typeof result.status === "number" && result.status !== 0) {
-    throw new Error(result.stderr || `Yahoo bars command failed with status ${result.status}`);
-  }
-
-  return JSON.parse(result.stdout);
-}
 
 function ensureUv() {
   const result = spawnSync("uv", ["--version"], { cwd: repoRoot, stdio: "ignore" });
@@ -310,14 +301,18 @@ Commands:
   setup     Create a local Python env under tmp/ and install Amazon Chronos deps
   check     Verify native PyTorch and Chronos imports
   example   Run a synthetic local forecast
-  forecast  Run a local forecast on Yahoo bars and write tmp/forecasts/chronos/*.json
+  forecast  Run a forecast from piped or file candle data, write tmp/forecasts/chronos/<symbol>.json
+
+Candle input (required — no built-in data source):
+  --stdin           Read JSON bars from stdin (pipe from any bars command)
+  --input <file>    Read JSON bars from a file
 
 Examples:
   npm run chronos -- setup
   npm run chronos -- check
   npm run chronos -- example
-  npm run chronos -- forecast BTC-USD --range 5d --interval 1h --prediction-length 12
-  npm run chronos -- forecast BTC-USD --range 5d --interval 1h --prediction-length 12 --local-files-only
-  npm run chronos -- forecast TSM --range 6mo --interval 1d --prediction-length 5
+  npm run alpaca -- bars AAPL | npm run chronos -- forecast AAPL --stdin
+  npm run alpaca -- bars AAPL | npm run chronos -- forecast AAPL --stdin --prediction-length 12
+  npm run chronos -- forecast AAPL --input tmp/bars/AAPL.json
 `);
 }

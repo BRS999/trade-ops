@@ -36,8 +36,13 @@ export {
 
 export {
   getBars,
+  getCryptoBars,
   getLatestQuote,
   getLatestTrade,
   getSnapshots,
   getBarsForForecast,
 } from "./market-data.mjs";
+
+export { getNews } from "./news.mjs";
+export { getOptionSnapshots, getOptionChain, getExpectedMove } from "./options.mjs";
+export { getCorporateActions } from "./corporate-actions.mjs";

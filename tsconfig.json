@@ -15,6 +15,7 @@
   "include": [
     "types/**/*.ts",
     "adapters/**/*.mjs",
+    "lib/**/*.mjs",
     "scripts/**/*.mjs",
     "tools/**/*.mjs"
   ],

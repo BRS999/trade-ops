@@ -28,7 +28,6 @@
     "fiscaldata": "node tools/fiscaldata.mjs",
     "rugcheck": "node tools/rugcheck.mjs",
     "cftc": "node tools/cftc.mjs",
-    "regime": "node tools/regime.mjs",
     "new-token": "node tools/new-token.mjs",
     "chronos": "node tools/chronos.mjs",
     "timesfm": "node tools/timesfm.mjs",
@@ -43,9 +42,14 @@
     "gdelt": "node tools/gdelt.mjs",
     "etherscan": "node tools/etherscan.mjs",
     "finra": "node tools/finra.mjs",
-    "alpaca": "node tools/alpaca.mjs"
+    "alpaca": "node tools/alpaca.mjs",
+    "chart-state": "node tools/chart-state.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "finnhub": "^2.0.14",
+    "trading-signals": "^7.4.3"
   }
 }
