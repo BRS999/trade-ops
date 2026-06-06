@@ -134,15 +134,6 @@ Source-agnostic candle facts for LLM analysis. This does not fetch market data a
 - `--input candles.json [--symbol GEV] [--timeframe 1Day]`
 - `--input - [--symbol BTC-USD] [--timeframe 1d]`
 
-### agentmail
-Email delivery for generated reports via AgentMail. This is a delivery adapter only; write the market read or memo first, then send that artifact.
-
-- `inboxes [--json]` — list available AgentMail inboxes
-- `send --inbox <id> --to <email> --subject <text> --text <body>`
-- `send --input reports/market-reads/YYYY-MM-DD.md --subject "Morning Read"`
-
-Defaults: `AGENTMAIL_API_KEY`, `AGENTMAIL_INBOX_ID`, and `MARKET_READ_EMAIL_TO`.
-
 ---
 
 ## Macro & Economic

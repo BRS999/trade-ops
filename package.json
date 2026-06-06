@@ -44,15 +44,12 @@
     "etherscan": "node tools/etherscan.mjs",
     "finra": "node tools/finra.mjs",
     "alpaca": "node tools/alpaca.mjs",
-    "chart-state": "node tools/chart-state.mjs",
-    "agentmail": "node tools/agentmail.mjs",
-    "morning-report": "node tools/morning-report.mjs"
+    "chart-state": "node tools/chart-state.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "agentmail": "^0.5.9",
     "finnhub": "^2.0.14",
     "trading-signals": "^7.4.3"
   }
