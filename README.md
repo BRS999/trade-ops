@@ -31,6 +31,7 @@ Trade-Ops is a retail trading operating system built around TradingView as the p
 - **Source-agnostic chart state** — normalized candle input becomes indicators, distances, returns, volatility, volume, and flags for agent analysis
 - **Structured journal** — every trade has a thesis, risk box, and review trail in JSON + Markdown
 - **Signal candidate layer** — observations, signals, and ranked candidates bridge raw data to research memos
+- **Email delivery** — generated market reads and memos can be sent through AgentMail with HTML + text fallbacks
 - **Trading universe** — broad cross-asset menu for scans, candidates, and research
 - **Human-in-the-loop** — AI evaluates and enriches, you decide and execute
 - **Paper before live** — all execution workflows start paper-first with explicit confirmation
@@ -90,6 +91,7 @@ Core Trade-Ops usage is intentionally lightweight.
 
 - `Node.js` 20+ with `npm`
 - macOS, Linux, or another environment that can run Node.js ESM scripts
+- `npm install` after cloning, because several tools use package dependencies (`trading-signals`, `finnhub`, `agentmail`, TypeScript)
 
 ### Required for TradingView workflows
 
@@ -107,6 +109,15 @@ Core Trade-Ops usage is intentionally lightweight.
 - `ALPHAVANTAGE_API_KEY` — optional; free tier works without a key but is limited to 25 req/day
 - `BEA_API_KEY`
 - `ETHERSCAN_API_KEY` — optional; free tier works without a key (5 req/s, 100k/day)
+- `AGENTMAIL_API_KEY` — optional; email delivery for generated market reads and memos
+
+### Optional email delivery
+
+AgentMail is used only for sending generated reports. It is not part of market analysis and does not decide what to trade.
+
+- `AGENTMAIL_API_KEY` — AgentMail API key
+- `AGENTMAIL_INBOX_ID` — default sender inbox, such as `trade-ops@agentmail.to`
+- `MARKET_READ_EMAIL_TO` — default recipient for morning reads
 
 You can still use a meaningful subset of the repo without any API keys through Yahoo, SEC EDGAR, SecuritiesDB, GDELT, CFTC, Binance Futures public data, Hyperliquid, Deribit, Coinbase/Kraken public market data, CoinGecko public tier, GeckoTerminal, DexScreener, DeFiLlama, Kalshi/Polymarket public market data, BLS, Treasury FiscalData, Fear & Greed, FINRA, and AlphaVantage/BEA/Etherscan free tiers.
 
@@ -159,7 +170,7 @@ If you do not care about local forecasting models, you do not need Python or any
 | **TradingView** | TradingView desktop app | Chart state, indicators, paper positions | — |
 | **Alpaca** | alpaca.markets | Paper positions, orders, fills, equity candles, crypto candles | `ALPACA_API_KEY` + `ALPACA_API_SECRET` |
 | **Yahoo Finance** | Yahoo | Live quotes, bars, multi-asset (equities, crypto, futures) | — |
-| **Massive** | massive.com | Tick data, earnings, fundamentals, options chain (Greeks/IV/OI), dark pool data | `MASSIVE_API_KEY` |
+| **Massive** | massive.com / Polygon | Stocks, fundamentals, Fed/economic series, Benzinga news, short data, dividends/splits, market status, crypto, forex, indices, ETFs, options, futures | `MASSIVE_API_KEY` |
 | **SEC EDGAR** | sec.gov | Filings, ownership, insider activity | — |
 | **FRED** | stlouisfed.org | Macro snapshot (yields, CPI, VIX, Fed Funds) | `FRED_API_KEY` |
 | **FMP** | financialmodelingprep.com | Analyst consensus, price targets, earnings calendar | `FMP_API_KEY` |
@@ -187,6 +198,7 @@ If you do not care about local forecasting models, you do not need Python or any
 | **BEA** | bea.gov | GDP and components, personal consumption, government spending, investment, international transactions, regional/state economic data | `BEA_API_KEY` |
 | **Etherscan** | etherscan.io | Ethereum on-chain data — whale wallet tracking, exchange flows, gas prices, token transfers, DeFi positions | `ETHERSCAN_API_KEY` |
 | **FINRA** | finra.org | Daily short sale volume per symbol — short pressure and exhaustion signals | — |
+| **AgentMail** | agentmail.to | Email delivery for generated market reads and research memos, with text and HTML bodies | `AGENTMAIL_API_KEY` |
 
 ---
 
@@ -298,6 +310,12 @@ npm run new-token -- scan --source latest-boosted --chain solana --limit 10
 
 npm run massive -- snapshot AAPL
 npm run massive -- financials AAPL --timeframe quarterly --limit 4
+npm run massive -- stock-news PLTR --limit 10
+npm run massive -- short-volume NVDA --from 2026-06-01
+npm run massive -- treasury-yields --maturity 10Y --limit 10
+npm run massive -- crypto-bars X:BTCUSD --from 2026-01-01 --to 2026-06-01
+npm run massive -- index-bars I:SPX --from 2026-01-01 --to 2026-06-01
+npm run massive -- etf-top QQQ --n 10
 npm run massive -- options-chain AAPL
 npm run massive -- options-contracts AAPL --type call --limit 50
 npm run massive -- options-unusual AAPL --min-volume 100 --oi-multiplier 2
@@ -306,6 +324,10 @@ npm run massive -- futures-contracts --product ES
 npm run massive -- futures-front ES
 npm run massive -- futures-snapshot --ticker ESZ24
 npm run massive -- futures-bars ESZ24 --from 2026-01-01 --to 2026-06-01
+npm run massive -- help
+
+npm run agentmail -- inboxes
+npm run agentmail -- send --input reports/daily-board/2026-06-06.md --html-input reports/daily-board/2026-06-06.html --subject "Trade Ops Morning Read"
 
 npm run tv      -- status
 npm run tv      -- recover
@@ -501,11 +523,14 @@ Current active state comes from TradingView positions/orders and repo journal re
 git clone https://github.com/brs999/trade-ops.git
 cd trade-ops
 
-# 2. Add API keys
-cp .env.example .env
-# Edit .env: MASSIVE_API_KEY, FRED_API_KEY, FMP_API_KEY
+# 2. Install Node dependencies
+npm install
 
-# 3. Test the stack
+# 3. Add API keys
+cp .env.example .env
+# Edit .env: MASSIVE_API_KEY, FRED_API_KEY, FMP_API_KEY, ALPACA keys, AGENTMAIL_API_KEY, etc.
+
+# 4. Test the stack
 npm run tv      -- account         # Requires the TradingView desktop app
 npm run fng        -- current          # Fear & Greed — no key needed
 npm run coingecko  -- snapshot         # Global crypto market — no key needed (rate-limited)
@@ -513,12 +538,13 @@ npm run gecko      -- solana           # SOL on-chain snapshot — no key needed
 npm run yahoo      -- quote AAPL       # Live quote — no key needed
 npm run fred   -- macro            # Macro snapshot — needs FRED key
 npm run fmp    -- summary AAPL     # Analyst consensus — needs FMP key
+npm run agentmail -- inboxes       # Email delivery — needs AGENTMAIL_API_KEY
 
-# 4. Open with your AI agent
+# 5. Open with your AI agent
 # codex / claude — AGENTS.md and the adapters are the context layer
 ```
 
-Most runtime CLIs use only Node.js built-ins. Run `npm install` only if you want local dev dependencies such as TypeScript for `npm run check`.
+Most tools are thin Node.js CLIs. There is no build step, but `npm install` is required for package-backed clients and local checks.
 
 ## Project Structure
 
@@ -590,7 +616,8 @@ All execution workflows read these before sizing or placing any order.
 - **Types**: TypeScript for domain types and tool manifest (`tsc --noEmit` only)
 - **Storage**: File-based JSON + Markdown — flat files are the canonical source of truth in V1
 - **Knowledge**: LLM-maintained wiki compiled from journal records and adapter snapshots
-- **Data**: 24+ source adapters covering equities, crypto, macro, energy, positioning, on-chain, DEX, prediction markets, sentiment, filings, and short volume
+- **Data**: 25+ source adapters covering equities, crypto, macro, energy, positioning, on-chain, DEX, prediction markets, sentiment, filings, and short volume
+- **Delivery**: AgentMail for sending generated market reads and research memos by email
 
 ---
 

@@ -55,13 +55,28 @@ Live quotes, historical bars, and options chains.
 - `chain <symbol> [--expiry YYYY-MM-DD] [--type calls|puts|all] [--strikes N]`
 
 ### massive
-Historical OHLCV and fundamentals via Polygon. Use for bars and financials not available on Yahoo.
+Massive/Polygon market-intelligence client. Use it for equity bars and fundamentals, plus plan-gated market breadth across options, futures, crypto, forex, indices, ETFs, Benzinga news, Fed/economic series, short data, dividends, splits, market status, and related-company context.
 
 - `snapshot <ticker>`
 - `prev-day <ticker>`
 - `ticker-details <ticker>`
 - `financials <ticker> [--timeframe quarterly] [--limit 4]`
 - `bars <ticker> --from YYYY-MM-DD --to YYYY-MM-DD [--timespan day] [--multiplier 1] [--limit 120]`
+- `news [--tickers AAPL,MSFT] [--channels News,Analysis] [--from YYYY-MM-DD] [--limit 25]`
+- `stock-news <ticker> [--limit 25] [--from YYYY-MM-DD]`
+- `short-interest --ticker <ticker>`
+- `short-volume <ticker> [--from YYYY-MM-DD] [--to YYYY-MM-DD]`
+- `market-status` / `market-holidays`
+- `related-companies <ticker>`
+- `crypto-bars <X:BTCUSD> --from YYYY-MM-DD --to YYYY-MM-DD`
+- `forex-bars <C:EURUSD> --from YYYY-MM-DD --to YYYY-MM-DD`
+- `index-bars <I:SPX> --from YYYY-MM-DD --to YYYY-MM-DD`
+- `etf-analytics <ticker>` / `etf-top <ticker>` / `etf-flows --ticker <ticker>`
+- `options-chain <underlying>` / `options-unusual <underlying>`
+- `futures-front <product-code>` / `futures-snapshot --product ES` / `futures-bars <ticker> --from YYYY-MM-DD --to YYYY-MM-DD`
+- `inflation` / `labor-market` / `treasury-yields` / `yield-curve`
+
+Run `npm run massive -- help` for plan notes and the full command list.
 
 ### fmp
 Analyst consensus, price targets, estimates, and earnings calendar.
@@ -133,6 +148,15 @@ Source-agnostic candle facts for LLM analysis. This does not fetch market data a
 
 - `--input candles.json [--symbol GEV] [--timeframe 1Day]`
 - `--input - [--symbol BTC-USD] [--timeframe 1d]`
+
+### agentmail
+Email delivery for generated reports via AgentMail. This is a delivery adapter only; write the market read or memo first, then send that artifact.
+
+- `inboxes [--json]` — list available AgentMail inboxes
+- `send --inbox <id> --to <email> --subject <text> --text <body>`
+- `send --input reports/daily-board/YYYY-MM-DD.md --html-input reports/daily-board/YYYY-MM-DD.html --subject "Morning Read"`
+
+Defaults: `AGENTMAIL_API_KEY`, `AGENTMAIL_INBOX_ID`, and `MARKET_READ_EMAIL_TO`.
 
 ---
 
