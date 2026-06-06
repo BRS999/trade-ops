@@ -197,7 +197,7 @@ export async function getOptionTrades(client, optionsTicker, opts = {}) {
  * Similar to stock bars but for an options ticker. Useful for building
  * historical volume/OI analysis or charting.
  *
- * GET /v3/aggs/ticker/{optionsTicker}/range/{multiplier}/{timespan}/{from}/{to}
+ * GET /v2/aggs/ticker/{optionsTicker}/range/{multiplier}/{timespan}/{from}/{to}
  *
  * @param {import('./client.mjs').MassiveClient} client
  * @param {string} optionsTicker   Massive options ticker
@@ -223,7 +223,7 @@ export async function getOptionBars(client, optionsTicker, opts) {
   }
 
   const data = await client.get(
-    `/v3/aggs/ticker/${optionsTicker}/range/${multiplier}/${timespan}/${from}/${to}`,
+    `/v2/aggs/ticker/${optionsTicker}/range/${multiplier}/${timespan}/${from}/${to}`,
     { limit: String(limit) }
   );
 

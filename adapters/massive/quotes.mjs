@@ -31,7 +31,9 @@
  */
 
 /**
- * Fetch a real-time (or 15-min delayed) snapshot for a single US equity ticker.
+ * Fetch a real-time/delayed snapshot for a single US equity ticker.
+ *
+ * Plan note: entitlement-gated on the current account.
  *
  * Massive endpoint:
  *   GET /v2/snapshot/locale/us/markets/stocks/tickers/{stocksTicker}
@@ -66,6 +68,8 @@ export async function getSnapshot(client, ticker) {
 
 /**
  * Fetch multiple snapshots in one request (up to ~50 tickers, comma-separated).
+ *
+ * Plan note: entitlement-gated on the current account.
  *
  * Massive endpoint:
  *   GET /v2/snapshot/locale/us/markets/stocks/tickers?tickers=AAPL,NVDA,...

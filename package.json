@@ -12,6 +12,7 @@
     "sec": "node tools/sec-edgar.mjs",
     "yahoo": "node tools/yahoo.mjs",
     "massive": "node tools/massive.mjs",
+    "massive-smoke": "node tools/massive-smoke.mjs",
     "fred": "node tools/fred.mjs",
     "fmp": "node tools/fmp.mjs",
     "gecko": "node tools/gecko-terminal.mjs",
@@ -43,12 +44,15 @@
     "etherscan": "node tools/etherscan.mjs",
     "finra": "node tools/finra.mjs",
     "alpaca": "node tools/alpaca.mjs",
-    "chart-state": "node tools/chart-state.mjs"
+    "chart-state": "node tools/chart-state.mjs",
+    "agentmail": "node tools/agentmail.mjs",
+    "morning-report": "node tools/morning-report.mjs"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "agentmail": "^0.5.9",
     "finnhub": "^2.0.14",
     "trading-signals": "^7.4.3"
   }

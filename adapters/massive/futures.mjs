@@ -1,27 +1,33 @@
 /**
- * Massive futures data — contracts, products, snapshots, trades, bars.
+ * Massive futures data — contracts, products, snapshots, trades, bars, exchanges, market status, quotes.
  *
  * Endpoint docs: https://massive.com/docs/rest/futures
  *
  * Key endpoints:
- *   GET /futures/v1/contracts         — list futures contracts (all products or by product code)
+ *   GET /futures/v1/contracts          — list futures contracts (all products or by product code)
  *   GET /futures/v1/contracts/{ticker} — single contract detail
- *   GET /futures/v1/products          — list futures products (codes, names, exchanges)
+ *   GET /futures/v1/products           — list futures products (codes, names, exchanges)
  *   GET /futures/v1/products/{code}    — single product detail
- *   GET /futures/v1/schedule          — trading schedule for a contract date range
- *   GET /futures/v1/snapshot          — real-time snapshot (trade, quote, session OHLCV)
- *   GET /futures/v1/aggs/{ticker}     — aggregate OHLCV bars
- *   GET /futures/v1/trades/{ticker}   — tick-level trades
+ *   GET /futures/v1/schedules          — trading schedule for a product/date range
+ *   GET /futures/v1/snapshot           — real-time snapshot (trade, quote, session OHLCV)
+ *   GET /futures/v1/aggs/{ticker}      — aggregate OHLCV bars
+ *   GET /futures/v1/trades/{ticker}    — tick-level trades
+ *   GET /futures/v1/exchanges          — list supported futures exchanges
+ *   GET /futures/v1/market-status      — current futures market status
+ *   GET /futures/v1/quotes/{ticker}    — NBBO quotes for a futures contract
  *
  * Plan notes (as of June 2026):
- *   - Contracts, Products, Schedules, Aggregate Bars: all plans (including free Basic)
+ *   - Contracts, Products, Schedules, Aggregate Bars, Exchanges: all plans (including free Basic)
  *   - Snapshot: Starter ($29/mo) 10-min delayed, Advanced ($199/mo) real-time
  *   - Trades: Developer ($79/mo) 10-min delayed, Advanced ($199/mo) real-time
+ *   - Market Status, Quotes: Starter ($29/mo) or higher
  *
  * Ticker format: {PRODUCT_CODE}{MONTH_CODE}{YY}
  *   e.g. ESZ24 = S&P 500 E-mini, December 2024
  *   Month codes: F=Jan, G=Feb, H=Mar, J=Apr, K=May, M=Jun,
  *                N=Jul, Q=Aug, U=Sep, V=Oct, X=Nov, Z=Dec
+ *
+ * Note: Massive currently documents futures REST endpoints under /futures/v1/.
  */
 
 // ── Contracts ────────────────────────────────────────────────────────────────
@@ -134,7 +140,7 @@ export async function getFuturesProducts(client, opts = {}) {
 /**
  * Fetch trading schedules for futures products over a date range.
  *
- * GET /futures/v1/schedule
+ * GET /futures/v1/schedules
  *
  * @param {import('./client.mjs').MassiveClient} client
  * @param {Object} opts
@@ -150,10 +156,14 @@ export async function getFuturesSchedule(client, opts) {
     throw new Error("getFuturesSchedule: 'from' and 'to' (YYYY-MM-DD) are required");
   }
 
-  const params = { from, to, limit: String(limit) };
+  const params = {
+    "session_end_date.gte": from,
+    "session_end_date.lte": to,
+    limit: String(limit),
+  };
   if (product_code) params.product_code = product_code.toUpperCase();
 
-  const rows = await client.getAll("/futures/v1/schedule", params);
+  const rows = await client.getAll("/futures/v1/schedules", params);
   return rows.map(_parseSchedule).filter(Boolean);
 }
 
@@ -240,7 +250,7 @@ export async function getFuturesBars(client, ticker, opts) {
     to,
     multiplier = 1,
     timespan = "day",
-    sort = "asc",
+    sort = "window_start.asc",
     limit = 5000,
   } = opts;
 
@@ -251,10 +261,9 @@ export async function getFuturesBars(client, ticker, opts) {
   const data = await client.get(
     `/futures/v1/aggs/${ticker.toUpperCase()}`,
     {
-      multiplier: String(multiplier),
-      timespan,
-      from,
-      to,
+      resolution: `${multiplier}${_futuresResolutionUnit(timespan)}`,
+      "window_start.gte": from,
+      "window_start.lte": to,
       sort,
       limit: String(limit),
     }
@@ -263,12 +272,12 @@ export async function getFuturesBars(client, ticker, opts) {
   const results = data.results ?? [];
   return results.map((bar) => ({
     ticker: ticker.toUpperCase(),
-    timestamp: bar.t,
-    open: bar.o ?? null,
-    high: bar.h ?? null,
-    low: bar.l ?? null,
-    close: bar.c ?? null,
-    volume: bar.v ?? null,
+    timestamp: bar.t ?? bar.window_start ?? null,
+    open: bar.o ?? bar.open ?? null,
+    high: bar.h ?? bar.high ?? null,
+    low: bar.l ?? bar.low ?? null,
+    close: bar.c ?? bar.close ?? null,
+    volume: bar.v ?? bar.volume ?? null,
   }));
 }
 
@@ -345,6 +354,99 @@ export async function getFrontContract(client, product_code) {
   return contracts[0];
 }
 
+// ── Exchanges ────────────────────────────────────────────────────────────────
+
+/**
+ * @typedef {Object} FuturesExchange
+ * @property {string|null} id       e.g. "CME", "NYMEX", "COMEX", "CBOT"
+ * @property {string|null} name     e.g. "Chicago Mercantile Exchange"
+ * @property {string|null} country  e.g. "US"
+ */
+
+/**
+ * List supported futures exchanges.
+ *
+ * GET /futures/v1/exchanges
+ *
+ * @param {import('./client.mjs').MassiveClient} client
+ * @returns {Promise<FuturesExchange[]>}
+ */
+export async function getFuturesExchanges(client) {
+  const data = await client.get("/futures/v1/exchanges");
+  const list = data.results ?? (Array.isArray(data) ? data : []);
+  return list.map((e) => ({
+    id: e.id ?? e.code ?? e.exchange ?? null,
+    name: e.name ?? e.exchange_name ?? null,
+    country: e.country ?? null,
+  })).filter((e) => e.id);
+}
+
+// ── Market Status ─────────────────────────────────────────────────────────────
+
+/**
+ * Fetch current futures market status.
+ *
+ * Tells you whether futures markets are open, and which sessions are active.
+ *
+ * GET /futures/v1/market-status
+ *
+ * @param {import('./client.mjs').MassiveClient} client
+ * @returns {Promise<{ market: string, session: string, isOpen: boolean, next_open: string|null, next_close: string|null }>}
+ */
+export async function getFuturesMarketStatus(client) {
+  const data = await client.get("/futures/v1/market-status");
+  return {
+    market: data.market ?? data.status ?? null,
+    session: data.session ?? null,
+    isOpen: data.is_open ?? data.isOpen ?? null,
+    next_open: data.next_open ?? data.nextOpen ?? null,
+    next_close: data.next_close ?? data.nextClose ?? null,
+  };
+}
+
+// ── Quotes ───────────────────────────────────────────────────────────────────
+
+/**
+ * @typedef {Object} FuturesQuote
+ * @property {string|null} ticker
+ * @property {number|null} bid
+ * @property {number|null} ask
+ * @property {number|null} mid
+ * @property {number|null} spread     ask - bid
+ * @property {number|null} timestamp  Unix ms
+ */
+
+/**
+ * Fetch NBBO quote for a futures contract.
+ *
+ * GET /futures/v1/quotes/{ticker}
+ *
+ * @param {import('./client.mjs').MassiveClient} client
+ * @param {string} ticker  e.g. "ESZ24"
+ * @returns {Promise<FuturesQuote>}
+ */
+export async function getFuturesQuote(client, ticker) {
+  const data = await client.get(`/futures/v1/quotes/${ticker.toUpperCase()}`);
+  const quote = data.results ?? data;
+  if (!quote) {
+    throw new Error(`Massive: futures quote not found: ${ticker}`);
+  }
+  const bid = quote.bid ?? quote.bp ?? null;
+  const ask = quote.ask ?? quote.ap ?? null;
+  return {
+    ticker: ticker.toUpperCase(),
+    bid,
+    ask,
+    mid: (bid != null && ask != null)
+      ? Number(((bid + ask) / 2).toFixed(4))
+      : null,
+    spread: (bid != null && ask != null)
+      ? Number((ask - bid).toFixed(4))
+      : null,
+    timestamp: quote.t ?? quote.timestamp ?? null,
+  };
+}
+
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 function _parseContract(raw) {
@@ -379,10 +481,10 @@ function _parseProduct(raw) {
 function _parseSchedule(raw) {
   if (!raw) return null;
   return {
-    date: raw.date ?? null,
-    status: raw.status ?? null,
-    open_time: raw.open_time ?? raw.openTime ?? null,
-    close_time: raw.close_time ?? raw.closeTime ?? null,
+    date: raw.session_end_date ?? raw.date ?? null,
+    status: raw.event ?? raw.status ?? null,
+    open_time: raw.event === "open" ? raw.timestamp : raw.open_time ?? raw.openTime ?? null,
+    close_time: raw.event === "close" ? raw.timestamp : raw.close_time ?? raw.closeTime ?? null,
     product_code: raw.product_code ?? raw.productCode ?? null,
   };
 }
@@ -416,4 +518,11 @@ function _parseSnapshot(raw) {
     settlement_price: raw.settlement_price ?? raw.lp ?? null,
     change_pct: raw.todays_change_perc ?? raw.change_pct ?? null,
   };
+}
+
+function _futuresResolutionUnit(timespan) {
+  if (timespan === "day") return "session";
+  if (timespan === "minute") return "min";
+  if (timespan === "second") return "sec";
+  return timespan;
 }
