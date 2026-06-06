@@ -64,7 +64,12 @@ export class MassiveClient {
     url.searchParams.set("apiKey", this.apiKey);
     for (const [key, value] of Object.entries(params)) {
       if (value !== undefined && value !== null) {
-        url.searchParams.set(key, String(value));
+        if (key === "sort" && typeof value === "string" && value.startsWith("-")) {
+          url.searchParams.set("sort", value.slice(1));
+          if (!("order" in params)) url.searchParams.set("order", "desc");
+        } else {
+          url.searchParams.set(key, String(value));
+        }
       }
     }
 
@@ -86,18 +91,21 @@ export class MassiveClient {
     return data;
   }
 
-  // Convenience: paginate through all results using next_url
-  async getAll(path, params = {}) {
+  // Convenience: paginate through results using next_url
+  async getAll(path, params = {}, options = {}) {
+    const maxPages = options.maxPages ?? Infinity;
     const results = [];
     let data = await this.get(path, params);
     if (data.results) results.push(...data.results);
 
-    while (data.next_url) {
+    let pages = 1;
+    while (data.next_url && pages < maxPages) {
       // next_url is a full URL — strip the base and re-request via our client
       const next = new URL(data.next_url);
       const nextPath = next.pathname + next.search;
       data = await this.get(nextPath, {});
       if (data.results) results.push(...data.results);
+      pages += 1;
     }
 
     return results;

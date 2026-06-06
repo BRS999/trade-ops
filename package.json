@@ -12,6 +12,7 @@
     "sec": "node tools/sec-edgar.mjs",
     "yahoo": "node tools/yahoo.mjs",
     "massive": "node tools/massive.mjs",
+    "massive-smoke": "node tools/massive-smoke.mjs",
     "fred": "node tools/fred.mjs",
     "fmp": "node tools/fmp.mjs",
     "gecko": "node tools/gecko-terminal.mjs",

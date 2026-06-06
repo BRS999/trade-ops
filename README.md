@@ -159,7 +159,7 @@ If you do not care about local forecasting models, you do not need Python or any
 | **TradingView** | TradingView desktop app | Chart state, indicators, paper positions | — |
 | **Alpaca** | alpaca.markets | Paper positions, orders, fills, equity candles, crypto candles | `ALPACA_API_KEY` + `ALPACA_API_SECRET` |
 | **Yahoo Finance** | Yahoo | Live quotes, bars, multi-asset (equities, crypto, futures) | — |
-| **Massive** | massive.com | Tick data, earnings, fundamentals | `MASSIVE_API_KEY` |
+| **Massive** | massive.com | Tick data, earnings, fundamentals, options chain (Greeks/IV/OI), dark pool data | `MASSIVE_API_KEY` |
 | **SEC EDGAR** | sec.gov | Filings, ownership, insider activity | — |
 | **FRED** | stlouisfed.org | Macro snapshot (yields, CPI, VIX, Fed Funds) | `FRED_API_KEY` |
 | **FMP** | financialmodelingprep.com | Analyst consensus, price targets, earnings calendar | `FMP_API_KEY` |
@@ -298,6 +298,15 @@ npm run new-token -- scan --source latest-boosted --chain solana --limit 10
 
 npm run massive -- snapshot AAPL
 npm run massive -- financials AAPL --timeframe quarterly --limit 4
+npm run massive -- options-chain AAPL
+npm run massive -- options-contracts AAPL --type call --limit 50
+npm run massive -- options-unusual AAPL --min-volume 100 --oi-multiplier 2
+
+npm run massive -- futures-contracts --product ES
+npm run massive -- futures-front ES
+npm run massive -- futures-snapshot --ticker ESZ24
+npm run massive -- futures-bars ESZ24 --from 2026-01-01 --to 2026-06-01
+
 npm run tv      -- status
 npm run tv      -- recover
 npm run tv      -- chart

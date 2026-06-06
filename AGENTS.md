@@ -107,6 +107,7 @@ Source preferences:
 
 - Equities, ETFs, many futures, FX, majors: Yahoo
 - Fundamentals and metadata: Massive
+- Options chain, Greeks, IV, unusual options activity: Massive (paid plan required)
 - Filings and company facts: SEC EDGAR
 - Positioning context: CFTC
 - On-chain or Yahoo-missing crypto: GeckoTerminal, DexScreener, Jupiter
