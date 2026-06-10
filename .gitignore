@@ -32,3 +32,4 @@ reports/weekly-review/*
 !reports/weekly-review/.gitkeep
 reports/attribution/*
 !reports/attribution/.gitkeep
+/.reason

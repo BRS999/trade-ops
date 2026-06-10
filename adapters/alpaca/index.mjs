@@ -6,8 +6,8 @@
  * Requires ALPACA_API_KEY + ALPACA_API_SECRET in .env.
  * Paper and live accounts have separate key pairs — get both at alpaca.markets.
  *
- * Market data (data.alpaca.markets) uses the same keys and is the primary
- * fallback for equity bars when Yahoo Finance or Massive are unavailable.
+ * Market data (data.alpaca.markets) uses the same keys and is the preferred
+ * source for equity and crypto quotes. Yahoo Finance is deprecated due to rate limits.
  */
 
 export { AlpacaClient, AlpacaError } from "./client.mjs";
@@ -41,6 +41,9 @@ export {
   getLatestTrade,
   getSnapshots,
   getBarsForForecast,
+  getQuote,
+  getCryptoQuote,
+  getQuotes,
 } from "./market-data.mjs";
 
 export { getNews } from "./news.mjs";

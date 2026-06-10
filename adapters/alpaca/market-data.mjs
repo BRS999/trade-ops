@@ -4,7 +4,7 @@
  * Uses data.alpaca.markets/v2 via the same API keys as the trading client.
  * Free tier includes historical daily bars and 15-min delayed quotes.
  *
- * Primary use: fallback when Yahoo Finance or Massive are rate-limited.
+ * Preferred source for equity and crypto quotes — use instead of Yahoo Finance.
  */
 
 /**
@@ -127,6 +127,117 @@ export async function getSnapshots(client, symbols) {
     base: "data",
   });
   return data ?? {};
+}
+
+/**
+ * Normalised Quote snapshot for an equity symbol — same shape as the Yahoo adapter
+ * used to return, so callers can swap without changes.
+ *
+ * @param {AlpacaClient} client
+ * @param {string} symbol
+ * @returns {Promise<import('../yahoo/quotes.mjs').Quote>}
+ */
+export async function getQuote(client, symbol) {
+  const snapshots = await getSnapshots(client, [symbol]);
+  const snap = snapshots?.[symbol.toUpperCase()];
+  if (!snap) throw new Error(`No snapshot data for symbol: ${symbol}`);
+
+  const price     = snap.latestTrade?.p ?? snap.dailyBar?.c ?? null;
+  const prevClose = snap.prevDailyBar?.c ?? null;
+  const change    = price !== null && prevClose !== null ? price - prevClose : null;
+  const changePct = change !== null && prevClose ? (change / prevClose) * 100 : null;
+
+  return {
+    symbol:             symbol.toUpperCase(),
+    name:               null,
+    exchange:           null,
+    price,
+    prev_close:         prevClose,
+    change,
+    change_pct:         changePct,
+    day_open:           snap.dailyBar?.o ?? null,
+    day_high:           snap.dailyBar?.h ?? null,
+    day_low:            snap.dailyBar?.l ?? null,
+    volume:             snap.dailyBar?.v ?? null,
+    fifty_two_week_high: null,
+    fifty_two_week_low:  null,
+    market_state:       null,
+  };
+}
+
+/**
+ * Normalised Quote snapshot for a crypto pair via the Alpaca crypto data endpoint.
+ * Accepts "BTC/USD", "BTCUSD", or "BTC-USD" (Yahoo-style).
+ *
+ * @param {AlpacaClient} client
+ * @param {string} symbol
+ * @returns {Promise<import('../yahoo/quotes.mjs').Quote>}
+ */
+export async function getCryptoQuote(client, symbol) {
+  const pair = normalizeCryptoPair(symbol.replace("-", ""));
+  const data  = await client.request("GET", "/v1beta3/crypto/us/snapshots", {
+    params: { symbols: pair },
+    base: "data",
+  });
+  const snap = data?.snapshots?.[pair];
+  if (!snap) throw new Error(`No crypto snapshot for symbol: ${symbol}`);
+
+  const price     = snap.latestTrade?.p ?? snap.dailyBar?.c ?? null;
+  const prevClose = snap.prevDailyBar?.c ?? null;
+  const change    = price !== null && prevClose !== null ? price - prevClose : null;
+  const changePct = change !== null && prevClose ? (change / prevClose) * 100 : null;
+
+  return {
+    symbol:             pair,
+    name:               null,
+    exchange:           "Alpaca Crypto",
+    price,
+    prev_close:         prevClose,
+    change,
+    change_pct:         changePct,
+    day_open:           snap.dailyBar?.o ?? null,
+    day_high:           snap.dailyBar?.h ?? null,
+    day_low:            snap.dailyBar?.l ?? null,
+    volume:             snap.dailyBar?.v ?? null,
+    fifty_two_week_high: null,
+    fifty_two_week_low:  null,
+    market_state:       "24/7",
+  };
+}
+
+/**
+ * Fetch quotes for multiple symbols (equity). Batches via snapshots endpoint.
+ *
+ * @param {AlpacaClient} client
+ * @param {string[]} symbols
+ * @returns {Promise<Array<import('../yahoo/quotes.mjs').Quote & {error?: string}>>}
+ */
+export async function getQuotes(client, symbols) {
+  const snapshots = await getSnapshots(client, symbols).catch(() => ({}));
+  return symbols.map(sym => {
+    const snap = snapshots?.[sym.toUpperCase()];
+    if (!snap) return { symbol: sym.toUpperCase(), error: "no data" };
+    const price     = snap.latestTrade?.p ?? snap.dailyBar?.c ?? null;
+    const prevClose = snap.prevDailyBar?.c ?? null;
+    const change    = price !== null && prevClose !== null ? price - prevClose : null;
+    const changePct = change !== null && prevClose ? (change / prevClose) * 100 : null;
+    return {
+      symbol:             sym.toUpperCase(),
+      name:               null,
+      exchange:           null,
+      price,
+      prev_close:         prevClose,
+      change,
+      change_pct:         changePct,
+      day_open:           snap.dailyBar?.o ?? null,
+      day_high:           snap.dailyBar?.h ?? null,
+      day_low:            snap.dailyBar?.l ?? null,
+      volume:             snap.dailyBar?.v ?? null,
+      fifty_two_week_high: null,
+      fifty_two_week_low:  null,
+      market_state:       null,
+    };
+  });
 }
 
 /**

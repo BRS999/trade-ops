@@ -1,6 +1,6 @@
 {
   "_comment": "The full tracked universe. Everything worth scanning lives here. Active state lives in TradingView and journal/open.",
-  "updated_at": "2026-06-01",
+  "updated_at": "2026-06-10",
   "equities": [
     {
       "symbol": "GOOGL",
@@ -1286,7 +1286,7 @@
       "name": "Energy Select Sector",
       "yahoo_symbol": "XLE",
       "tracks": "S&P Energy",
-      "notes": "Broad energy — complements XOM/CL/BZ"
+      "notes": "Broad energy \u2014 complements XOM/CL/BZ"
     },
     {
       "symbol": "XLK",
@@ -1300,7 +1300,7 @@
       "name": "Consumer Staples Select Sector",
       "yahoo_symbol": "XLP",
       "tracks": "S&P Staples",
-      "notes": "Defensive — outperforms in risk-off"
+      "notes": "Defensive \u2014 outperforms in risk-off"
     },
     {
       "symbol": "XLI",
@@ -1328,7 +1328,7 @@
       "name": "iShares 7-10Y Treasury ETF",
       "yahoo_symbol": "IEF",
       "tracks": "7-10Y Treasuries",
-      "notes": "Middle of the curve — completes TLT picture"
+      "notes": "Middle of the curve \u2014 completes TLT picture"
     },
     {
       "symbol": "HYG",
@@ -1342,14 +1342,14 @@
       "name": "iShares China Large-Cap ETF",
       "yahoo_symbol": "FXI",
       "tracks": "China large cap",
-      "notes": "China equity exposure — directly relevant with tariffs"
+      "notes": "China equity exposure \u2014 directly relevant with tariffs"
     },
     {
       "symbol": "KWEB",
       "name": "KraneShares China Internet ETF",
       "yahoo_symbol": "KWEB",
       "tracks": "China internet",
-      "notes": "BABA, JD, Tencent — China tech specifically"
+      "notes": "BABA, JD, Tencent \u2014 China tech specifically"
     },
     {
       "symbol": "VXX",
@@ -1753,7 +1753,7 @@
       "name": "Copper",
       "yahoo_symbol": "HG=F",
       "exchange": "COMEX",
-      "notes": "Dr. Copper — leading macro indicator. China demand proxy."
+      "notes": "Dr. Copper \u2014 leading macro indicator. China demand proxy."
     },
     {
       "symbol": "CBOT:ZW1!",
@@ -1841,7 +1841,7 @@
       "gecko_network": "solana",
       "gecko_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
       "coingecko_id": "jupiter-exchange-solana",
-      "notes": "Largest Solana DEX. Yahoo broken — use GeckoTerminal for price."
+      "notes": "Largest Solana DEX. Yahoo broken \u2014 use GeckoTerminal for price."
     },
     {
       "symbol": "CRYPTO:WIFUSD",
@@ -1850,7 +1850,7 @@
       "gecko_network": "solana",
       "gecko_address": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
       "coingecko_id": "dogwifcoin",
-      "notes": "Solana meme watchlist — tier 1 liquid meme, high beta SOL proxy."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme, high beta SOL proxy."
     },
     {
       "symbol": "CRYPTO:TRUMPUSD",
@@ -1859,7 +1859,7 @@
       "gecko_network": "solana",
       "gecko_address": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:BONKUSD",
@@ -1868,7 +1868,7 @@
       "gecko_network": "solana",
       "gecko_address": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:PENGUUSD",
@@ -1877,7 +1877,7 @@
       "gecko_network": "solana",
       "gecko_address": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:FARTCOINUSD",
@@ -1886,7 +1886,7 @@
       "gecko_network": "solana",
       "gecko_address": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:MEWUSD",
@@ -1895,7 +1895,7 @@
       "gecko_network": "solana",
       "gecko_address": "MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:POPCATUSD",
@@ -1904,16 +1904,7 @@
       "gecko_network": "solana",
       "gecko_address": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
-    },
-    {
-      "symbol": "CRYPTO:USELESSUSD",
-      "name": "Useless Coin",
-      "yahoo_symbol": null,
-      "gecko_network": "solana",
-      "gecko_address": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
-      "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 tier 1 liquid meme. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:DOGUSD",
@@ -1922,7 +1913,7 @@
       "gecko_network": "solana",
       "gecko_address": "dog1viwbb2vWDpER5FrJ4YFG6gq6XuyFohUe9TXN65u",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:PNUTUSD",
@@ -1931,7 +1922,7 @@
       "gecko_network": "solana",
       "gecko_address": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:MOODENGUSD",
@@ -1940,7 +1931,7 @@
       "gecko_network": "solana",
       "gecko_address": "ED5nyyWEzpPPiWimP8vYm7sD7TD3LAt3Q3gRTWHzPJBY",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:BOMEUSD",
@@ -1949,7 +1940,7 @@
       "gecko_network": "solana",
       "gecko_address": "ukHH6c7mMyiWCf1b9pnWe25TSpkDDt3H5pQZgZ74J82",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:TROLLUSD",
@@ -1958,7 +1949,7 @@
       "gecko_network": "solana",
       "gecko_address": "5UUH9RTDiSpq6HKS6bp4NdU9PNJpXRXuiw6ShBTBhgH2",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:GOATUSD",
@@ -1967,7 +1958,7 @@
       "gecko_network": "solana",
       "gecko_address": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:GIGAUSD",
@@ -1976,7 +1967,7 @@
       "gecko_network": "solana",
       "gecko_address": "63LfDmNb3MQ8mw9MtZ2To9bEA2M71kZUUGq5tiJxcqj9",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:PONKEUSD",
@@ -1985,7 +1976,7 @@
       "gecko_network": "solana",
       "gecko_address": "5z3EqYQo9HiCEs3R84RCDMu2n7anpDMxRhdK8PSWmrRC",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:CHILLGUYUSD",
@@ -1994,7 +1985,7 @@
       "gecko_network": "solana",
       "gecko_address": "Df6yfrKC8kZE3KNkrHERKzAetSxbrWeniQfyJY4Jpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:ACTUSD",
@@ -2003,7 +1994,7 @@
       "gecko_network": "solana",
       "gecko_address": "GJAFwWjJ3vnTsrQVabjBVK2TYB1YtRCQXRDfDgUnpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate, AI/culture crossover. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate, AI/culture crossover. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:FWOGUSD",
@@ -2012,7 +2003,7 @@
       "gecko_network": "solana",
       "gecko_address": "A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:BUTTCOINUSD",
@@ -2021,7 +2012,7 @@
       "gecko_network": "solana",
       "gecko_address": "Cm6fNnMk7NfzStP9CZpsQA2v3jjzbcYGAxdJySmHpump",
       "coingecko_id": null,
-      "notes": "Solana meme watchlist — watchlist candidate. Use GeckoTerminal/DexScreener for price."
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
     },
     {
       "symbol": "CRYPTO:ARBUSD",
@@ -2030,7 +2021,7 @@
       "gecko_network": "eth",
       "gecko_address": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
       "coingecko_id": "arbitrum",
-      "notes": "Largest Ethereum L2, DeFi hub. Yahoo broken — use GeckoTerminal."
+      "notes": "Largest Ethereum L2, DeFi hub. Yahoo broken \u2014 use GeckoTerminal."
     },
     {
       "symbol": "CRYPTO:OPUSD",
@@ -2039,7 +2030,7 @@
       "gecko_network": "optimism",
       "gecko_address": "0x4200000000000000000000000000000000000042",
       "coingecko_id": "optimism",
-      "notes": "Ethereum L2, OP Stack ecosystem. Yahoo broken — use GeckoTerminal."
+      "notes": "Ethereum L2, OP Stack ecosystem. Yahoo broken \u2014 use GeckoTerminal."
     },
     {
       "symbol": "CRYPTO:SUIUSD",
@@ -2066,7 +2057,7 @@
       "gecko_network": "eth",
       "gecko_address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
       "coingecko_id": "uniswap",
-      "notes": "Largest DEX by volume, DeFi bellwether. Yahoo broken — use GeckoTerminal."
+      "notes": "Largest DEX by volume, DeFi bellwether. Yahoo broken \u2014 use GeckoTerminal."
     },
     {
       "symbol": "CRYPTO:DOGEUSD",
@@ -2149,6 +2140,176 @@
       "gecko_address": "0xF57e7e7C23978C3cAEC3C3548E3D615c346e79fF",
       "coingecko_id": "immutable-x",
       "notes": "Gaming/NFT L2 on Ethereum. zk-rollup with strong game studio partnerships."
+    },
+    {
+      "symbol": "CRYPTO:TRXUSD",
+      "name": "TRON",
+      "yahoo_symbol": "TRX-USD",
+      "coingecko_id": "tron",
+      "notes": "Stablecoin settlement layer. High throughput, low cost. $30B market cap."
+    },
+    {
+      "symbol": "CRYPTO:ADAUSD",
+      "name": "Cardano",
+      "yahoo_symbol": "ADA-USD",
+      "coingecko_id": "cardano",
+      "notes": "Proof-of-stake L1. Academic approach, large community. $6B market cap."
+    },
+    {
+      "symbol": "CRYPTO:XMRUSD",
+      "name": "Monero",
+      "yahoo_symbol": "XMR-USD",
+      "coingecko_id": "monero",
+      "notes": "Privacy coin leader. Fungibility focus. $6B market cap."
+    },
+    {
+      "symbol": "CRYPTO:TONUSD",
+      "name": "Toncoin",
+      "yahoo_symbol": "TON-USD",
+      "coingecko_id": "toncoin",
+      "notes": "Telegram ecosystem L1. 900M user distribution channel. $4.5B market cap."
+    },
+    {
+      "symbol": "CRYPTO:HBARUSD",
+      "name": "Hedera",
+      "yahoo_symbol": "HBAR-USD",
+      "coingecko_id": "hedera-hashgraph",
+      "notes": "Enterprise DLT. Governing council (Google, IBM, Boeing). $3.4B market cap."
+    },
+    {
+      "symbol": "CRYPTO:NEARUSD",
+      "name": "NEAR Protocol",
+      "yahoo_symbol": "NEAR-USD",
+      "coingecko_id": "near",
+      "notes": "AI-focused L1. Chain abstraction, sharding. $2.7B market cap."
+    },
+    {
+      "symbol": "CRYPTO:DOTUSD",
+      "name": "Polkadot",
+      "yahoo_symbol": "DOT-USD",
+      "coingecko_id": "polkadot",
+      "notes": "Interoperability L1. Parachain ecosystem. $1.6B market cap."
+    },
+    {
+      "symbol": "CRYPTO:SUIUSD",
+      "name": "Sui",
+      "yahoo_symbol": "SUI-USD",
+      "coingecko_id": "sui",
+      "notes": "Move-based L1. Parallel execution, strong ecosystem growth. Meta origins."
+    },
+    {
+      "symbol": "CRYPTO:APTUSD",
+      "name": "Aptos",
+      "yahoo_symbol": "APT-USD",
+      "coingecko_id": "aptos",
+      "notes": "Move-based L1. High throughput, institutional backing. $0.5B market cap."
+    },
+    {
+      "symbol": "CRYPTO:SEIUSD",
+      "name": "Sei",
+      "yahoo_symbol": "SEI-USD",
+      "coingecko_id": "sei-network",
+      "notes": "Parallelized L1 for trading. Twin-turbo consensus. $0.3B market cap."
+    },
+    {
+      "symbol": "CRYPTO:HYPEUSD",
+      "name": "Hyperliquid",
+      "yahoo_symbol": "HYPE-USD",
+      "coingecko_id": "hyperliquid",
+      "notes": "Top DEX for perps. $12.5B market cap. Largest miss \u2014 biggest DeFi narrative."
+    },
+    {
+      "symbol": "CRYPTO:MORPHOUSD",
+      "name": "Morpho",
+      "yahoo_symbol": "MORPHO-USD",
+      "coingecko_id": "morpho",
+      "notes": "Lending optimizer. $1.4B market cap. DeFi yield infrastructure."
+    },
+    {
+      "symbol": "CRYPTO:LDOUSD",
+      "name": "Lido DAO",
+      "yahoo_symbol": "LDO-USD",
+      "coingecko_id": "lido-dao",
+      "notes": "Liquid staking leader. $0.2B market cap. Dominant ETH staking wrapper."
+    },
+    {
+      "symbol": "CRYPTO:CRVUSD",
+      "name": "Curve DAO",
+      "yahoo_symbol": "CRV-USD",
+      "coingecko_id": "curve-dao-token",
+      "notes": "Stablecoin DEX. $0.3B market cap. DeFi infrastructure for stable swaps."
+    },
+    {
+      "symbol": "CRYPTO:AAVEUSD",
+      "name": "Aave",
+      "yahoo_symbol": "AAVE-USD",
+      "coingecko_id": "aave",
+      "notes": "Lending protocol leader. $0.4B market cap. DeFi money market standard."
+    },
+    {
+      "symbol": "CRYPTO:ONDOUSD",
+      "name": "Ondo Finance",
+      "yahoo_symbol": "ONDO-USD",
+      "coingecko_id": "ondo-finance",
+      "notes": "RWA tokenization leader. $1.7B market cap. Institutional on-chain finance."
+    },
+    {
+      "symbol": "CRYPTO:WLFIUSD",
+      "name": "World Liberty Financial",
+      "yahoo_symbol": "WLFI-USD",
+      "coingecko_id": "world-liberty-financial",
+      "notes": "Trump DeFi project. $1.9B market cap. Political DeFi narrative."
+    },
+    {
+      "symbol": "CRYPTO:VIRTUALUSD",
+      "name": "Virtuals Protocol",
+      "yahoo_symbol": "VIRTUAL-USD",
+      "coingecko_id": "virtuals-protocol",
+      "notes": "AI agent launchpad. $0.4B market cap. AI agent economy infrastructure."
+    },
+    {
+      "symbol": "CRYPTO:PEPEUSD",
+      "name": "Pepe",
+      "yahoo_symbol": "PEPE-USD",
+      "coingecko_id": "pepe",
+      "notes": "Top meme coin. $4B market cap. Meme sector bellwether."
+    },
+    {
+      "symbol": "CRYPTO:MNTUSD",
+      "name": "Mantle",
+      "yahoo_symbol": "MNT-USD",
+      "coingecko_id": "mantle",
+      "notes": "Bybit L2 ecosystem. $1.8B market cap. Exchange-backed L2 narrative."
+    },
+    {
+      "symbol": "CRYPTO:USELESSUSD",
+      "name": "Useless Coin",
+      "yahoo_symbol": null,
+      "gecko_network": "solana",
+      "gecko_address": "Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
+      "coingecko_id": null,
+      "notes": "Solana meme watchlist \u2014 watchlist candidate. Use GeckoTerminal/DexScreener for price."
+    },
+    {
+      "symbol": "CRYPTO:ATOMUSD",
+      "name": "Cosmos",
+      "yahoo_symbol": "ATOM-USD",
+      "coingecko_id": "cosmos",
+      "notes": "IBC hub. ~$3B market cap. Interchain ecosystem."
+    },
+    {
+      "symbol": "CRYPTO:INJUSD",
+      "name": "Injective",
+      "yahoo_symbol": "INJ-USD",
+      "coingecko_id": "injective-protocol",
+      "notes": "DeFi L1. ~$1.5B market cap. Finance-focused chain, perps/options."
+    },
+    {
+      "symbol": "CRYPTO:STRK_USD",
+      "name": "Starknet",
+      "yahoo_symbol": null,
+      "coingecko_id": "starknet",
+      "notes": "ZK rollup L2. ~$1B market cap. ZK-STARK technology, Ethereum scaling."
     }
   ],
   "prediction_markets": [

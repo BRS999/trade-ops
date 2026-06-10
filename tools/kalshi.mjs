@@ -42,7 +42,7 @@ try {
       print(await listSeries(client, parseOptions(rest)));
       break;
     case "scan":
-      print(summarizeScan(await listMarkets(client, parseOptionsWithDefaults(rest, { status: "open", limit: 1000 }))));
+      print(summarizeScan(await scanMarkets(client, parseOptions(rest))));
       break;
     case "help":
     case undefined:
@@ -101,29 +101,62 @@ function print(value) {
   console.log(JSON.stringify(value, null, 2));
 }
 
+// Macro/economics series worth scanning. MVE (parlay) markets dominate the
+// undifferentiated listMarkets endpoint, so we query known series individually.
+function macroSeries() {
+  return [
+    "FED", "RATECUT", "KXFEDRATEMIN", "KXLOWESTRATE",
+    "KXTNOTED", "KX30YUSTW",
+    "KXQRECESS",
+    "KXWTI", "KXWTIMONTHLY", "KXOILW",
+    "KXBTCMINMAXY", "KXBTCD-B", "KXBTCDOM",
+    "KXGOLDSILVER",
+    "KXCHINATARIFF", "KXTARIFFSPRC", "KXTARIFFSCANADA", "KXEXPORTTARIFF",
+    "KXCPIYOYBANK", "KXPPIVSCPI", "KXTRUFHOUCPI",
+    "JPY",
+  ];
+}
+
+async function scanMarkets(client, options = {}) {
+  const status = options.status ?? "open";
+  const series = options.series ? [options.series] : macroSeries();
+  const allMarkets = [];
+
+  for (const s of series) {
+    const data = await listMarkets(client, { status, series: s, limit: 200 }).catch(() => null);
+    if (data?.markets) allMarkets.push(...data.markets);
+  }
+
+  return { markets: allMarkets };
+}
+
 function summarizeScan(data) {
   const markets = data.markets ?? [];
   const rows = markets.map(normalizeMarket);
-  const activeSpreadMarkets = rows.filter((market) =>
-    market.yes_bid != null &&
+
+  // MVE (multivariate event / parlay) markets have degenerate 0/1 pricing and
+  // aren't individually tradeable — exclude them from all summary stats.
+  const nonMve = rows.filter((market) => !market.is_mve);
+
+  const activeSpreadMarkets = nonMve.filter((market) =>
     market.yes_ask != null &&
-    market.yes_bid > 0 &&
     market.yes_ask > 0 &&
-    market.yes_ask >= market.yes_bid
+    market.yes_ask > (market.yes_bid ?? 0)
   );
 
   return {
     cursor: data.cursor ?? null,
     scanned: rows.length,
-    markets_with_volume: rows.filter((market) => market.volume > 0).length,
+    scanned_non_mve: nonMve.length,
+    markets_with_volume: nonMve.filter((market) => market.volume > 0).length,
     active_spread_markets: activeSpreadMarkets.length,
-    total_volume: rows.reduce((sum, market) => sum + market.volume, 0),
-    total_volume_24h: rows.reduce((sum, market) => sum + market.volume_24h, 0),
-    total_liquidity: rows.reduce((sum, market) => sum + market.liquidity, 0),
-    top_by_volume: [...rows].sort((a, b) => b.volume - a.volume).slice(0, 20),
-    top_by_liquidity: [...rows].filter((market) => market.liquidity > 0).sort((a, b) => b.liquidity - a.liquidity).slice(0, 20),
+    total_volume: nonMve.reduce((sum, market) => sum + market.volume, 0),
+    total_volume_24h: nonMve.reduce((sum, market) => sum + market.volume_24h, 0),
+    total_liquidity: nonMve.reduce((sum, market) => sum + market.liquidity, 0),
+    top_by_volume: [...nonMve].sort((a, b) => b.volume - a.volume).slice(0, 20),
+    top_by_liquidity: [...nonMve].filter((market) => market.liquidity > 0).sort((a, b) => b.liquidity - a.liquidity).slice(0, 20),
     tightest_spreads: activeSpreadMarkets
-      .map((market) => ({ ...market, spread: market.yes_ask - market.yes_bid }))
+      .map((market) => ({ ...market, spread: market.yes_ask - (market.yes_bid ?? 0) }))
       .filter((market) => market.volume > 0 || market.open_interest > 0)
       .sort((a, b) => a.spread - b.spread)
       .slice(0, 20),
@@ -135,16 +168,17 @@ function normalizeMarket(market) {
     ticker: market.ticker,
     event_ticker: market.event_ticker ?? null,
     title: market.title,
-    yes_bid: marketPrice(market.yes_bid ?? market.yes_bid_dollars),
-    yes_ask: marketPrice(market.yes_ask ?? market.yes_ask_dollars),
-    no_bid: marketPrice(market.no_bid ?? market.no_bid_dollars),
-    no_ask: marketPrice(market.no_ask ?? market.no_ask_dollars),
-    last_price: marketPrice(market.last_price ?? market.last_price_dollars),
-    volume: numberFromMarketField(market.volume ?? market.volume_fp),
-    volume_24h: numberFromMarketField(market.volume_24h ?? market.volume_24h_fp),
-    liquidity: numberFromMarketField(market.liquidity ?? market.liquidity_dollars),
-    open_interest: numberFromMarketField(market.open_interest ?? market.open_interest_fp),
+    yes_bid: marketPrice(market.yes_bid_dollars ?? market.yes_bid),
+    yes_ask: marketPrice(market.yes_ask_dollars ?? market.yes_ask),
+    no_bid: marketPrice(market.no_bid_dollars ?? market.no_bid),
+    no_ask: marketPrice(market.no_ask_dollars ?? market.no_ask),
+    last_price: marketPrice(market.last_price_dollars ?? market.last_price),
+    volume: numberFromMarketField(market.volume_fp ?? market.volume),
+    volume_24h: numberFromMarketField(market.volume_24h_fp ?? market.volume_24h),
+    liquidity: numberFromMarketField(market.liquidity_dollars ?? market.liquidity),
+    open_interest: numberFromMarketField(market.open_interest_fp ?? market.open_interest),
     close_time: market.close_time ?? null,
+    is_mve: Boolean(market.mve_collection_ticker),
   };
 }
 
@@ -173,7 +207,7 @@ Usage:
   node tools/kalshi.mjs events [--limit 100] [--status open] [--series <series_ticker>] [--cursor <cursor>]
   node tools/kalshi.mjs event --event <event_ticker>
   node tools/kalshi.mjs series [--limit 400] [--category Economics] [--cursor <cursor>]
-  node tools/kalshi.mjs scan [--status open] [--limit 1000] [--series <series_ticker>]
+  node tools/kalshi.mjs scan [--status open] [--series <series_ticker>]
 
 Examples:
   node tools/kalshi.mjs status

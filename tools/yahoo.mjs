@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/**
+ * @deprecated Yahoo Finance rate-limits aggressively (429s during market hours).
+ * For equity/crypto quotes use: node tools/alpaca.mjs snapshot <symbol>
+ * This tool is kept for symbols Alpaca doesn't cover: indices (^GSPC), forex (EURUSD=X), futures (GC=F).
+ */
+
 import { YahooClient, getBars, getQuote, getCryptoQuote, getQuotes, getExpiries, getChain, getAtmSnapshot } from "../adapters/yahoo/index.mjs";
 
 const client = new YahooClient();
@@ -54,16 +60,8 @@ async function runBars(args) {
 
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
-    if (arg === "--range") {
-      options.range = requireArg(args[index + 1], "range");
-      index += 1;
-      continue;
-    }
-    if (arg === "--interval") {
-      options.interval = requireArg(args[index + 1], "interval");
-      index += 1;
-      continue;
-    }
+    if (arg === "--range")    { options.range    = args[++index]; continue; }
+    if (arg === "--interval") { options.interval = args[++index]; continue; }
     throw new Error(`Unknown bars option: ${arg}`);
   }
 
@@ -78,9 +76,7 @@ function parseSymbols(value) {
 }
 
 function requireArg(value, name) {
-  if (!value) {
-    throw new Error(`${name} is required`);
-  }
+  if (!value) throw new Error(`${name} is required`);
   return value;
 }
 
@@ -91,21 +87,15 @@ function print(value) {
 function printHelp() {
   console.log(`Trade Ops Yahoo Tool
 
+⚠  DEPRECATED for equity/crypto — use: node tools/alpaca.mjs snapshot <symbol>
+   Yahoo rate-limits aggressively. Keep using this only for indices, forex, futures.
+
 Usage:
-  node tools/yahoo.mjs quote <symbol>
-  node tools/yahoo.mjs quotes <symbol1,symbol2,...>
+  node tools/yahoo.mjs quote <symbol>        e.g. ^GSPC, EURUSD=X, GC=F
+  node tools/yahoo.mjs quotes <sym1,sym2>
   node tools/yahoo.mjs bars <symbol> [--range 3mo] [--interval 1d]
-
-Examples:
-  node tools/yahoo.mjs quote NVDA
-  node tools/yahoo.mjs quote BTC-USD
-  node tools/yahoo.mjs quotes NVDA,TSLA,META
-  node tools/yahoo.mjs bars NVDA --range 6mo --interval 1d
-  node tools/yahoo.mjs bars BTC-USD --range 5d --interval 1h
-
-Options (require crumb auth — first call fetches session automatically):
-  node tools/yahoo.mjs expiries NVDA
-  node tools/yahoo.mjs atm NVDA
-  node tools/yahoo.mjs chain NVDA --expiry 2026-06-20 --type calls --strikes 5
+  node tools/yahoo.mjs expiries <symbol>
+  node tools/yahoo.mjs atm <symbol>
+  node tools/yahoo.mjs chain <symbol> [--expiry 2026-06-20] [--type calls] [--strikes 5]
 `);
 }
