@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="radar.png" alt="Trade-Ops" width="180">
+  <img src="icon.png" alt="Trade-Ops" width="180">
 </p>
 
 <h1 align="center">Trade-Ops</h1>
